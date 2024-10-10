@@ -3,7 +3,7 @@ using System.IO;
 /** =Global functions */
 public static class G {
 
-	public const str main = "main";
+	public const str main = "ngaq";
 	public const str test = "test";
 
 	public static bool refEq(object? o1, object? o2){
