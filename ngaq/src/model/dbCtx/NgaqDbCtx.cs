@@ -17,7 +17,6 @@ public class NgaqDbCtx : DbContext
 		mb.Entity<KV>().HasKey(e=>e.id);
 		mb.Entity<KV>().Property(e=>e.id).ValueGeneratedOnAdd();
 		
-
 		mb.Entity<KV>().HasIndex(e => e.bl);
 		mb.Entity<KV>().HasIndex(e => e.ct);
 		mb.Entity<KV>().HasIndex(e => e.ut);
@@ -39,7 +38,9 @@ public class NgaqDbCtx : DbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
 		// 在這裡配置您的數據庫連接字符串
-		var path = G.getBaseDir()+"/"+G.main+"/db/db.sqlite";
+		var dir = G.getBaseDir()+"/"+G.main;
+		var path = dir+"/db/db.sqlite";
+		std.IO.Directory.CreateDirectory(dir); // TODO不效
 		optionsBuilder.UseSqlite($"Data Source={path}");
 	}
 
@@ -47,8 +48,6 @@ public class NgaqDbCtx : DbContext
 		return Database.BeginTransactionAsync();
 	}
 }
-
-
 
 //dotnet ef migrations add InitialCreate
 //dotnet ef database update
