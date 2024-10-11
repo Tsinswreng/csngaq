@@ -38,8 +38,8 @@ public class NgaqDbCtx : DbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
 		// 在這裡配置您的數據庫連接字符串
-		var dir = G.getBaseDir()+"/"+G.main;
-		var path = dir+"/db/db.sqlite";
+		var dir = G.getBaseDir()+"/"+G.main+"/db";
+		var path = dir+"/db.sqlite";
 		std.IO.Directory.CreateDirectory(dir); // TODO不效
 		optionsBuilder.UseSqlite($"Data Source={path}");
 	}
