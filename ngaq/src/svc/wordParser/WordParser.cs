@@ -16,8 +16,17 @@ class Status{
 	public Pos pos {get; set;} = new Pos();
 	public Stack<ParseState> stack {get; set;} = new();
 
+	public str curChar {get; set;} = "";
+
+	public IList<str> buffer {get; set;} = new List<str>();
+
 	public IList<str> metadata {get; set;} = new List<str>();
 
+}
+
+public class Tokens{
+	public const str s_metadataTag = "<metadata>";
+	public const str e_metadataTag = "</metadata>";
 }
 
 
@@ -50,6 +59,7 @@ public class WordParser{
 			pos.line++;
 			pos.col = 0;
 		}
+		_status.curChar = ans;
 		return ans;
 	}
 
@@ -84,13 +94,16 @@ public class WordParser{
 	}
 
 	public async Task<i32> Metadata(){
+		_status.buffer.Add(_status.curChar); // <
 		for(;;){
 			var c = await GetNextChar();
 			if(c == null){return 0;}
+			_status.buffer.Add(c);
 			if(isSpace(c)){
 				continue;
 			}else if(c == ">"){
-
+				_status.buffer.Add(c);
+				
 			}
 		}
 	}
@@ -102,4 +115,26 @@ public class WordParser{
 		if(s == "\r"){return true;}
 		return false;
 	}
+
+	public bool isMetadataStart(IList<str> buffer){
+		if(buffer.Count == Tokens.s_metadataTag.Length){
+			var joined = string.Join("", buffer);
+			if(joined == Tokens.s_metadataTag){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public bool isMetadataEnd(IList<str> buffer){
+		if(buffer.Count == Tokens.e_metadataTag.Length){
+			var joined = string.Join("", buffer);
+			if(joined == Tokens.e_metadataTag){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 }
