@@ -1,6 +1,6 @@
 namespace ngaq.svc.wordParser;
 
-public enum ParseState{
+public enum WordParseState{
 	Start
 	,End
 	,Metadata

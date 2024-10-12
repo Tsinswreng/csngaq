@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Avalonia.Animation;
 
 namespace ngaq.svc.wordParser;
 
 
-public class Pos{
+public class Pos : I_TxtPos{
 	public Pos(){
 
 	}
@@ -12,15 +13,17 @@ public class Pos{
 }
 
 class Status{
-	public ParseState state {get; set;} = ParseState.Start;
-	public Pos pos {get; set;} = new Pos();
-	public Stack<ParseState> stack {get; set;} = new();
+	public WordParseState state {get; set;} = WordParseState.Start;
+	public I_TxtPos pos {get; set;} = new Pos();
+	public Stack<WordParseState> stack {get; set;} = new();
 
 	public str curChar {get; set;} = "";
 
 	public IList<str> buffer {get; set;} = new List<str>();
 
 	public IList<str> metadata {get; set;} = new List<str>();
+
+	
 
 }
 
@@ -34,13 +37,13 @@ public class WordParser{
 	I_GetNextChar _GetNextChar;
 	Status _status {get; set;}= new Status();
 
-	public Pos pos{
+	public I_TxtPos pos{
 		get{
 			return _status.pos;
 		}
 	}
 
-	public ParseState state{
+	public WordParseState state{
 		get{
 			return _status.state;
 		}
@@ -52,7 +55,7 @@ public class WordParser{
 	protected async Task<str?> GetNextChar(){
 		var ans = await _GetNextChar.GetNextChar();
 		if(ans == null){
-			state = ParseState.End;
+			state = WordParseState.End;
 			return null;
 		}
 		if(ans == "\n"){
@@ -65,14 +68,14 @@ public class WordParser{
 
 	public Task<i32> Parse(){
 		switch(_status.state){
-			case ParseState.Start:
+			case WordParseState.Start:
 			break;
 		}
 		return Task.FromResult(0);
 	}
 
 	public Task<i32> Start(){
-		state = ParseState.TopSpace;
+		state = WordParseState.TopSpace;
 		return Task.FromResult(0);
 	}
 
@@ -83,8 +86,8 @@ public class WordParser{
 			if(isSpace(c)){
 				continue;
 			}else if(c == "<"){
-				state = ParseState.Metadata;
-				_status.stack.Push(ParseState.Metadata);
+				state = WordParseState.Metadata;
+				_status.stack.Push(WordParseState.Metadata);
 				break;
 			}
 			//else if(){}
@@ -93,17 +96,80 @@ public class WordParser{
 		return 0;
 	}
 
+	public i32 error(str msg){
+		throw new std.Exception(msg);
+	}
+
 	public async Task<i32> Metadata(){
 		_status.buffer.Add(_status.curChar); // <
+		var metadataStatus = 0; //0:<metadata>; 1:content; 2:</metadata>
+		var bracesStack = new List<str>(); //元數據內json之大括號
+		var metadataContent = new List<str>();
 		for(;;){
-			var c = await GetNextChar();
-			if(c == null){return 0;}
-			_status.buffer.Add(c);
-			if(isSpace(c)){
-				continue;
-			}else if(c == ">"){
-				_status.buffer.Add(c);
-				
+			switch(metadataStatus){
+				case 0: //<metadata>
+					for(;;){
+						var c = await GetNextChar();
+						if(c == null){error("Unexpected EOF");return 0;}
+						_status.buffer.Add(c);
+						if(isSpace(c)){
+							continue;
+						}else if(c == ">"){
+							_status.buffer.Add(c); 
+							if(chk_metadataStart()){ // joined buffer is <metadata>
+								metadataStatus = 1;
+								break;
+							}
+						}
+					}
+				break;
+				case 1:
+					for(;;){
+						var c = await GetNextChar();
+						if(c == null){error("Unexpected EOF"); return 0;}
+						metadataContent.Add(c);
+						if(c=="{"){
+							bracesStack.Add(c);
+						}else if(c=="}"){
+							if(bracesStack.Count == 0){
+								metadataStatus = 2;
+								break;
+							}else{
+								bracesStack.RemoveAt(bracesStack.Count-1);
+							}
+						}
+					}
+				break;
+				case 2: //</metadata>
+					//除ᵣ末大括號到</metadata>間之空白
+					for(;;){
+						var c = await GetNextChar();
+						if(c == null){error("Unexpected EOF");return 0;}
+						if(isSpace(c)){
+							continue;
+						}else if(c == "<"){
+							_status.buffer.Add(c);
+							break;
+						}else{
+							error("Unexpected character");
+							return 0;
+						}
+					}
+
+					for(;;){
+						var c = await GetNextChar();
+						if(c == null){error("Unexpected EOF");return 0;}
+						_status.buffer.Add(c);
+						if(c == ">"){
+							_status.buffer.Add(c);
+							if(isMetadataEnd(_status.buffer)){
+								_status.metadata = metadataContent;
+								return 0;
+								//break;
+							}
+						}
+					}
+				//break;
 			}
 		}
 	}
@@ -116,7 +182,16 @@ public class WordParser{
 		return false;
 	}
 
-	public bool isMetadataStart(IList<str> buffer){
+	public bool chk_metadataStart(){
+		var ans = false;
+		if(isMetadataStart(_status.buffer)){
+			ans = true;
+		}
+		_status.metadata.Clear();
+		return ans;
+	}
+
+	public static bool isMetadataStart(IList<str> buffer){
 		if(buffer.Count == Tokens.s_metadataTag.Length){
 			var joined = string.Join("", buffer);
 			if(joined == Tokens.s_metadataTag){
@@ -124,6 +199,15 @@ public class WordParser{
 			}
 		}
 		return false;
+	}
+
+	public bool chk_metadataEnd(){
+		var ans = false;
+		if(isMetadataEnd(_status.buffer)){
+			ans = true;
+		}
+		_status.metadata.Clear();
+		return ans;
 	}
 
 	public bool isMetadataEnd(IList<str> buffer){
