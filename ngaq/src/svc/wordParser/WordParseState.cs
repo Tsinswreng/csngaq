@@ -13,4 +13,5 @@ public enum WordParseState{
 	,E_Brace
 	,S_AngleBracket
 	,E_AngleBracket
+	
 }

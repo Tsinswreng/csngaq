@@ -1,5 +1,6 @@
 global using std = System;
 global using i32 = System.Int32;
+global using code = System.Int32; // int result
 global using u32 = System.UInt32;
 global using i64 = System.Int64;
 global using u64 = System.UInt64;

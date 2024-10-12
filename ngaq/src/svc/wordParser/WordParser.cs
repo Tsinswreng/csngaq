@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Avalonia.Animation;
+using tools;
 
 namespace ngaq.svc.wordParser;
 
@@ -14,16 +15,20 @@ public class Pos : I_TxtPos{
 
 class Status{
 	public WordParseState state {get; set;} = WordParseState.Start;
-	public I_TxtPos pos {get; set;} = new Pos();
+	public I_TxtPos line_col {get; set;} = new Pos();
+	public i32 idx {get;set;} = 0;
+
 	public Stack<WordParseState> stack {get; set;} = new();
 
 	public str curChar {get; set;} = "";
 
 	public IList<str> buffer {get; set;} = new List<str>();
 
-	public IList<str> metadata {get; set;} = new List<str>();
+	public IList<str> metadataBuf {get; set;} = new List<str>();
 
-	
+	public WordListTxtMetadata? metadata{get; set;}
+
+	public IList<I_DateBlock> dateBlocks {get; set;} = new List<I_DateBlock>();
 
 }
 
@@ -39,7 +44,7 @@ public class WordParser{
 
 	public I_TxtPos pos{
 		get{
-			return _status.pos;
+			return _status.line_col;
 		}
 	}
 
@@ -63,10 +68,35 @@ public class WordParser{
 			pos.col = 0;
 		}
 		_status.curChar = ans;
+		_status.idx++;
 		return ans;
 	}
 
-	public Task<i32> Parse(){
+	/// <summary>
+	/// 會清空buffer
+	/// </summary>
+	/// <returns></returns>
+	public I_StrSegment bufferToStrSegment(){
+		var start = _status.idx - _status.buffer.Count;
+		var text = string.Join("", _status.buffer);
+		_status.buffer.Clear();
+		return new StrSegment{
+			start = start
+			,text = text
+		};
+	}
+
+	public code parseMetadataBuffer(IList<str> buffer){
+		var txt = string.Join("", buffer);
+		var obj = WordListTxtMetadata.Parse(txt);
+		if(obj == null){
+			error("Invalid metadata");return 1;
+		}
+		_status.metadata = obj;
+		return 0;
+	}
+
+	public Task<code> Parse(){
 		switch(_status.state){
 			case WordParseState.Start:
 			break;
@@ -89,11 +119,40 @@ public class WordParser{
 				state = WordParseState.Metadata;
 				_status.stack.Push(WordParseState.Metadata);
 				break;
+			}else if(c == "["){
+				state = WordParseState.S_Date;
+				_status.stack.Push(WordParseState.S_Date);
 			}
-			//else if(){}
+			// else if(c == "{"){
+			// 	state = WordParseState.S_Brace;
+			// 	_status.stack.Push(WordParseState.S_Brace);
+			// }
 		}
 		//return Task.FromResult(0);
 		return 0;
+	}
+
+	public async Task<code> S_Date(){
+		for(;;){
+			switch(state){
+				case WordParseState.S_Date:
+					for(;;){
+						var c = await GetNextChar();
+						if(c == null){error("Unexpected EOF");return 1;}
+						if(c == "]"){
+							var date = bufferToStrSegment();
+							var dateBlock = new DateBlock{
+								date = date
+							};
+							_status.dateBlocks.Add(dateBlock);
+							//TODO
+						}
+						_status.buffer.Add(c);
+					}
+				break;
+			}
+		}
+		
 	}
 
 	public i32 error(str msg){
@@ -163,7 +222,10 @@ public class WordParser{
 						if(c == ">"){
 							_status.buffer.Add(c);
 							if(isMetadataEnd(_status.buffer)){
-								_status.metadata = metadataContent;
+								//_status.metadataBuf = metadataContent;
+								parseMetadataBuffer(metadataContent);
+								_status.stack.Pop();
+								_status.state = WordParseState.TopSpace;
 								return 0;
 								//break;
 							}
@@ -184,10 +246,11 @@ public class WordParser{
 
 	public bool chk_metadataStart(){
 		var ans = false;
-		if(isMetadataStart(_status.buffer)){
+		var buf = _status.buffer;
+		if(isMetadataStart(buf)){
 			ans = true;
 		}
-		_status.metadata.Clear();
+		buf.Clear();
 		return ans;
 	}
 
@@ -203,10 +266,11 @@ public class WordParser{
 
 	public bool chk_metadataEnd(){
 		var ans = false;
-		if(isMetadataEnd(_status.buffer)){
+		var buf = _status.buffer;
+		if(isMetadataEnd(buf)){
 			ans = true;
 		}
-		_status.metadata.Clear();
+		buf.Clear();
 		return ans;
 	}
 
