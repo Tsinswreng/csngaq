@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Avalonia.Animation;
 using tools;
 
 namespace ngaq.svc.wordParser;

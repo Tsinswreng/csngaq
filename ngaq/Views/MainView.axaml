@@ -1,21 +1,37 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:ngaq.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ngaq.Views.MainView"
-             x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-  <!-- 
-  {Binding Greeting} 是一个数据绑定表达式。这意味着文本块的 Text 属性将绑定到一个名为 Greeting 的数据源属性。
-   当 Greeting 属性的值发生变化时，文本块显示的文本也会自动更新。
-   这个数据源通常来自一个 ViewModel 或数据上下文。
-   -->
-  <!-- <Button>Calc</Button> -->
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:ngaq.ViewModels"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	x:Class="ngaq.Views.MainView"
+	x:DataType="vm:MainViewModel"
+>
+	
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+				 to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainViewModel />
+	</Design.DataContext>
+
+	<Grid>
+		<TextBlock Text="{Binding Greeting}" />
+		<!-- HorizontalAlignment="Center" VerticalAlignment="Center" -->
+		<!-- 
+		{Binding Greeting} 是一个数据绑定表达式。这意味着文本块的 Text 属性将绑定到一个名为 Greeting 的数据源属性。
+		当 Greeting 属性的值发生变化时，文本块显示的文本也会自动更新。
+		这个数据源通常来自一个 ViewModel 或数据上下文。
+		-->
+		<Button Click="Button_Click">
+			Calc
+		</Button>
+	</Grid>
+
 </UserControl>
+
+<!-- 
+xmlns:vm="clr-namespace:ngaq.ViewModels"
+这个命名空间声明告诉 XAML 编译器，vm 命名空间中的类型可以用于绑定到视图模型的属性。
+
+
+ -->
