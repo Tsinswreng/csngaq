@@ -2,8 +2,24 @@ using System.Collections.Generic;
 using tools;
 namespace ngaq.svc.wordParser;
 
-using Prop = Dictionary<str, I_StrSegment>;
+//using Prop = Dictionary<I_StrSegment, I_StrSegment>;
 
+/* 
+type pair = [number, string]
+const myPair: pair = [1, "hello"]
+ */
+
+
+public interface I_Prop{
+	public I_StrSegment key{get;set;}
+	public I_StrSegment value{get;set;}
+}
+
+public struct Prop : I_Prop{
+	
+	public I_StrSegment key{get;set;}
+	public I_StrSegment value{get;set;}
+}
 
 public interface I_DateBlock{
 	public I_StrSegment date{get;set;}

@@ -56,6 +56,13 @@ public class WordParser{
 		}
 	}
 
+	public IList<str> buffer{
+		get{
+			return _status.buffer;
+		}
+	}
+	
+
 	protected async Task<str?> GetNextChar(){
 		var ans = await _GetNextChar.GetNextChar();
 		if(ans == null){
@@ -95,17 +102,27 @@ public class WordParser{
 		return 0;
 	}
 
-	public Task<code> Parse(){
+	public async Task<code> Parse(){
 		switch(_status.state){
 			case WordParseState.Start:
+				await Start();
+			break;
+			case WordParseState.TopSpace:
+				await TopSpace();
+			break;
+			case WordParseState.Metadata:
+				await Metadata();
+			break;
+			case WordParseState.DateBlock:
+				await DateBlock();
 			break;
 		}
-		return Task.FromResult(0);
+		return 0;
 	}
 
-	public Task<i32> Start(){
+	public async Task<i32> Start(){
 		state = WordParseState.TopSpace;
-		return Task.FromResult(0);
+		return 0;
 	}
 
 	public async Task<i32> TopSpace(){
@@ -119,46 +136,124 @@ public class WordParser{
 				_status.stack.Push(WordParseState.Metadata);
 				break;
 			}else if(c == "["){
-				state = WordParseState.S_Date;
-				_status.stack.Push(WordParseState.S_Date);
-			}
-			// else if(c == "{"){
-			// 	state = WordParseState.S_Brace;
-			// 	_status.stack.Push(WordParseState.S_Brace);
-			// }
-		}
-		//return Task.FromResult(0);
-		return 0;
-	}
-
-	public async Task<code> S_Date(){
-		for(;;){
-			switch(state){
-				case WordParseState.S_Date:
-					for(;;){
-						var c = await GetNextChar();
-						if(c == null){error("Unexpected EOF");return 1;}
-						if(c == "]"){
-							var date = bufferToStrSegment();
-							var dateBlock = new DateBlock{
-								date = date
-							};
-							_status.dateBlocks.Add(dateBlock);
-							//TODO
-						}
-						_status.buffer.Add(c);
-					}
+				state = WordParseState.DateBlock;
+				_status.stack.Push(WordParseState.DateBlock);
 				break;
 			}
 		}
-		
+		return 0;
 	}
 
-	public i32 error(str msg){
-		throw new std.Exception(msg);
+	public async Task<code> DateBlock(){
+		for(;;){
+			switch(state){
+				case WordParseState.DateBlock:
+					_status.state = WordParseState.DateBlock_date;
+				break;
+				case WordParseState.DateBlock_TopSpace:
+					await DateBlock_TopSpace();
+				break;
+			}
+		}
+		//return 0;
 	}
 
-	public async Task<i32> Metadata(){
+	public async Task<code> DateBlock_TopSpace(){
+		for(;;){
+			var c = await GetNextChar();
+			var c2 = await GetNextChar();
+			if(c == null || c2 == null){error("Unexpected EOF");return 1;}
+			if(isSpace(c)){
+				continue;
+			}
+			if(c == "[" && c2 == "["){
+				_status.state = WordParseState.Prop;
+				break;
+			}else if(c == "{" && c2 == "{"){
+				_status.state = WordParseState.WordBlock;
+				break;
+			}
+		}
+		return 0;
+	}
+
+	public async Task<I_Prop> Prop(){
+		I_StrSegment? key = null;
+		I_StrSegment? value = null;
+		for(;;){
+			switch(state){
+				case WordParseState.Prop:
+					_status.state = WordParseState.PropKey;
+				break;
+				case WordParseState.PropKey:
+					key = await PropKey();
+				break;
+				case WordParseState.PropValue:
+					value = await PropValue();
+				break;
+				case WordParseState.DateBlock_TopSpace:
+					_status.state = WordParseState.DateBlock_date;
+					var ans = new Prop{
+						key = key??throw error("key is null")
+						,value = value??throw error("value is null")
+					};
+					return ans;
+				//break;
+			}
+		}
+	}
+
+	public async Task<I_StrSegment> PropValue(){
+		for(;;){
+			var c = await GetNextChar();
+			var c2 = await GetNextChar();
+			if(c == null || c2 == null){error("Unexpected EOF"); return null!;}
+			if(c == "]" && c2 == "]"){
+				_status.state = WordParseState.DateBlock_TopSpace;
+				var value = bufferToStrSegment();
+				return value;
+			}
+			_status.buffer.Add(c);
+		}
+	}
+
+	public async Task<I_StrSegment> PropKey(){
+		for(;;){
+			var c = await GetNextChar();
+			if(c == null){error("Unexpected EOF"); return null!;}
+			if(c == "="){
+				_status.state = WordParseState.PropValue;
+				var key = bufferToStrSegment();
+				return key;
+			}
+			_status.buffer.Add(c);
+		}
+	}
+
+	public async Task<code> DateBlock_date(){
+		for(;;){
+			var c = await GetNextChar();
+			if(c == null){error("Unexpected EOF");return 1;}
+			if(c == "]"){
+				var date = bufferToStrSegment();
+				var dateBlock = new DateBlock{
+					date = date
+				};
+				_status.dateBlocks.Add(dateBlock);
+				_status.state = WordParseState.DateBlock_TopSpace;
+				break;
+			}
+			_status.buffer.Add(c);
+		}
+		return 0;
+	}
+
+	public std.Exception error(str msg){
+		var ex = new std.Exception(msg);
+		return ex;
+	}
+
+	public async Task<code> Metadata(){
 		_status.buffer.Add(_status.curChar); // <
 		var metadataStatus = 0; //0:<metadata>; 1:content; 2:</metadata>
 		var bracesStack = new List<str>(); //元數據內json之大括號
