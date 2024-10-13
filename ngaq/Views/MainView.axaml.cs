@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 
 using Avalonia.Logging;
+using System.Diagnostics;
 
 namespace ngaq.Views;
 
