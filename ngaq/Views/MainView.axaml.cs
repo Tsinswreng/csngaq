@@ -13,6 +13,6 @@ public partial class MainView : UserControl{
 	}
 
 	public void Button_Click(object sender, RoutedEventArgs e){
-		System.Console.WriteLine("Button Clicked");
+		
 	}
 }

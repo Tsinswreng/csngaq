@@ -10,8 +10,11 @@ public class WordListTxtMetadata{
 	/// </summary>
 	public str? delimiter{get;set;}
 
-	public static WordListTxtMetadata? Parse(str txt){
+	public static WordListTxtMetadata Parse(str txt){
 		var ans = std.Text.Json.JsonSerializer.Deserialize<WordListTxtMetadata>(txt);
+		if(ans?.belong == null || ans?.delimiter == null){
+			throw new std.Exception("ans?.belong == null || ans?.delimiter == null");
+		}
 		return ans;
 	}
 }
