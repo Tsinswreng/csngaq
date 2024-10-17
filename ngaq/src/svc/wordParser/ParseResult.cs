@@ -18,7 +18,7 @@ public interface I_Prop{
 
 public struct Prop : I_Prop{
 	
-	public I_StrSegment key{get;set;}
+	public I_StrSegment key{get;set;} // 允許褈複key
 	public I_StrSegment value{get;set;}
 }
 
@@ -35,9 +35,6 @@ public struct DateBlock:I_DateBlock{
 	
 	public IList<I_Prop> props{get;set;}
 }
-
-
-
 
 
 public interface I_WordBlock{

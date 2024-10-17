@@ -55,6 +55,9 @@ public class Tokens{
 
 public class WordParser{
 	I_GetNextChar _GetNextChar;
+	public WordParser(I_GetNextChar getNextChar){
+		_GetNextChar = getNextChar;
+	}
 	Status _status {get; set;}= new Status();
 
 	public I_LineCol pos{
@@ -574,7 +577,7 @@ public class WordParser{
 		var buf = new List<str>();
 		for(;;){
 			var c = await GetNextChar();
-			if(c == "="){
+			if(c == "|"){
 				var joined = string.Join("", buf);
 				var key = new StrSegment{
 					start = start
@@ -594,7 +597,7 @@ public class WordParser{
 		for(;;){
 			var c = await GetNextNullableChar();
 			if(c == null){error("Unexpected EOF"); return null!;}
-			if(c == "="){
+			if(c == "|"){
 				_status.state = WordParseState.PropValue;
 				var key = bufferToStrSegment();
 				return key;
