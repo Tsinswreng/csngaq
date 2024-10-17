@@ -24,5 +24,5 @@ public enum WordParseState{
 	,WordBlockFirstLine
 	,RestOfWordBlock //除去首行之后的部分
 	,FirstLeftSquareBracketInWordBlockProp // [ 詞屬性之首中括號
-	
+	,WordBlockEnd
 }

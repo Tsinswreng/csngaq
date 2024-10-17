@@ -227,34 +227,51 @@ public class WordParser{
 	// 	return 0;
 	// }
 
-	
-	public async Task<code> WordBlockBody(){
-		var buf = new List<str>();
-		var props = new List<I_Prop>();
+	/// @return body之I_StrSegment、非完整。
+	public async Task<I_StrSegment> WordBlockBody(){
 		for(;;){
 			var c = await GetNextChar();
-			var c2 = await GetNextChar();
-			if(c == "[" && c2 == "["){
-				buf.RemoveAt(buf.Count - 1);
-				var up = await ReadProp();
-				props.Add(up);
+			if(c == "["){
+				state = WordParseState.FirstLeftSquareBracketInWordBlockProp;
+				return bufferToStrSegment();
+			}else if(c == _status.headOfWordDelimiter){
+				state = WordParseState.HeadOfWordDelimiter;
+				return bufferToStrSegment();
 			}
-			buf.Add(c);
-			buf.Add(c2);
-			//TODO body 正文
+			buffer.Add(c);
 		}
+		// var buf = new List<str>();
+		// var props = new List<I_Prop>();
+		// for(;;){
+		// 	var c = await GetNextChar();
+		// 	var c2 = await GetNextChar();
+		// 	if(c == "[" && c2 == "["){
+		// 		buf.RemoveAt(buf.Count - 1);
+		// 		var up = await ReadProp();
+		// 		props.Add(up);
+		// 	}
+		// 	buf.Add(c);
+		// 	buf.Add(c2);
+		// 	//TODO body 正文,分隔符
+		// }
 	}
 
 
-
+/// <summary>
+/// -> Prop, RestOfWordBlock
+/// </summary>
+/// <returns></returns>
 	public async Task<code> FirstLeftSquareBracketInWordBlockProp(){
+		buffer.Add(_status.curChar); // 加上 "["
 		for(;;){
 			var c = await GetNextChar();
 			if(c == "["){
 				state=WordParseState.Prop;
+				buffer.Clear();
 				break;
 			}else{
 				state=WordParseState.RestOfWordBlock;
+				break;
 			}
 		}
 		return 0;
@@ -268,24 +285,66 @@ public class WordParser{
 		return 0;
 	}
 
-	public async Task<code> RestOfWordBlock(){
-		switch (state){
-			case WordParseState.RestOfWordBlock:
-				await WordBlockBody();
-				//state->WordParseState.FirstLeftSquareBracketInWordBlockProp;
-			break;
-			case WordParseState.FirstLeftSquareBracketInWordBlockProp:
-				await FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
-			break;
-			case WordParseState.Prop:
-				await WordBlockProp(); // -> RestOfWordBlock
-			break;
+	public async Task<code> HeadOfWordDelimiter(){
+		buffer.Add(_status.curChar); // 加上 delimiter首字符
+		var delimiter = G.nn(_status?.metadata?.delimiter);
+		for(var i = 1;i < delimiter.Length;i++){
+			var c = await GetNextChar();
+			if(c != delimiter[i].ToString()){
+				state = WordParseState.RestOfWordBlock; // not delimiter, deem as word body
+				return 0;
+			}
 		}
+		state = WordParseState.WordBlockEnd;
 		return 0;
 	}
 
+	public async Task<I_WordBlock> ReadWordBlock(){
+		I_StrSegment? head = null;
+		var bodySegs = new List<I_StrSegment>();
+		var props = new List<I_Prop>();
+		for(;;){
+			switch (state){
+				case WordParseState.WordBlock:
+					var firstLine = await ReadWordBlockFirstLine(); 
+					head = firstLine;
+					state = WordParseState.RestOfWordBlock;
+				break;
+				case WordParseState.RestOfWordBlock:
+					var bodySeg = await WordBlockBody();
+					bodySegs.Add(bodySeg);
+					//state->WordParseState.FirstLeftSquareBracketInWordBlockProp;
+				break;
+				case WordParseState.FirstLeftSquareBracketInWordBlockProp:
+					await FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
+				break;
+				case WordParseState.Prop:
+					//await WordBlockProp(); // -> RestOfWordBlock
+					var prop = await ReadProp();
+					props.Add(prop);
+					state = WordParseState.RestOfWordBlock;
+				break;
+				case WordParseState.HeadOfWordDelimiter:
+					// state -> WordBlockEnd, RestOfWordBlock
+					await HeadOfWordDelimiter();
+				break;
+				case WordParseState.WordBlockEnd:
+					state = WordParseState.TopSpace;
+					var ans = new WordBlock{
+						head = G.nn(head)
+						,body = bodySegs
+						,props = props
+					};
+					return ans;
+				//break;
+			}
+		}
+	}
+
+
+////state -> RestOfWordBlock
 	public async Task<code> WordBlockFirstLine(){
-		var firstLine = await ReadWordBlockFirstLine(); //state -> RestOfWordBlock
+		var firstLine = await ReadWordBlockFirstLine(); 
 		var curDateBlock = getCurDateBlock();
 		var wordBlock = new WordBlock{
 			head = firstLine
@@ -295,6 +354,8 @@ public class WordParser{
 		return 0;
 	}
 
+	
+
 	public async Task<code> WordBlock(){ //TODO
 		for(;;){
 			switch (state){
@@ -302,7 +363,7 @@ public class WordParser{
 					await WordBlockFirstLine(); // -> RestOfWordBlock
 				break;
 				case WordParseState.RestOfWordBlock:
-					await RestOfWordBlock(); // -> TopSpace
+					await ReadWordBlock(); // -> TopSpace
 				break;
 			}
 		}

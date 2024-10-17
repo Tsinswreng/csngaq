@@ -42,12 +42,13 @@ public struct DateBlock:I_DateBlock{
 
 public interface I_WordBlock{
 	public I_StrSegment head{get;set;}
-	public I_StrSegment body{get;set;}
+	//body蜮不連續、可被prop打斷、故用IList洏不用單個I_StrSegment
+	public IList<I_StrSegment> body{get;set;} 
 	public IList<I_Prop> props{get;set;}
 }
 
 public struct WordBlock : I_WordBlock{
 	public I_StrSegment head{get;set;}
-	public I_StrSegment body{get;set;}
+	public IList<I_StrSegment> body{get;set;}
 	public IList<I_Prop> props{get;set;}
 }
