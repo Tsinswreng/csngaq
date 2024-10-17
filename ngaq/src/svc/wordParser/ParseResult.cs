@@ -24,14 +24,14 @@ public struct Prop : I_Prop{
 
 public interface I_DateBlock{
 	public I_StrSegment date{get;set;}
-	public IList<WordBlock> words{get;set;}
+	public IList<I_WordBlock> words{get;set;}
 	
 	public IList<I_Prop> props{get;set;}
 }
 
 public struct DateBlock:I_DateBlock{
 	public I_StrSegment date{get;set;}
-	public IList<WordBlock> words{get;set;}
+	public IList<I_WordBlock> words{get;set;}
 	
 	public IList<I_Prop> props{get;set;}
 }

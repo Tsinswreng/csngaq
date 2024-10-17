@@ -1,6 +1,6 @@
 namespace ngaq.svc.wordParser;
 
-public interface I_TxtPos{
+public interface I_LineCol{
 	/// <summary>
 	/// from 0
 	/// </summary>
