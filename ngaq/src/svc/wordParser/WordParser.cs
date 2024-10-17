@@ -64,6 +64,23 @@ public class WordParser{
 			return _status.buffer;
 		}
 	}
+
+	public I_DateBlock getCurDateBlock(){
+		if(_status.dateBlocks.Count == 0){
+			error("No date block");
+			return null!;
+		}
+		return _status.dateBlocks[_status.dateBlocks.Count - 1];
+	}
+
+	public I_WordBlock getCurWordBlock(){
+		var curDateBlock = getCurDateBlock();
+		if(curDateBlock.words.Count == 0){
+			error("No word block"); return null!;
+		}
+		var curWordBlock = curDateBlock.words[curDateBlock.words.Count - 1];
+		return curWordBlock;
+	}
 	
 
 	protected async Task<str?> GetNextNullableChar(){
@@ -199,7 +216,6 @@ public class WordParser{
 				};
 				return ans;
 			}
-			
 		}
 	}
 
@@ -211,16 +227,25 @@ public class WordParser{
 	// 	return 0;
 	// }
 
-	public async Task<code> RestOfWordBlockStart(){
+	
+	public async Task<code> WordBlockBody(){
+		var buf = new List<str>();
+		var props = new List<I_Prop>();
 		for(;;){
 			var c = await GetNextChar();
-			if(c == "["){
-				state=WordParseState.FirstLeftSquareBracketInWordBlockProp;
-				return 0;
+			var c2 = await GetNextChar();
+			if(c == "[" && c2 == "["){
+				buf.RemoveAt(buf.Count - 1);
+				var up = await ReadProp();
+				props.Add(up);
 			}
+			buf.Add(c);
+			buf.Add(c2);
 			//TODO body 正文
 		}
 	}
+
+
 
 	public async Task<code> FirstLeftSquareBracketInWordBlockProp(){
 		for(;;){
@@ -228,21 +253,45 @@ public class WordParser{
 			if(c == "["){
 				state=WordParseState.Prop;
 				break;
+			}else{
+				state=WordParseState.RestOfWordBlock;
 			}
 		}
+		return 0;
+	}
+
+	public async Task<code> WordBlockProp(){
+		var prop = await ReadProp();
+		var curWordBlock = getCurWordBlock();
+		curWordBlock.props.Add(prop);
+		state = WordParseState.RestOfWordBlock;
 		return 0;
 	}
 
 	public async Task<code> RestOfWordBlock(){
 		switch (state){
 			case WordParseState.RestOfWordBlock:
-				await RestOfWordBlockStart();
+				await WordBlockBody();
 				//state->WordParseState.FirstLeftSquareBracketInWordBlockProp;
 			break;
 			case WordParseState.FirstLeftSquareBracketInWordBlockProp:
-				await FirstLeftSquareBracketInWordBlockProp(); // -> Prop
+				await FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
+			break;
+			case WordParseState.Prop:
+				await WordBlockProp(); // -> RestOfWordBlock
 			break;
 		}
+		return 0;
+	}
+
+	public async Task<code> WordBlockFirstLine(){
+		var firstLine = await ReadWordBlockFirstLine(); //state -> RestOfWordBlock
+		var curDateBlock = getCurDateBlock();
+		var wordBlock = new WordBlock{
+			head = firstLine
+		};
+		curDateBlock.words.Add(wordBlock);
+		state = WordParseState.RestOfWordBlock;
 		return 0;
 	}
 
@@ -250,8 +299,7 @@ public class WordParser{
 		for(;;){
 			switch (state){
 				case WordParseState.WordBlock:
-					var firstLine = await ReadWordBlockFirstLine(); //state -> RestOfWordBlock
-					state = WordParseState.RestOfWordBlock;
+					await WordBlockFirstLine(); // -> RestOfWordBlock
 				break;
 				case WordParseState.RestOfWordBlock:
 					await RestOfWordBlock(); // -> TopSpace
