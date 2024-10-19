@@ -1,13 +1,26 @@
+/* 
+c# 異步流式讀文件、每次讀一部分。
+讀內容的時候異步。
+不用指定字符編碼、直接返回數字。
+ */
+
+
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
+
+using word = byte;
 
 namespace ngaq.svc.wordParser;
 
 public class NextCharReader: I_GetNextChar_i32, IDisposable{
 	
 	public str path{get; set;}
-	public Encoding encoding{get; set;} = Encoding.UTF8;
+
+	[Obsolete]
+	public Encoding? encoding{get; set;} = null;
 
 	public FileStream fs{get; set;}
 
@@ -15,15 +28,47 @@ public class NextCharReader: I_GetNextChar_i32, IDisposable{
 
 	protected i32 _byteRead = -1;
 
-	public NextCharReader(str path, Encoding encoding){
-		this.path = path;
-		this.encoding = encoding;
+	public i32 bufferSize{get; set;} = 0x1000;
 
+	//public word[] buffer{get; set;}
+
+
+	public NextCharReader(str path){
+		this.path = path;
+		//buffer = new word[bufferSize];
 		fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 	}
 
-	public NextCharReader(str path):this(path, Encoding.UTF8){
-		
+
+	public async Task<byte[]> ReadNextChunk(){
+		byte[] buffer = new byte[bufferSize];
+		i32 bytesRead = await fs.ReadAsync(buffer, 0, bufferSize);
+		if(bytesRead <= 0){
+			return [];
+		}
+		//TODO
+		return null;
+	}
+
+
+	//example
+	public static async IAsyncEnumerable<byte[]> ReadFileAsync
+	(
+		string filePath
+		, int bufferSize
+		, CancellationToken cancellationToken = default
+	){
+		using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize, true);
+
+		byte[] buffer = new byte[bufferSize];
+		int bytesRead;
+
+		while ((bytesRead = await fileStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0){
+			// 创建一个新数组，并将读取到的数据复制到其中
+			var data = new byte[bytesRead];
+			Array.Copy(buffer, data, bytesRead);
+			yield return data;
+		}
 	}
 
 	public async Task<i32> GetNextChar(){
@@ -119,4 +164,22 @@ public async Task ExampleAsync()
         Console.WriteLine($"An error occurred: {ex.Message}");
     }
 }
+ */
+
+
+/* 
+
+Result* getResult(args){
+	//do sth.
+	Result* result = new Result();
+	result->value = xxx;
+	return result;
+}
+
+int getResult(Result* result, args){
+	//do sth.
+	result->value = xxx;
+	return 0;
+}
+
  */

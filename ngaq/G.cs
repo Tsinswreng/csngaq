@@ -81,5 +81,12 @@ public static class G {
 		return s?.ToString()??"";
 	}
 
+	public static str logNoLn<T>(T s){
+		#if DEBUG
+		System.Console.Write(s);
+		#endif
+		return s?.ToString()??"";
+	}
+
 
 }

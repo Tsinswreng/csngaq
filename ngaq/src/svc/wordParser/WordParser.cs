@@ -318,20 +318,6 @@ public class WordParser{
 			}
 			buffer.Add(c);
 		}
-		// var buf = new List<str>();
-		// var props = new List<I_Prop>();
-		// for(;;){
-		// 	var c = await GetNextChar();
-		// 	var c2 = await GetNextChar();
-		// 	if(c == "[" && c2 == "["){
-		// 		buf.RemoveAt(buf.Count - 1);
-		// 		var up = await ReadProp();
-		// 		props.Add(up);
-		// 	}
-		// 	buf.Add(c);
-		// 	buf.Add(c2);
-		// 	//TODO body 正文,分隔符
-		// }
 	}
 
 
