@@ -1,3 +1,6 @@
+/* 
+TODO 統一用\n
+ */
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -88,6 +91,8 @@ public class WordParser{
 
 	public Encoding encoding{get; set;} = Encoding.UTF8;
 
+	//public str unifiedNewLines{get; set;} = "\n";
+
 	// [Obsolete]
 	// public I_DateBlock getCurDateBlock(){
 	// 	if(_status.dateBlocks.Count == 0){
@@ -109,16 +114,19 @@ public class WordParser{
 
 	protected async Task<word> GetNextNullableChar(){
 		var ans = await _getNextChar.GetNextChar();
-		if(ans < 0){
+		if(isNil(ans)){
 			state = WordParseState.End;
 			return ans;
 		}
+		lineCol.col++;
+		_status.pos++;
 		if( eq(ans , '\n') ){
 			lineCol.line++;
 			lineCol.col = 0;
 		}
 		_status.curChar = ans;
-		_status.pos++;
+		
+		
 		return ans;
 	}
 
@@ -189,10 +197,13 @@ public class WordParser{
 					await TopSpace(); // -> Metadata, DateBlock
 				break;
 				case WordParseState.Metadata:
+					G.log(_status.line_col);//t
+					G.log(_status.pos);//t
 					await Metadata(); // -> TopSpace
 				break;
 				case WordParseState.DateBlock:
 					var ua = await ReadDateBlock(); // -> TopSpace
+					G.logJson(ua);//t
 					ans.Add(ua);
 				break;
 				case WordParseState.End:
@@ -230,18 +241,37 @@ public class WordParser{
 		return 0;
 	}
 
+	public async Task<I_StrSegment> ReadDate(){
+		var buf = new List<word>();
+		var start = _status.pos;
+		for(;;){
+			var c = await GetNextChar();
+			if( eq(c , ']') ){
+				//state = WordParseState.TopSpace;
+				var ans = new StrSegment{
+					start = start
+					,text = bufToStr(buf)
+				};
+				return ans;
+			}
+			buf.Add(c);
+		}
+	}
+
 	public async Task<I_DateBlock> ReadDateBlock(){
 		var ans = new DateBlock();
 		for(;;){
+			//G.log(state);//t
 			switch(state){
-				case WordParseState.DateBlock:
-					_status.state = WordParseState.DateBlock_date;
+				case WordParseState.DateBlock: //入口
+					//_status.state = WordParseState.DateBlock_date;
+					ans.date = await ReadDate();
+					state = WordParseState.DateBlock_TopSpace;
 				break;
 				case WordParseState.DateBlock_TopSpace:
 					await DateBlock_TopSpace(); // -> Prop, WordBlock
 				break;
 				case WordParseState.Prop:
-					//var prop = await Prop_deprecated(); // -> DateBlock_TopSpace
 					var prop = await ReadProp();
 					ans.props.Add(prop);
 					state = WordParseState.DateBlock_TopSpace;

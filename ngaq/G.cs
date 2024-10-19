@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 /** =Global functions */
@@ -107,14 +108,30 @@ public static class G {
 	public static str toJson<T>(T o){
 		var opt = new JsonSerializerOptions{
 			WriteIndented = true
+			,Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping // 允許原樣輸出
 		};
 		var ans = JsonSerializer.Serialize(o, opt);
 		return ans;
 	}
 
-	public static str logJson<T>(T o){
-		G.log(toJson(o));
-		return toJson(o);
+	public static str logJson(params unknown[] s){
+		
+		var sb = new StringBuilder();
+		var ans = "";
+		if(s == null){
+			ans = "\n";
+		}else{
+			for(var i=0; i < s!.Length; i++){
+				sb.Append(G.toJson(s[i]));
+				if(i < s!.Length-1){
+					sb.Append(" ");
+				}
+			}
+			ans = sb.ToString();
+		}
+		G.log(ans);
+		return ans;
+		
 	}
 
 
