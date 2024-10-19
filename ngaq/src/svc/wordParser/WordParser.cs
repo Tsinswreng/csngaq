@@ -35,6 +35,7 @@ class Status{
 	public I_LineCol line_col {get; set;} = new Pos();
 	public i32 pos {get;set;} = 0;
 
+	[Obsolete]
 	public Stack<WordParseState> stack {get; set;} = new();
 
 	public word curChar {get; set;} = default;
@@ -55,11 +56,7 @@ public class Tokens{
 	public const str s_metadataTag = "<metadata>";
 	public const str e_metadataTag = "</metadata>";
 }
-/* 
-public interface I_GetNextChar{
-	Task<str?> GetNextChar();
-}
- */
+
 
 public class WordParser{
 	I_GetNextChar_i32 _getNextChar;
@@ -68,7 +65,7 @@ public class WordParser{
 	}
 	Status _status {get; set;}= new Status();
 
-	public I_LineCol pos{
+	public I_LineCol lineCol{
 		get{
 			return _status.line_col;
 		}
@@ -117,8 +114,8 @@ public class WordParser{
 			return ans;
 		}
 		if( eq(ans , '\n') ){
-			pos.line++;
-			pos.col = 0;
+			lineCol.line++;
+			lineCol.col = 0;
 		}
 		_status.curChar = ans;
 		_status.pos++;
@@ -221,11 +218,11 @@ public class WordParser{
 				continue;
 			}else if( eq(c , '<') ){
 				state = WordParseState.Metadata;
-				_status.stack.Push(WordParseState.Metadata);
+				//_status.stack.Push(WordParseState.Metadata);
 				break;
 			}else if( eq(c , '[') ){
 				state = WordParseState.DateBlock;
-				_status.stack.Push(WordParseState.DateBlock);
+				//_status.stack.Push(WordParseState.DateBlock);
 				break;
 			}
 		}
@@ -405,88 +402,6 @@ public class WordParser{
 		}
 	}
 
-
-////state -> RestOfWordBlock
-	// public async Task<code> WordBlockFirstLine(){
-	// 	var firstLine = await ReadWordBlockFirstLine(); 
-	// 	var curDateBlock = getCurDateBlock();
-	// 	var wordBlock = new WordBlock{
-	// 		head = firstLine
-	// 	};
-	// 	curDateBlock.words.Add(wordBlock);
-	// 	state = WordParseState.RestOfWordBlock;
-	// 	return 0;
-	// }
-
-	
-
-	// public async Task<code> WordBlock(){ //TODO
-	// 	for(;;){
-	// 		switch (state){
-	// 			case WordParseState.WordBlock:
-	// 				await WordBlockFirstLine(); // -> RestOfWordBlock
-	// 			break;
-	// 			case WordParseState.RestOfWordBlock:
-	// 				await ReadWordBlock(); // -> TopSpace
-	// 			break;
-	// 		}
-	// 	}
-
-	// 	// var tempState = 0; //0:正文; 1:已讀第一個大括號
-	// 	// var delimiterBuffer = new List<str>();
-	// 	// for(;;){
-	// 	// 	switch(tempState){
-	// 	// 		case 0: // 正文
-	// 	// 			for(;;){
-	// 	// 				var c = await GetNextChar();
-	// 	// 				if( isNil(c) ){error("Unexpected EOF");return 1;}
-	// 	// 				if(c == "}"){ // }}
-	// 	// 					tempState = 1;
-	// 	// 					break;
-	// 	// 				}
-	// 	// 				if(c == _status.headOfWordDelimiter){
-	// 	// 					state = WordParseState.HeadOfWordDelimiter;
-	// 	// 					return 0; //TODO
-	// 	// 				}
-						
-	// 	// 				_status.buffer.Add(c);
-
-	// 	// 			}
-	// 	// 		break;
-	// 	// 		case 1: // 已讀第一個大括號
-	// 	// 			for(;;){
-	// 	// 				var c = await GetNextChar();
-	// 	// 				if( isNil(c) ){error("Unexpected EOF");return 1;}
-	// 	// 				if(c == "}"){
-	// 	// 					state = WordParseState.TopSpace;
-	// 	// 					break;
-	// 	// 				}else{
-	// 	// 					tempState = 0;
-	// 	// 				}
-	// 	// 			}
-	// 	// 		break;
-	// 	// 	}
-
-	// 	// }
-		
-	// 	return 0;
-	// }
-
-	// public async Task<bool> IsRestOfWordDelimiter(){
-	// 	var delimiterBuffer = new List<str>();
-	// 	delimiterBuffer.Add(_status.curChar);//先加上當前字元 潙delimiter之首字符
-	// 	for(;;){
-	// 		var c = await GetNextChar();
-	// 		if( isNil(c) ){error("Unexpected EOF");return false;}
-	// 		if(delimiterBuffer.Count == G.nn(_status?.metadata?.delimiter?.Length)){
-	// 			var joined = string.Join("", delimiterBuffer);
-	// 			if(joined == _status.metadata.delimiter){
-
-	// 			}
-	// 		}
-	// 	}
-	// }
-
 	//讀完日期後 、[2024-10-19T15:51:19.877+08:00] 後面
 	public async Task<code> DateBlock_TopSpace(){
 		for(;;){
@@ -517,81 +432,6 @@ public class WordParser{
 		};
 		return ans;
 	}
-
-	// public async Task<I_Prop> ReadProp(){
-	// 	I_StrSegment? key = null;
-	// 	I_StrSegment? value = null;
-		
-	// 	for(;;){
-	// 		switch(state){
-	// 			case WordParseState.Prop:
-	// 				_status.state = WordParseState.PropKey;
-	// 			break;
-	// 			case WordParseState.PropKey:
-	// 				key = await ReadPropKey();
-	// 			break;
-	// 			case WordParseState.PropValue:
-	// 				value = await ReadPropValue(); // -> DateBlock_TopSpace
-	// 				_status.state = WordParseState.DateBlock_TopSpace;
-	// 			break;
-	// 			case WordParseState.DateBlock_TopSpace: // entry
-	// 				_status.state = WordParseState.DateBlock_date;
-	// 				var ans = new Prop{
-	// 					key = key??throw error("key is null")
-	// 					,value = value??throw error("value is null")
-	// 				};
-	// 				return ans;
-	// 			//break;
-	// 		}
-	// 	}
-	// }
-
-
-
-	// public async Task<I_Prop> Prop_deprecated(){
-	// 	I_StrSegment? key = null;
-	// 	I_StrSegment? value = null;
-	// 	for(;;){
-	// 		switch(state){
-	// 			case WordParseState.Prop:
-	// 				_status.state = WordParseState.PropKey;
-	// 			break;
-	// 			case WordParseState.PropKey:
-	// 				key = await PropKey();
-	// 			break;
-	// 			case WordParseState.PropValue:
-	// 				value = await PropValue(); // -> DateBlock_TopSpace
-	// 			break;
-	// 			case WordParseState.DateBlock_TopSpace: // entry
-	// 				_status.state = WordParseState.DateBlock_date;
-	// 				var ans = new Prop{
-	// 					key = key??throw error("key is null")
-	// 					,value = value??throw error("value is null")
-	// 				};
-	// 				return ans;
-	// 			//break;
-	// 		}
-	// 	}
-	// }
-
-	//@deprecated
-	//TODO 理則謬
-	// public async Task<I_StrSegment> PropValue(){
-	// 	for(;;){
-	// 		var c = await GetNextNullableChar();
-	// 		var c2 = await GetNextNullableChar();
-	// 		if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF"); return null!;}
-	// 		if( eq(c , ']') && eq(c2 , ']') ){
-	// 			_status.buffer.RemoveAt(_status.buffer.Count-1);
-	// 			_status.state = WordParseState.DateBlock_TopSpace;
-	// 			var value = bufferToStrSegment();
-	// 			return value;
-	// 		}
-	// 		_status.buffer.Add(c);
-	// 		_status.buffer.Add(c2);
-	// 	}
-	// }
-
 
 	public async Task<I_StrSegment> ReadPropValue(){
 		var start = _status.pos;
@@ -633,41 +473,6 @@ public class WordParser{
 			buf.Add(c);
 		}
 	}
-
-	/// <summary>
-	/// @deprecated
-	/// </summary>
-	/// <returns></returns>
-	// public async Task<I_StrSegment> PropKey(){
-	// 	for(;;){
-	// 		var c = await GetNextNullableChar();
-	// 		if( isNil(c) ){error("Unexpected EOF"); return null!;}
-	// 		if( eq(c , '|') ){
-	// 			_status.state = WordParseState.PropValue;
-	// 			var key = bufferToStrSegment();
-	// 			return key;
-	// 		}
-	// 		_status.buffer.Add(c);
-	// 	}
-	// }
-
-	// public async Task<code> DateBlock_date(){
-	// 	for(;;){
-	// 		var c = await GetNextNullableChar();
-	// 		if( isNil(c) ){error("Unexpected EOF");return 1;}
-	// 		if(c == "]"){
-	// 			var date = bufferToStrSegment();
-	// 			var dateBlock = new DateBlock{
-	// 				date = date
-	// 			};
-	// 			_status.dateBlocks.Add(dateBlock);
-	// 			_status.state = WordParseState.DateBlock_TopSpace;
-	// 			break;
-	// 		}
-	// 		_status.buffer.Add(c);
-	// 	}
-	// 	return 0;
-	// }
 
 	public bool isNil(word s){
 		if(s < 0){
