@@ -152,7 +152,7 @@ public class WordParser{
 	/// 會清空buffer
 	/// </summary>
 	/// <returns></returns>
-	public I_StrSegment bufferToStrSegment(){
+	public I_StrSegment bufferToStrSegmentEtClr(){
 		var start = _status.pos - _status.buffer.Count;
 		var text = bufToStr(_status.buffer);
 		_status.buffer.Clear();
@@ -180,6 +180,7 @@ public class WordParser{
 	public async Task<IList<I_DateBlock>> Parse(){
 		IList<I_DateBlock> ans = new List<I_DateBlock>();
 		for(;;){
+			//G.log(state.ToString());//t
 			switch(_status.state){
 				case WordParseState.Start:
 					await Start(); // -> TopSpace
@@ -308,10 +309,10 @@ public class WordParser{
 			var c = await GetNextChar();
 			if( eq(c , '[') ){
 				state = WordParseState.FirstLeftSquareBracketInWordBlockProp;
-				return bufferToStrSegment();
+				return bufferToStrSegmentEtClr();
 			}else if(c == _status.headOfWordDelimiter){
 				state = WordParseState.HeadOfWordDelimiter;
-				return bufferToStrSegment();
+				return bufferToStrSegmentEtClr();
 			}
 			buffer.Add(c);
 		}
@@ -485,7 +486,8 @@ public class WordParser{
 		var ex = new ParseErr(msg);
 		ex.pos = _status.pos;
 		ex.lineCol = _status.line_col;
-		return ex;
+		throw ex;
+		//return ex;
 	}
 
 	public async Task<code> Metadata(){
@@ -494,16 +496,20 @@ public class WordParser{
 		var bracesStack = new List<word>(); //元數據內json之大括號
 		var metadataContent = new List<word>();
 		for(;;){
+			//G.log(metadataStatus);//t
 			switch(metadataStatus){
 				case 0: //<metadata>
-					for(;;){
+					for(var j = 0; ;j++){
 						var c = await GetNextChar();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
-						_status.buffer.Add(c);
-						if(isSpace(c)){
-							continue;
-						}else if( eq(c , '>') ){
-							_status.buffer.Add(c); 
+						buffer.Add(c);
+
+						if(j<100){
+							G.log(bufToStr(buffer));//t
+						}
+
+						if( eq(c , '>') ){
+							buffer.Add(c);
 							if(chk_metadataStart()){ // joined buffer is <metadata>
 								metadataStatus = 1;
 								break;
@@ -583,7 +589,7 @@ public class WordParser{
 
 	public bool chk_metadataStart(){
 		var ans = false;
-		var buf = _status.buffer;
+		var buf = buffer;
 		if(isMetadataStart(buf)){
 			ans = true;
 		}
@@ -591,9 +597,10 @@ public class WordParser{
 		return ans;
 	}
 
-	public bool isMetadataStart(IList<word> buffer){
-		if(buffer.Count == Tokens.s_metadataTag.Length){
-			var joined = bufToStr(buffer);
+	public bool isMetadataStart(IList<word> buf){
+		G.log(bufToStr(buf), "isMetadataStart");//t
+		if(buf.Count == Tokens.s_metadataTag.Length){
+			var joined = bufToStr(buf);
 			if( eq(joined , Tokens.s_metadataTag) ){
 				return true;
 			}

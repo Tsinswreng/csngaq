@@ -1,5 +1,8 @@
 using System;
 using System.IO;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 /** =Global functions */
 public static class G {
 
@@ -74,11 +77,24 @@ public static class G {
 		return "";
 	}
 
-	public static str log<T>(T s){
+	public static str log(params unknown[] s){
+		var sb = new StringBuilder();
+		var ans = "";
+		if(s == null){
+			ans = "\n";
+		}else{
+			for(var i=0; i < s!.Length; i++){
+				sb.Append(s[i]?.ToString()??"");
+				if(i < s!.Length-1){
+					sb.Append(" ");
+				}
+			}
+			ans = sb.ToString();
+		}
 		#if DEBUG
-		System.Console.WriteLine(s);
+		System.Console.WriteLine(ans);
 		#endif
-		return s?.ToString()??"";
+		return ans;
 	}
 
 	public static str logNoLn<T>(T s){
@@ -86,6 +102,19 @@ public static class G {
 		System.Console.Write(s);
 		#endif
 		return s?.ToString()??"";
+	}
+
+	public static str toJson<T>(T o){
+		var opt = new JsonSerializerOptions{
+			WriteIndented = true
+		};
+		var ans = JsonSerializer.Serialize(o, opt);
+		return ans;
+	}
+
+	public static str logJson<T>(T o){
+		G.log(toJson(o));
+		return toJson(o);
 	}
 
 
