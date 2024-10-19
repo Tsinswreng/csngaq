@@ -51,11 +51,15 @@ public class Tokens{
 	public const str s_metadataTag = "<metadata>";
 	public const str e_metadataTag = "</metadata>";
 }
-
+/* 
+public interface I_GetNextChar{
+	Task<str?> GetNextChar();
+}
+ */
 
 public class WordParser{
-	I_GetNextChar _GetNextChar;
-	public WordParser(I_GetNextChar getNextChar){
+	I_GetNextChar_str _GetNextChar;
+	public WordParser(I_GetNextChar_str getNextChar){
 		_GetNextChar = getNextChar;
 	}
 	Status _status {get; set;}= new Status();
@@ -121,6 +125,10 @@ public class WordParser{
 			return "";
 		}
 		return c;
+	}
+
+	public bool eq(str s1, str s2){
+		return s1 == s2;
 	}
 
 
@@ -192,11 +200,11 @@ public class WordParser{
 			}
 			if(isSpace(c)){
 				continue;
-			}else if(c == "<"){
+			}else if( eq(c , "<") ){
 				state = WordParseState.Metadata;
 				_status.stack.Push(WordParseState.Metadata);
 				break;
-			}else if(c == "["){
+			}else if( eq(c , "[") ){
 				state = WordParseState.DateBlock;
 				_status.stack.Push(WordParseState.DateBlock);
 				break;
@@ -241,7 +249,7 @@ public class WordParser{
 		var start = _status.pos;
 		for(;;){
 			var c = await GetNextChar();
-			if(c == "\n"){
+			if( eq(c , "\n")){
 				//state = WordParseState.RestOfWordBlock;
 				var ans = new StrSegment{
 					start = start
@@ -265,7 +273,7 @@ public class WordParser{
 	public async Task<I_StrSegment> WordBlockBody(){
 		for(;;){
 			var c = await GetNextChar();
-			if(c == "["){
+			if( eq(c , "[") ){
 				state = WordParseState.FirstLeftSquareBracketInWordBlockProp;
 				return bufferToStrSegment();
 			}else if(c == _status.headOfWordDelimiter){
@@ -299,7 +307,7 @@ public class WordParser{
 		buffer.Add(_status.curChar); // 加上 "["
 		for(;;){
 			var c = await GetNextChar();
-			if(c == "["){
+			if( eq(c , "[") ){
 				state=WordParseState.Prop;
 				buffer.Clear();
 				break;
@@ -465,10 +473,10 @@ public class WordParser{
 			if(isSpace(c)){
 				continue;
 			}
-			if(c == "[" && c2 == "["){
+			if( eq(c , "[") && eq(c2 , "[")){
 				_status.state = WordParseState.Prop;
 				break;
-			}else if(c == "{" && c2 == "{"){
+			}else if( eq(c , "{") && eq(c2 , "{")){
 				_status.state = WordParseState.WordBlock;
 				break;
 			}
@@ -503,31 +511,31 @@ public class WordParser{
 		}
 	}
 
-	public async Task<I_Prop> Prop_deprecated(){
-		I_StrSegment? key = null;
-		I_StrSegment? value = null;
-		for(;;){
-			switch(state){
-				case WordParseState.Prop:
-					_status.state = WordParseState.PropKey;
-				break;
-				case WordParseState.PropKey:
-					key = await PropKey();
-				break;
-				case WordParseState.PropValue:
-					value = await PropValue(); // -> DateBlock_TopSpace
-				break;
-				case WordParseState.DateBlock_TopSpace: // entry
-					_status.state = WordParseState.DateBlock_date;
-					var ans = new Prop{
-						key = key??throw error("key is null")
-						,value = value??throw error("value is null")
-					};
-					return ans;
-				//break;
-			}
-		}
-	}
+	// public async Task<I_Prop> Prop_deprecated(){
+	// 	I_StrSegment? key = null;
+	// 	I_StrSegment? value = null;
+	// 	for(;;){
+	// 		switch(state){
+	// 			case WordParseState.Prop:
+	// 				_status.state = WordParseState.PropKey;
+	// 			break;
+	// 			case WordParseState.PropKey:
+	// 				key = await PropKey();
+	// 			break;
+	// 			case WordParseState.PropValue:
+	// 				value = await PropValue(); // -> DateBlock_TopSpace
+	// 			break;
+	// 			case WordParseState.DateBlock_TopSpace: // entry
+	// 				_status.state = WordParseState.DateBlock_date;
+	// 				var ans = new Prop{
+	// 					key = key??throw error("key is null")
+	// 					,value = value??throw error("value is null")
+	// 				};
+	// 				return ans;
+	// 			//break;
+	// 		}
+	// 	}
+	// }
 
 	//@deprecated
 	//TODO 理則謬
@@ -536,7 +544,7 @@ public class WordParser{
 			var c = await GetNextNullableChar();
 			var c2 = await GetNextNullableChar();
 			if(c == null || c2 == null){error("Unexpected EOF"); return null!;}
-			if(c == "]" && c2 == "]"){
+			if( eq(c , "]") && eq(c2 , "]") ){
 				_status.buffer.RemoveAt(_status.buffer.Count-1);
 				_status.state = WordParseState.DateBlock_TopSpace;
 				var value = bufferToStrSegment();
@@ -554,7 +562,7 @@ public class WordParser{
 		for(;;){
 			var c = await GetNextChar();
 			var c2 = await GetNextChar();
-			if(c == "]" && c2 == "]"){
+			if( eq(c , "]") && eq(c2 , "]")){
 				//c != "]" 但 c2 == "]" 旹 、buf加入c,c2後、末字符是"]"、則今除㞢
 				buf.RemoveAt(buf.Count-1);
 				var value = new StrSegment{
@@ -577,7 +585,7 @@ public class WordParser{
 		var buf = new List<str>();
 		for(;;){
 			var c = await GetNextChar();
-			if(c == "|"){
+			if( eq(c , "|") ){
 				var joined = string.Join("", buf);
 				var key = new StrSegment{
 					start = start
@@ -597,7 +605,7 @@ public class WordParser{
 		for(;;){
 			var c = await GetNextNullableChar();
 			if(c == null){error("Unexpected EOF"); return null!;}
-			if(c == "|"){
+			if( eq(c , "|") ){
 				_status.state = WordParseState.PropValue;
 				var key = bufferToStrSegment();
 				return key;
@@ -645,7 +653,7 @@ public class WordParser{
 						_status.buffer.Add(c);
 						if(isSpace(c)){
 							continue;
-						}else if(c == ">"){
+						}else if( eq(c , ">") ){
 							_status.buffer.Add(c); 
 							if(chk_metadataStart()){ // joined buffer is <metadata>
 								metadataStatus = 1;
@@ -659,9 +667,9 @@ public class WordParser{
 						var c = await GetNextNullableChar();
 						if(c == null){error("Unexpected EOF"); return 0;}
 						metadataContent.Add(c);
-						if(c=="{"){
+						if( eq(c,"{") ){
 							bracesStack.Add(c);
-						}else if(c=="}"){
+						}else if( eq(c, "}") ){
 							if(bracesStack.Count == 0){
 								metadataStatus = 2;
 								break;
@@ -678,7 +686,7 @@ public class WordParser{
 						if(c == null){error("Unexpected EOF");return 0;}
 						if(isSpace(c)){
 							continue;
-						}else if(c == "<"){
+						}else if( eq(c, "<") ){
 							_status.buffer.Add(c);
 							break;
 						}else{
@@ -691,7 +699,7 @@ public class WordParser{
 						var c = await GetNextNullableChar();
 						if(c == null){error("Unexpected EOF");return 0;}
 						_status.buffer.Add(c);
-						if(c == ">"){
+						if( eq(c , ">") ){
 							_status.buffer.Add(c);
 							if(isMetadataEnd(_status.buffer)){
 								//_status.metadataBuf = metadataContent;
@@ -757,3 +765,14 @@ public class WordParser{
 	}
 
 }
+
+
+/* 
+var txtLength = 1000000;
+for(var i = 0; i < txtLength, i++){
+	string c = await GetNextChar(); //c是只有一個碼點的字符串。從文件讀取。
+	handle(c);
+}
+handle方法中會判斷c並把c加入到List<string>中。
+以上代碼會有明顯的GC壓力或性能問題嗎?
+ */

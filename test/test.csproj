@@ -15,11 +15,15 @@
     <PackageReference Include="xunit" Version="2.5.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
 	
-	<ProjectReference Include="../ngaq/ngaq.csproj"/>
+	<!-- <ProjectReference Include="../ngaq/ngaq.csproj"/> -->
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ngaq/ngaq.csproj" />
   </ItemGroup>
 
 </Project>

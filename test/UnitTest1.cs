@@ -7,6 +7,9 @@ cd /e/_code/csngaq/test && dotnet test --filter "FullyQualifiedName~test.UnitTes
 public class UnitTest1{
 	[Fact]
 	public void Test1(){
-		G.log("123------------");
+		G.log(
+			G.getBaseDir() // E:/_code/csngaq/
+		);
+		
 	}
 }
