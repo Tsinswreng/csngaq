@@ -1,4 +1,5 @@
 global using std = System;
+global using u8 = System.Byte;
 global using i32 = System.Int32;
 global using code = System.Int32; // int result
 global using u32 = System.UInt32;

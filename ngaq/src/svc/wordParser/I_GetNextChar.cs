@@ -4,8 +4,9 @@ public interface I_GetNextChar_str{
 	Task<string?> GetNextChar();
 }
 
-public interface I_GetNextChar_byte{
-	Task<byte> GetNextChar();
+public interface I_GetNextChar_i32{
+	// 用 < 0 示空
+	Task<i32> GetNextChar();
 }
 
 /* 

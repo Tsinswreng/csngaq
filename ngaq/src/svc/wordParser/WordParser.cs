@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
 using tools;
 
 namespace ngaq.svc.wordParser;
 
+//靜態多態
 using word = i32;
 
 public class ParseErr : std.Exception{
@@ -61,8 +62,8 @@ public interface I_GetNextChar{
  */
 
 public class WordParser{
-	I_GetNextChar_byte _getNextChar;
-	public WordParser(I_GetNextChar_byte getNextChar){
+	I_GetNextChar_i32 _getNextChar;
+	public WordParser(I_GetNextChar_i32 getNextChar){
 		_getNextChar = getNextChar;
 	}
 	Status _status {get; set;}= new Status();
@@ -88,24 +89,25 @@ public class WordParser{
 		}
 	}
 
-	public Encoding encoding = Encoding.UTF8;
+	public Encoding encoding{get; set;} = Encoding.UTF8;
 
-	public I_DateBlock getCurDateBlock(){
-		if(_status.dateBlocks.Count == 0){
-			error("No date block");
-			return null!;
-		}
-		return _status.dateBlocks[_status.dateBlocks.Count - 1];
-	}
+	// [Obsolete]
+	// public I_DateBlock getCurDateBlock(){
+	// 	if(_status.dateBlocks.Count == 0){
+	// 		error("No date block");
+	// 		return null!;
+	// 	}
+	// 	return _status.dateBlocks[_status.dateBlocks.Count - 1];
+	// }
 
-	public I_WordBlock getCurWordBlock(){
-		var curDateBlock = getCurDateBlock();
-		if(curDateBlock.words.Count == 0){
-			error("No word block"); return null!;
-		}
-		var curWordBlock = curDateBlock.words[curDateBlock.words.Count - 1];
-		return curWordBlock;
-	}
+	// public I_WordBlock getCurWordBlock(){
+	// 	var curDateBlock = getCurDateBlock();
+	// 	if(curDateBlock.words.Count == 0){
+	// 		error("No word block"); return null!;
+	// 	}
+	// 	var curWordBlock = curDateBlock.words[curDateBlock.words.Count - 1];
+	// 	return curWordBlock;
+	// }
 	
 
 	protected async Task<word> GetNextNullableChar(){
@@ -499,11 +501,12 @@ public class WordParser{
 	// 	}
 	// }
 
+	//讀完日期後 、[2024-10-19T15:51:19.877+08:00] 後面
 	public async Task<code> DateBlock_TopSpace(){
 		for(;;){
-			var c = await GetNextNullableChar();
-			var c2 = await GetNextNullableChar();
-			if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF");return 1;}
+			var c = await GetNextChar();
+			var c2 = await GetNextChar();
+			//if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF");return 1;}
 			if(isSpace(c)){
 				continue;
 			}
@@ -518,32 +521,46 @@ public class WordParser{
 		return 0;
 	}
 
+
 	public async Task<I_Prop> ReadProp(){
-		I_StrSegment? key = null;
-		I_StrSegment? value = null;
-		
-		for(;;){
-			switch(state){
-				case WordParseState.Prop:
-					_status.state = WordParseState.PropKey;
-				break;
-				case WordParseState.PropKey:
-					key = await PropKey();
-				break;
-				case WordParseState.PropValue:
-					value = await PropValue(); // -> DateBlock_TopSpace
-				break;
-				case WordParseState.DateBlock_TopSpace: // entry
-					_status.state = WordParseState.DateBlock_date;
-					var ans = new Prop{
-						key = key??throw error("key is null")
-						,value = value??throw error("value is null")
-					};
-					return ans;
-				//break;
-			}
-		}
+		var key = await ReadPropKey();
+		var value = await ReadPropValue();
+		var ans = new Prop{
+			key = key
+			,value = value
+		};
+		return ans;
 	}
+
+	// public async Task<I_Prop> ReadProp(){
+	// 	I_StrSegment? key = null;
+	// 	I_StrSegment? value = null;
+		
+	// 	for(;;){
+	// 		switch(state){
+	// 			case WordParseState.Prop:
+	// 				_status.state = WordParseState.PropKey;
+	// 			break;
+	// 			case WordParseState.PropKey:
+	// 				key = await ReadPropKey();
+	// 			break;
+	// 			case WordParseState.PropValue:
+	// 				value = await ReadPropValue(); // -> DateBlock_TopSpace
+	// 				_status.state = WordParseState.DateBlock_TopSpace;
+	// 			break;
+	// 			case WordParseState.DateBlock_TopSpace: // entry
+	// 				_status.state = WordParseState.DateBlock_date;
+	// 				var ans = new Prop{
+	// 					key = key??throw error("key is null")
+	// 					,value = value??throw error("value is null")
+	// 				};
+	// 				return ans;
+	// 			//break;
+	// 		}
+	// 	}
+	// }
+
+
 
 	// public async Task<I_Prop> Prop_deprecated(){
 	// 	I_StrSegment? key = null;
@@ -573,21 +590,21 @@ public class WordParser{
 
 	//@deprecated
 	//TODO 理則謬
-	public async Task<I_StrSegment> PropValue(){
-		for(;;){
-			var c = await GetNextNullableChar();
-			var c2 = await GetNextNullableChar();
-			if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF"); return null!;}
-			if( eq(c , ']') && eq(c2 , ']') ){
-				_status.buffer.RemoveAt(_status.buffer.Count-1);
-				_status.state = WordParseState.DateBlock_TopSpace;
-				var value = bufferToStrSegment();
-				return value;
-			}
-			_status.buffer.Add(c);
-			_status.buffer.Add(c2);
-		}
-	}
+	// public async Task<I_StrSegment> PropValue(){
+	// 	for(;;){
+	// 		var c = await GetNextNullableChar();
+	// 		var c2 = await GetNextNullableChar();
+	// 		if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF"); return null!;}
+	// 		if( eq(c , ']') && eq(c2 , ']') ){
+	// 			_status.buffer.RemoveAt(_status.buffer.Count-1);
+	// 			_status.state = WordParseState.DateBlock_TopSpace;
+	// 			var value = bufferToStrSegment();
+	// 			return value;
+	// 		}
+	// 		_status.buffer.Add(c);
+	// 		_status.buffer.Add(c2);
+	// 	}
+	// }
 
 
 	public async Task<I_StrSegment> ReadPropValue(){
@@ -596,7 +613,7 @@ public class WordParser{
 		for(;;){
 			var c = await GetNextChar();
 			var c2 = await GetNextChar();
-			if( eq(c , ']') && eq(c2 , ']')){
+			if( eq(c , ']') && eq(c2 , ']') ){
 				//c != "]" 但 c2 == "]" 旹 、buf加入c,c2後、末字符是"]"、則今除㞢
 				buf.RemoveAt(buf.Count-1);
 				var value = new StrSegment{
@@ -635,18 +652,18 @@ public class WordParser{
 	/// @deprecated
 	/// </summary>
 	/// <returns></returns>
-	public async Task<I_StrSegment> PropKey(){
-		for(;;){
-			var c = await GetNextNullableChar();
-			if( isNil(c) ){error("Unexpected EOF"); return null!;}
-			if( eq(c , '|') ){
-				_status.state = WordParseState.PropValue;
-				var key = bufferToStrSegment();
-				return key;
-			}
-			_status.buffer.Add(c);
-		}
-	}
+	// public async Task<I_StrSegment> PropKey(){
+	// 	for(;;){
+	// 		var c = await GetNextNullableChar();
+	// 		if( isNil(c) ){error("Unexpected EOF"); return null!;}
+	// 		if( eq(c , '|') ){
+	// 			_status.state = WordParseState.PropValue;
+	// 			var key = bufferToStrSegment();
+	// 			return key;
+	// 		}
+	// 		_status.buffer.Add(c);
+	// 	}
+	// }
 
 	// public async Task<code> DateBlock_date(){
 	// 	for(;;){
@@ -689,8 +706,8 @@ public class WordParser{
 			switch(metadataStatus){
 				case 0: //<metadata>
 					for(;;){
-						var c = await GetNextNullableChar();
-						if( isNil(c) ){error("Unexpected EOF");return 0;}
+						var c = await GetNextChar();
+						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						_status.buffer.Add(c);
 						if(isSpace(c)){
 							continue;
@@ -705,8 +722,8 @@ public class WordParser{
 				break;
 				case 1:
 					for(;;){
-						var c = await GetNextNullableChar();
-						if( isNil(c) ){error("Unexpected EOF"); return 0;}
+						var c = await GetNextChar();
+						//if( isNil(c) ){error("Unexpected EOF"); return 0;}
 						metadataContent.Add(c);
 						if( eq(c,'{') ){
 							bracesStack.Add(c);
@@ -723,8 +740,8 @@ public class WordParser{
 				case 2: //</metadata>
 					//除ᵣ末大括號到</metadata>間之空白
 					for(;;){
-						var c = await GetNextNullableChar();
-						if( isNil(c) ){error("Unexpected EOF");return 0;}
+						var c = await GetNextChar();
+						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						if(isSpace(c)){
 							continue;
 						}else if( eq(c, '<') ){
@@ -737,8 +754,8 @@ public class WordParser{
 					}
 
 					for(;;){
-						var c = await GetNextNullableChar();
-						if( isNil(c) ){error("Unexpected EOF");return 0;}
+						var c = await GetNextChar();
+						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						_status.buffer.Add(c);
 						if( eq(c , '>') ){
 							_status.buffer.Add(c);
@@ -792,16 +809,6 @@ public class WordParser{
 		}
 		return false;
 	}
-
-	// public bool chk_metadataEnd(){
-	// 	var ans = false;
-	// 	var buf = _status.buffer;
-	// 	if(isMetadataEnd(buf)){
-	// 		ans = true;
-	// 	}
-	// 	buf.Clear();
-	// 	return ans;
-	// }
 
 	public bool isMetadataEnd(IList<word> buffer){
 		if(buffer.Count == Tokens.e_metadataTag.Length){

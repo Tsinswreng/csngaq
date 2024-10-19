@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ngaq.svc.wordParser;
 
-public class NextCharReader: I_GetNextChar_str, IDisposable{
+public class NextCharReader: I_GetNextChar_i32, IDisposable{
 	
 	public str path{get; set;}
 	public Encoding encoding{get; set;} = Encoding.UTF8;
@@ -26,13 +26,13 @@ public class NextCharReader: I_GetNextChar_str, IDisposable{
 		
 	}
 
-	public async Task<str?> GetNextChar(){
+	public async Task<i32> GetNextChar(){
 		
 		while( (_byteRead = await fs.ReadAsync(_buffer, 0, 1)) > 0 ){
 			char c = encoding.GetChars(_buffer)[0];
-			return c.ToString();
+			return c;
 		}
-		return null;
+		return -1;
 	}
 
 	public void Dispose(){
