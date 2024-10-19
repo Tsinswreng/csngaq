@@ -8,7 +8,6 @@ public class UnitTest1{
 	[Fact]
 	public async Task Test1(){
 		System.Console.OutputEncoding = System.Text.Encoding.UTF8;
-		await AsyncFileReader._Main();
-		
+		await test.parser.TestNextCharReader._Main();
 	}
 }

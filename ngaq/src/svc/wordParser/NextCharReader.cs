@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 
 using word = byte;
+using Chunk = System.ArraySegment<byte>; // 其Count是數組片段之長、非內部數組之長。
 
 namespace ngaq.svc.wordParser;
 
@@ -30,6 +31,10 @@ public class NextCharReader: I_GetNextChar_i32, IDisposable{
 
 	public i32 bufferSize{get; set;} = 0x1000;
 
+	public i32 pos{get; set;} = 0;
+	public Chunk curChunk{get; set;} = default;
+	public i32 chunkPos{get; set;} = 0;//下次將讀取的位置
+
 	//public word[] buffer{get; set;}
 
 
@@ -40,44 +45,49 @@ public class NextCharReader: I_GetNextChar_i32, IDisposable{
 	}
 
 
-	public async Task<byte[]> ReadNextChunk(){
+	public async Task< Chunk > ReadNextChunk(){
 		byte[] buffer = new byte[bufferSize];
 		i32 bytesRead = await fs.ReadAsync(buffer, 0, bufferSize);
 		if(bytesRead <= 0){
-			return [];
+			return default; //Array=null, Count=0, Offset=0
 		}
-		//TODO
-		return null;
+		//  return buffer.Take(bytesRead).ToArray(); // 只返回已读取的数据
+		return new Chunk(buffer, 0, bytesRead);
 	}
 
 
 	//example
-	public static async IAsyncEnumerable<byte[]> ReadFileAsync
-	(
-		string filePath
-		, int bufferSize
-		, CancellationToken cancellationToken = default
-	){
-		using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize, true);
+	// public static async IAsyncEnumerable<byte[]> ReadFileAsync
+	// (
+	// 	string filePath
+	// 	, int bufferSize
+	// 	, CancellationToken cancellationToken = default
+	// ){
+	// 	using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize, true);
 
-		byte[] buffer = new byte[bufferSize];
-		int bytesRead;
+	// 	byte[] buffer = new byte[bufferSize];
+	// 	int bytesRead;
 
-		while ((bytesRead = await fileStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0){
-			// 创建一个新数组，并将读取到的数据复制到其中
-			var data = new byte[bytesRead];
-			Array.Copy(buffer, data, bytesRead);
-			yield return data;
-		}
-	}
+	// 	while ((bytesRead = await fileStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0){
+	// 		// 创建一个新数组，并将读取到的数据复制到其中
+	// 		var data = new byte[bytesRead];
+	// 		Array.Copy(buffer, data, bytesRead);
+	// 		yield return data;
+	// 	}
+	// }
 
 	public async Task<i32> GetNextChar(){
-		
-		while( (_byteRead = await fs.ReadAsync(_buffer, 0, 1)) > 0 ){
-			char c = encoding.GetChars(_buffer)[0];
-			return c;
+		if(chunkPos >= curChunk.Count){
+			curChunk = await ReadNextChunk();
+			chunkPos = 0;
 		}
-		return -1;
+		if(chunkPos >= curChunk.Count){
+			return -1; // EOF
+		}
+		var ans = curChunk[chunkPos];
+		chunkPos++;
+		pos++;
+		return ans;
 	}
 
 	public void Dispose(){

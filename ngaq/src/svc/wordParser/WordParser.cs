@@ -553,7 +553,7 @@ public class WordParser{
 							if(isMetadataEnd(_status.buffer)){
 								//_status.metadataBuf = metadataContent;
 								parseMetadataBuffer(metadataContent);
-								_status.stack.Pop();
+								//_status.stack.Pop();
 								_status.state = WordParseState.TopSpace;
 								return 0;
 								//break;
