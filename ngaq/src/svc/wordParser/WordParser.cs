@@ -180,7 +180,7 @@ public class WordParser{
 	public async Task<IList<I_DateBlock>> Parse(){
 		IList<I_DateBlock> ans = new List<I_DateBlock>();
 		for(;;){
-			//G.log(state.ToString());//t
+			G.log(state.ToString());//t
 			switch(_status.state){
 				case WordParseState.Start:
 					await Start(); // -> TopSpace
@@ -496,23 +496,21 @@ public class WordParser{
 		var bracesStack = new List<word>(); //元數據內json之大括號
 		var metadataContent = new List<word>();
 		for(;;){
-			//G.log(metadataStatus);//t
 			switch(metadataStatus){
 				case 0: //<metadata>
 					for(var j = 0; ;j++){
 						var c = await GetNextChar();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						buffer.Add(c);
-
-						if(j<100){
-							G.log(bufToStr(buffer));//t
-						}
-
+						// if(j<100){
+						// 	G.log(bufToStr(buffer));//t
+						// }
 						if( eq(c , '>') ){
-							buffer.Add(c);
-							if(chk_metadataStart()){ // joined buffer is <metadata>
+							if(chk_metadataStartEtClr()){ // joined buffer is <metadata>
 								metadataStatus = 1;
 								break;
+							}else{
+								error("Unexpected character\n");
 							}
 						}
 					}
@@ -526,10 +524,13 @@ public class WordParser{
 							bracesStack.Add(c);
 						}else if( eq(c, '}') ){
 							if(bracesStack.Count == 0){
-								metadataStatus = 2;
-								break;
+								error("metadata content is not valid json"); //大括號不配對
 							}else{
 								bracesStack.RemoveAt(bracesStack.Count-1);
+								if(bracesStack.Count == 0){
+									metadataStatus = 2;
+									break;
+								}
 							}
 						}
 					}
@@ -542,7 +543,7 @@ public class WordParser{
 						if(isSpace(c)){
 							continue;
 						}else if( eq(c, '<') ){
-							_status.buffer.Add(c);
+							buffer.Add(c);
 							break;
 						}else{
 							error("Unexpected character");
@@ -553,9 +554,8 @@ public class WordParser{
 					for(;;){
 						var c = await GetNextChar();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
-						_status.buffer.Add(c);
+						buffer.Add(c);
 						if( eq(c , '>') ){
-							_status.buffer.Add(c);
 							if(isMetadataEnd(_status.buffer)){
 								//_status.metadataBuf = metadataContent;
 								parseMetadataBuffer(metadataContent);
@@ -587,7 +587,7 @@ public class WordParser{
 		return false;
 	}
 
-	public bool chk_metadataStart(){
+	public bool chk_metadataStartEtClr(){
 		var ans = false;
 		var buf = buffer;
 		if(isMetadataStart(buf)){
@@ -598,9 +598,9 @@ public class WordParser{
 	}
 
 	public bool isMetadataStart(IList<word> buf){
-		G.log(bufToStr(buf), "isMetadataStart");//t
 		if(buf.Count == Tokens.s_metadataTag.Length){
 			var joined = bufToStr(buf);
+			
 			if( eq(joined , Tokens.s_metadataTag) ){
 				return true;
 			}

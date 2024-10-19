@@ -8,7 +8,7 @@ public class UnitTest1{
 	[Fact]
 	public async Task Test1(){
 		System.Console.OutputEncoding = System.Text.Encoding.UTF8;
-		//await test.parser.TestWordParser._Main();
+		await test.parser.TestWordParser._Main();
 		System.Console.WriteLine("________________");
 	}
 }
