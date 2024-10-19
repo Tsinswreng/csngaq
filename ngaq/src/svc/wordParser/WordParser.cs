@@ -114,7 +114,7 @@ public class WordParser{
 			state = WordParseState.End;
 			return ans;
 		}
-		if( eq(ans , "\n") ){
+		if( eq(ans , '\n') ){
 			pos.line++;
 			pos.col = 0;
 		}
@@ -132,6 +132,7 @@ public class WordParser{
 		return c;
 	}
 
+	//編寫期多態
 	public bool eq(str s1, str s2){
 		return s1 == s2;
 	}
@@ -216,11 +217,11 @@ public class WordParser{
 			}
 			if(isSpace(c)){
 				continue;
-			}else if( eq(c , "<") ){
+			}else if( eq(c , '<') ){
 				state = WordParseState.Metadata;
 				_status.stack.Push(WordParseState.Metadata);
 				break;
-			}else if( eq(c , "[") ){
+			}else if( eq(c , '[') ){
 				state = WordParseState.DateBlock;
 				_status.stack.Push(WordParseState.DateBlock);
 				break;
@@ -282,7 +283,7 @@ public class WordParser{
 		var start = _status.pos;
 		for(;;){
 			var c = await GetNextChar();
-			if( eq(c , "\n")){
+			if( eq(c , '\n')){
 				//state = WordParseState.RestOfWordBlock;
 				var ans = new StrSegment{
 					start = start
@@ -306,7 +307,7 @@ public class WordParser{
 	public async Task<I_StrSegment> WordBlockBody(){
 		for(;;){
 			var c = await GetNextChar();
-			if( eq(c , "[") ){
+			if( eq(c , '[') ){
 				state = WordParseState.FirstLeftSquareBracketInWordBlockProp;
 				return bufferToStrSegment();
 			}else if(c == _status.headOfWordDelimiter){
