@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using tools;
 
 namespace ngaq.svc.wordParser;
-
-using word = i32;
 
 public class ParseErr : std.Exception{
 	public ParseErr(str msg):base(msg){
@@ -36,17 +33,17 @@ class Status{
 
 	public Stack<WordParseState> stack {get; set;} = new();
 
-	public word curChar {get; set;} = default;
+	public str curChar {get; set;} = "";
 
-	public IList<word> buffer {get; set;} = new List<word>();
+	public IList<str> buffer {get; set;} = new List<str>();
 
-	public IList<word> metadataBuf {get; set;} = new List<word>();
+	public IList<str> metadataBuf {get; set;} = new List<str>();
 
 	public WordListTxtMetadata? metadata{get; set;}
 
 	public IList<I_DateBlock> dateBlocks {get; set;} = new List<I_DateBlock>();
 
-	public word headOfWordDelimiter{get;set;} = default;
+	public str headOfWordDelimiter{get;set;} = "";
 
 }
 
@@ -61,9 +58,9 @@ public interface I_GetNextChar{
  */
 
 public class WordParser{
-	I_GetNextChar_byte _getNextChar;
-	public WordParser(I_GetNextChar_byte getNextChar){
-		_getNextChar = getNextChar;
+	I_GetNextChar_str _GetNextChar;
+	public WordParser(I_GetNextChar_str getNextChar){
+		_GetNextChar = getNextChar;
 	}
 	Status _status {get; set;}= new Status();
 
@@ -82,13 +79,11 @@ public class WordParser{
 		}
 	}
 
-	public IList<word> buffer{
+	public IList<str> buffer{
 		get{
 			return _status.buffer;
 		}
 	}
-
-	public Encoding encoding = Encoding.UTF8;
 
 	public I_DateBlock getCurDateBlock(){
 		if(_status.dateBlocks.Count == 0){
@@ -108,13 +103,13 @@ public class WordParser{
 	}
 	
 
-	protected async Task<word> GetNextNullableChar(){
-		var ans = await _getNextChar.GetNextChar();
-		if(ans < 0){
+	protected async Task<str?> GetNextNullableChar(){
+		var ans = await _GetNextChar.GetNextChar();
+		if(ans == null){
 			state = WordParseState.End;
-			return ans;
+			return null;
 		}
-		if( eq(ans , "\n") ){
+		if(ans == "\n"){
 			pos.line++;
 			pos.col = 0;
 		}
@@ -123,27 +118,16 @@ public class WordParser{
 		return ans;
 	}
 
-	public async Task<word> GetNextChar(){
+	public async Task<str> GetNextChar(){
 		var c = await GetNextNullableChar();
-		if(c < 0){
+		if(c == null){
 			error("Unexpected EOF");
-			return c;
+			return "";
 		}
 		return c;
 	}
 
 	public bool eq(str s1, str s2){
-		return s1 == s2;
-	}
-
-	public bool eq(word s1, str s2){
-		if(s2.Length > 1){
-			return false;
-		}
-		return s1 == s2[0];
-	}
-
-	public bool eq(word s1, char s2){
 		return s1 == s2;
 	}
 
@@ -154,7 +138,7 @@ public class WordParser{
 	/// <returns></returns>
 	public I_StrSegment bufferToStrSegment(){
 		var start = _status.pos - _status.buffer.Count;
-		var text = bufToStr(_status.buffer);
+		var text = string.Join("", _status.buffer);
 		_status.buffer.Clear();
 		return new StrSegment{
 			start = start
@@ -163,8 +147,8 @@ public class WordParser{
 	}
 
 
-	public code parseMetadataBuffer(IList<word> buffer){
-		var txt = bufToStr(buffer);
+	public code parseMetadataBuffer(IList<str> buffer){
+		var txt = string.Join("", buffer);
 		var obj = WordListTxtMetadata.Parse(txt);
 		if(obj == null){
 			error("Invalid metadata");return 1;
@@ -173,7 +157,7 @@ public class WordParser{
 		if(obj.delimiter == null || obj.delimiter.Length == 0){
 			error("Invalid delimiter");return 1;
 		}
-		_status.headOfWordDelimiter = obj.delimiter[0];
+		_status.headOfWordDelimiter = obj.delimiter[0].ToString();
 		return 0;
 	}
 
@@ -210,7 +194,7 @@ public class WordParser{
 	public async Task<i32> TopSpace(){
 		for(;;){
 			var c = await GetNextNullableChar();
-			if(c < 0){
+			if(c == null){
 				state = WordParseState.End;
 				return 0;
 			}
@@ -257,28 +241,11 @@ public class WordParser{
 		//return 0;
 	}
 
-	public string bufToStr(IList<word> buf){
-		var encoding = this.encoding;
-		//word 是int的別名、幫我實現這個方法。
-		if(buf.Count == 0){
-			return "";
-		}
-		var bytes = new byte[buf.Count];
-		for (int i = 0; i < buf.Count; i++){
-			// 检查是否超出 byte 的范围 (0-255)
-			if (buf[i] < 0 || buf[i] > 255){
-				throw new std.ArgumentOutOfRangeException(nameof(buf), $"Word value {buf[i]} is out of range for byte.");
-			}
-			bytes[i] = (byte)buf[i];
-		}
-		return encoding.GetString(bytes);
-	}
-
 
 	/// 第一行不得寫prop; 將被trim
 	/// state -> RestOfWordBlock
 	public async Task<I_StrSegment> ReadWordBlockFirstLine(){
-		var buf = new List<word>();
+		var buf = new List<str>();
 		var start = _status.pos;
 		for(;;){
 			var c = await GetNextChar();
@@ -286,7 +253,7 @@ public class WordParser{
 				//state = WordParseState.RestOfWordBlock;
 				var ans = new StrSegment{
 					start = start
-					,text = bufToStr(buf)
+					,text = string.Join("", buf)
 				};
 				return ans;
 			}
@@ -294,7 +261,7 @@ public class WordParser{
 	}
 
 	// public code chkUnexpectedEOF(str? c){
-	// 	if( isNil(c) ){
+	// 	if(c == null){
 	// 		error("Unexpected EOF");
 	// 		return 1;
 	// 	}
@@ -365,7 +332,7 @@ public class WordParser{
 		var delimiter = G.nn(_status?.metadata?.delimiter);
 		for(var i = 1;i < delimiter.Length;i++){
 			var c = await GetNextChar();
-			if( !eq(c , delimiter[i]) ){
+			if(c != delimiter[i].ToString()){
 				state = WordParseState.RestOfWordBlock; // not delimiter, deem as word body
 				return 0;
 			}
@@ -450,7 +417,7 @@ public class WordParser{
 	// 	// 		case 0: // 正文
 	// 	// 			for(;;){
 	// 	// 				var c = await GetNextChar();
-	// 	// 				if( isNil(c) ){error("Unexpected EOF");return 1;}
+	// 	// 				if(c == null){error("Unexpected EOF");return 1;}
 	// 	// 				if(c == "}"){ // }}
 	// 	// 					tempState = 1;
 	// 	// 					break;
@@ -467,7 +434,7 @@ public class WordParser{
 	// 	// 		case 1: // 已讀第一個大括號
 	// 	// 			for(;;){
 	// 	// 				var c = await GetNextChar();
-	// 	// 				if( isNil(c) ){error("Unexpected EOF");return 1;}
+	// 	// 				if(c == null){error("Unexpected EOF");return 1;}
 	// 	// 				if(c == "}"){
 	// 	// 					state = WordParseState.TopSpace;
 	// 	// 					break;
@@ -488,7 +455,7 @@ public class WordParser{
 	// 	delimiterBuffer.Add(_status.curChar);//先加上當前字元 潙delimiter之首字符
 	// 	for(;;){
 	// 		var c = await GetNextChar();
-	// 		if( isNil(c) ){error("Unexpected EOF");return false;}
+	// 		if(c == null){error("Unexpected EOF");return false;}
 	// 		if(delimiterBuffer.Count == G.nn(_status?.metadata?.delimiter?.Length)){
 	// 			var joined = string.Join("", delimiterBuffer);
 	// 			if(joined == _status.metadata.delimiter){
@@ -502,14 +469,14 @@ public class WordParser{
 		for(;;){
 			var c = await GetNextNullableChar();
 			var c2 = await GetNextNullableChar();
-			if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF");return 1;}
+			if(c == null || c2 == null){error("Unexpected EOF");return 1;}
 			if(isSpace(c)){
 				continue;
 			}
-			if( eq(c , '[') && eq(c2 , '[')){
+			if( eq(c , "[") && eq(c2 , "[")){
 				_status.state = WordParseState.Prop;
 				break;
-			}else if( eq(c , '{') && eq(c2 , '{')){
+			}else if( eq(c , "{") && eq(c2 , "{")){
 				_status.state = WordParseState.WordBlock;
 				break;
 			}
@@ -576,8 +543,8 @@ public class WordParser{
 		for(;;){
 			var c = await GetNextNullableChar();
 			var c2 = await GetNextNullableChar();
-			if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF"); return null!;}
-			if( eq(c , ']') && eq(c2 , ']') ){
+			if(c == null || c2 == null){error("Unexpected EOF"); return null!;}
+			if( eq(c , "]") && eq(c2 , "]") ){
 				_status.buffer.RemoveAt(_status.buffer.Count-1);
 				_status.state = WordParseState.DateBlock_TopSpace;
 				var value = bufferToStrSegment();
@@ -591,16 +558,16 @@ public class WordParser{
 
 	public async Task<I_StrSegment> ReadPropValue(){
 		var start = _status.pos;
-		var buf = new List<word>();
+		var buf = new List<str>();
 		for(;;){
 			var c = await GetNextChar();
 			var c2 = await GetNextChar();
-			if( eq(c , ']') && eq(c2 , ']')){
+			if( eq(c , "]") && eq(c2 , "]")){
 				//c != "]" 但 c2 == "]" 旹 、buf加入c,c2後、末字符是"]"、則今除㞢
 				buf.RemoveAt(buf.Count-1);
 				var value = new StrSegment{
 					start = start
-					,text = bufToStr(buf)
+					,text = string.Join("", buf)
 				};
 				return value;
 			}
@@ -615,11 +582,11 @@ public class WordParser{
 /// <returns></returns>
 	public async Task<I_StrSegment> ReadPropKey(){
 		var start = _status.pos;
-		var buf = new List<word>();
+		var buf = new List<str>();
 		for(;;){
 			var c = await GetNextChar();
-			if( eq(c , '|') ){
-				var joined = bufToStr(buf);
+			if( eq(c , "|") ){
+				var joined = string.Join("", buf);
 				var key = new StrSegment{
 					start = start
 					,text = joined
@@ -637,8 +604,8 @@ public class WordParser{
 	public async Task<I_StrSegment> PropKey(){
 		for(;;){
 			var c = await GetNextNullableChar();
-			if( isNil(c) ){error("Unexpected EOF"); return null!;}
-			if( eq(c , '|') ){
+			if(c == null){error("Unexpected EOF"); return null!;}
+			if( eq(c , "|") ){
 				_status.state = WordParseState.PropValue;
 				var key = bufferToStrSegment();
 				return key;
@@ -650,7 +617,7 @@ public class WordParser{
 	// public async Task<code> DateBlock_date(){
 	// 	for(;;){
 	// 		var c = await GetNextNullableChar();
-	// 		if( isNil(c) ){error("Unexpected EOF");return 1;}
+	// 		if(c == null){error("Unexpected EOF");return 1;}
 	// 		if(c == "]"){
 	// 			var date = bufferToStrSegment();
 	// 			var dateBlock = new DateBlock{
@@ -665,13 +632,6 @@ public class WordParser{
 	// 	return 0;
 	// }
 
-	public bool isNil(word s){
-		if(s < 0){
-			return true;
-		}
-		return false;
-	}
-
 	public std.Exception error(str msg){
 		var ex = new ParseErr(msg);
 		ex.pos = _status.pos;
@@ -682,18 +642,18 @@ public class WordParser{
 	public async Task<code> Metadata(){
 		_status.buffer.Add(_status.curChar); // <
 		var metadataStatus = 0; //0:<metadata>; 1:content; 2:</metadata>
-		var bracesStack = new List<word>(); //元數據內json之大括號
-		var metadataContent = new List<word>();
+		var bracesStack = new List<str>(); //元數據內json之大括號
+		var metadataContent = new List<str>();
 		for(;;){
 			switch(metadataStatus){
 				case 0: //<metadata>
 					for(;;){
 						var c = await GetNextNullableChar();
-						if( isNil(c) ){error("Unexpected EOF");return 0;}
+						if(c == null){error("Unexpected EOF");return 0;}
 						_status.buffer.Add(c);
 						if(isSpace(c)){
 							continue;
-						}else if( eq(c , '>') ){
+						}else if( eq(c , ">") ){
 							_status.buffer.Add(c); 
 							if(chk_metadataStart()){ // joined buffer is <metadata>
 								metadataStatus = 1;
@@ -705,11 +665,11 @@ public class WordParser{
 				case 1:
 					for(;;){
 						var c = await GetNextNullableChar();
-						if( isNil(c) ){error("Unexpected EOF"); return 0;}
+						if(c == null){error("Unexpected EOF"); return 0;}
 						metadataContent.Add(c);
-						if( eq(c,'{') ){
+						if( eq(c,"{") ){
 							bracesStack.Add(c);
-						}else if( eq(c, '}') ){
+						}else if( eq(c, "}") ){
 							if(bracesStack.Count == 0){
 								metadataStatus = 2;
 								break;
@@ -723,10 +683,10 @@ public class WordParser{
 					//除ᵣ末大括號到</metadata>間之空白
 					for(;;){
 						var c = await GetNextNullableChar();
-						if( isNil(c) ){error("Unexpected EOF");return 0;}
+						if(c == null){error("Unexpected EOF");return 0;}
 						if(isSpace(c)){
 							continue;
-						}else if( eq(c, '<') ){
+						}else if( eq(c, "<") ){
 							_status.buffer.Add(c);
 							break;
 						}else{
@@ -737,9 +697,9 @@ public class WordParser{
 
 					for(;;){
 						var c = await GetNextNullableChar();
-						if( isNil(c) ){error("Unexpected EOF");return 0;}
+						if(c == null){error("Unexpected EOF");return 0;}
 						_status.buffer.Add(c);
-						if( eq(c , '>') ){
+						if( eq(c , ">") ){
 							_status.buffer.Add(c);
 							if(isMetadataEnd(_status.buffer)){
 								//_status.metadataBuf = metadataContent;
@@ -764,14 +724,6 @@ public class WordParser{
 		return false;
 	}
 
-	public bool isSpace(word s){
-		if( eq(s , ' ') ){return true;}
-		if( eq(s , '\t') ){return true;}
-		if( eq(s , '\n') ){return true;}
-		if( eq(s , '\r') ){return true;}
-		return false;
-	}
-
 	public bool chk_metadataStart(){
 		var ans = false;
 		var buf = _status.buffer;
@@ -782,10 +734,10 @@ public class WordParser{
 		return ans;
 	}
 
-	public bool isMetadataStart(IList<word> buffer){
+	public static bool isMetadataStart(IList<str> buffer){
 		if(buffer.Count == Tokens.s_metadataTag.Length){
-			var joined = bufToStr(buffer);
-			if( eq(joined , Tokens.s_metadataTag) ){
+			var joined = string.Join("", buffer);
+			if(joined == Tokens.s_metadataTag){
 				return true;
 			}
 		}
@@ -802,10 +754,10 @@ public class WordParser{
 	// 	return ans;
 	// }
 
-	public bool isMetadataEnd(IList<word> buffer){
+	public bool isMetadataEnd(IList<str> buffer){
 		if(buffer.Count == Tokens.e_metadataTag.Length){
-			var joined = bufToStr(buffer);
-			if(eq(joined , Tokens.e_metadataTag)){
+			var joined = string.Join("", buffer);
+			if(joined == Tokens.e_metadataTag){
 				return true;
 			}
 		}
