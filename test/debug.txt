@@ -1,0 +1,985 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+E:\_code\csngaq\ngaq\GlobalUsing.cs(1,14): warning CS8981: 类型名称 "std" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\GlobalUsing.cs(4,14): warning CS8981: 类型名称 "code" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\GlobalUsing.cs(10,14): warning CS8981: 类型名称 "str" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\GlobalUsing.cs(11,14): warning CS8981: 类型名称 "unknown" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\GlobalUsing.cs(12,14): warning CS8981: 类型名称 "any" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\src\svc\wordParser\NextCharReader.cs(14,7): warning CS8981: 类型名称 "word" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(11,7): warning CS8981: 类型名称 "word" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\src\svc\wordParser\BinaryBufReader.cs(12,47): warning CS8425: 异步迭代器“AsyncFileReader.ReadFileAsync(string, int, CancellationToken)”具有一个或多个类型为 "CancellationToken" 的参数，但它们都未用 "EnumeratorCancellation" 属性修饰，因此将不使用所生成的 "IAsyncEnumerable<>.GetAsyncEnumerator" 中的取消令牌参数 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\src\svc\wordParser\ParseResult.cs(20,9): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "key" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\src\svc\wordParser\ParseResult.cs(20,9): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "value" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\src\svc\wordParser\ParseResult.cs(53,9): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "head" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\src\svc\wordParser\ParseResult.cs(34,9): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "date" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(254,25): warning CS1998: 此异步方法缺少 "await" 运算符，将以同步方式运行。请考虑使用 "await" 运算符等待非阻止的 API 调用，或者使用 "await Task.Run(...)" 在后台线程上执行占用大量 CPU 的工作。 [E:\_code\csngaq\ngaq\ngaq.csproj]
+  ngaq -> E:\_code\csngaq\ngaq\bin\Debug\net8.0\ngaq.dll
+  test -> E:\_code\csngaq\test\bin\Debug\net8.0\test.dll
+E:\_code\csngaq\test\bin\Debug\net8.0\test.dll (.NETCoreApp,Version=v8.0)的测试运行
+VSTest 版本 17.11.0 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+E:\_code\csngaq\test\bin\Debug\net8.0\test.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.8)
+[xUnit.net 00:00:00.07]   Discovering: test
+[xUnit.net 00:00:00.10]   Discovered:  test
+[xUnit.net 00:00:00.10]   Starting:    test
+t e
+e s
+s t
+t _
+_ s
+s o
+o u
+u r
+r c
+c e
+e ]
+] ]
+t e
+e s
+s t
+t _
+_ t
+t a
+a g
+g ]
+] ]
+155 (10,2)
+155 (10,2)
+161 (12,1)
+169 (13,0)
+170 (13,1)
+171 (13,2)
+182 (14,6)
+183 (14,7)
+202 (15,6)
+203 (15,7)
+344 (19,1)
+345 (19,2)
+t ¼
+e 
+s æ
+t ­
+_ ¡
+a æ
+n 
+n ¶
+o 
+t 
+a ç
+t ½
+i 
+o ç
+n µ
+] ¡
+] 	
+ ¶
+[ ç
+[ ¥
+t 
+a ï
+g ¼
+| 
+t æ
+e ­
+s ¡
+t å
+_ 
+t ¼
+a ï
+g ¼
+1 
+] å
+] 
+ æ
+ 
+[ 
+[ 
+t 
+a `
+g `
+| `
+t `
+e 
+s 
+t 
+_ 
+t `
+a s
+g p
+2 e
+] `
+] 
+ æ
+æ ¸
+¸ ¬
+¬ è
+è ©
+© ¦
+¦ é
+é 
+ 
+ å
+å ®
+® 
+ æ
+æ 
+ ´
+´ å
+å 
+ 
+ é
+é 
+ 
+ ç
+ç ¬
+¬ ¦
+¦ 
+ `
+` `
+` `
+` `
+` 
+ `
+` `
+` `
+` s
+s p
+p e
+e `
+` `
+` `
+` 
+ æ
+æ ¸
+¸ ¬
+¬ è
+è ©
+© ¦
+¦ é
+é 
+ 
+ å
+å ®
+® 
+ æ
+æ 
+ ´
+´ å
+å 
+ 
+ é
+é 
+ 
+ ç
+ç ¬
+¬ ¦
+¦ 2
+2 
+ `
+` `
+` `
+` `
+` 
+ [
+[ {
+{ 
+ æ
+æ ¸
+¸ ¬
+¬ è
+è ©
+© ¦
+¦ ç
+ç 
+ ¹
+¹ æ
+æ ®
+® 
+ ç
+ç ¬
+¬ ¦
+¦ è
+è 
+ 
+ 1
+1 
+ `
+` `
+` `
+` `
+` 
+ }
+} ]
+] 
+ æ
+æ ¸
+¸ ¬
+¬ è
+è ©
+© ¦
+¦ ç
+ç 
+ ¹
+¹ æ
+æ ®
+® 
+ ç
+ç ¬
+¬ ¦
+¦ è
+è 
+ 
+ 2
+2 
+ `
+` `
+` `
+` `
+` 
+ `
+` `
+` `
+` `
+` 
+ `
+` `
+` `
+` `
+` 
+ }
+} }
+} 
+ [
+[ 2
+2 0
+0 2
+2 5
+5 -
+- 1
+1 0
+0 -
+- 2
+2 0
+0 T
+T 1
+1 1
+1 :
+: 0
+0 2
+2 :
+: 0
+0 7
+7 .
+. 3
+3 4
+4 6
+6 +
++ 0
+0 8
+8 :
+: 0
+0 0
+0 ]
+] 
+ {
+{ {
+{ 
+ `
+` `
+` `
+` `
+` 
+ c
+c r
+r u
+u n
+n c
+c h
+h  
+  t
+t i
+i m
+m e
+e 
+ è
+è 
+ ±
+±  
+  [
+[ Ë
+Ë 
+ k
+k r
+r Ê
+Ê 
+ n
+n t
+t Ê
+Ê 
+  
+  t
+t a
+a É
+É ª
+ª m
+m ]
+] ç
+ç ¾
+¾ 
+  
+  [
+[ Ë
+Ë 
+ k
+k r
+r Ê
+Ê 
+ n
+n t
+t Ê
+Ê 
+  
+  t
+t a
+a É
+É ª
+ª m
+m ]
+] 
+ é
+é 
+ 
+ é
+é 
+ µ
+µ æ
+æ 
+ 
+ å
+å 
+ »
+» æ
+æ 
+ 
+ é
+é 
+ 
+ é
+é 
+ µ
+µ æ
+æ 
+ 
+ æ
+æ 
+ 
+ ï
+ï ¼
+¼ 
+ æ
+æ ¯
+¯ 
+ å
+å ¦
+¦ 
+ å
+å 
+ ¨
+¨ æ
+æ ¯
+¯ 
+ è
+è ³
+³ ½
+½ æ
+æ 
+ ¥
+¥ è
+è ¿
+¿ 
+ ç
+ç µ
+µ 
+ æ
+æ 
+ 
+ æ
+æ 
+ 
+ ï
+ï ¼
+¼ 
+ ï
+ï ¼
+¼ 
+ é
+é 
+ 
+ è
+è ¦
+¦ 
+ é
+é 
+ 
+ å
+å 
+ 
+ æ
+æ ±
+± º
+º å
+å ®
+® 
+ æ
+æ 
+ §
+§ ç
+ç 
+ 
+ è
+è ¡
+¡ 
+ å
+å 
+ 
+ 
+ `
+` `
+` `
+` `
+` 
+ a
+a r
+r i
+i t
+t h
+h m
+m e
+e t
+t i
+i c
+c 
+ ç
+ç ¾
+¾ 
+ :
+:  
+  [
+[ É
+É 
+ Ë
+Ë 
+ r
+r É
+É ª
+ª Î
+Î ¸
+¸ m
+m É
+É 
+ t
+t É
+É ª
+ª k
+k ]
+] 
+ è
+è 
+ ±
+± :
+:  
+  [
+[ .
+. Ã
+Ã ¦
+¦ r
+r É
+É ª
+ª Î
+Î ¸
+¸ '
+' m
+m e
+e t
+t É
+É ª
+ª k
+k ]
+] 
+ n
+n .
+. 	
+	 ç
+ç ®
+® 
+ è
+è ¡
+¡ 
+ ï
+ï ¼
+¼ 
+ ç
+ç ®
+® 
+ è
+è ¡
+¡ 
+ é
+é 
+ 
+ ç
+ç ®
+® 
+ ï
+ï ¼
+¼ 
+ å
+å 
+ 
+ å
+å 
+ 
+ é
+é 
+ 
+ ç
+ç ®
+® 
+ 
+ ç
+ç ½
+½ 
+ ç
+ç µ
+µ ¡
+¡ 	
+	 ç
+ç ®
+® 
+ æ
+æ ³
+³ 
+ ï
+ï ¼
+¼ 
+ è
+è ¨
+¨ 
+ ç
+ç ®
+® 
+ ï
+ï ¼
+¼ 
+ ç
+ç ®
+® 
+ æ
+æ 
+ ¸
+¸ 
+ `
+` `
+` `
+` `
+` 
+ s
+s e
+e g
+g f
+f a
+a u
+u l
+l t
+t 
+ n
+n .
+.  
+  æ
+æ ®
+® µ
+µ é
+é 
+ ¯
+¯ è
+è ª
+ª ¤
+¤ ï
+ï ¼
+¼ 
+ ä
+ä ¸
+¸ 
+ ç
+ç §
+§ 
+ è
+è ¨
+¨ 
+ ç
+ç ®
+® 
+ æ
+æ 
+ º
+º ç
+ç ¨
+¨ 
+ å
+å º
+º 
+ é
+é 
+ ¯
+¯ è
+è ª
+ª ¤
+¤ ï
+ï ¼
+¼ 
+ ç
+ç 
+ ¶
+¶ ç
+ç ¨
+¨ 
+ å
+å º
+º 
+ è
+è ©
+© ¦
+¦ å
+å 
+ 
+ è
+è ¨
+¨ ª
+ª å
+å 
+ 
+ å
+å 
+ ¶
+¶ æ
+æ 
+ ª
+ª è
+è ¢
+¢ «
+« æ
+æ 
+ 
+ æ
+æ ¬
+¬ 
+ è
+è ¨
+¨ ª
+ª å
+å 
+ 
+ ç
+ç 
+ 
+ å
+å 
+ §
+§ å
+å ­
+­ 
+ å
+å 
+ 
+ å
+å 
+ 
+ æ
+æ 
+ 
+ ç
+ç 
+ ¼
+¼ ç
+ç 
+ 
+ ã
+ã 
+ 
+ é
+é 
+ 
+ å
+å ¸
+¸ ¸
+¸ æ
+æ 
+ ¯
+¯ ç
+ç 
+ ±
+± ä
+ä º
+º 
+ ç
+ç ¨
+¨ 
+ å
+å º
+º 
+ ä
+ä ¸
+¸ ­
+­ ç
+ç 
+ 
+ é
+é 
+ ¯
+¯ è
+è ª
+ª ¤
+¤ å
+å ¼
+¼ 
+ è
+è µ
+µ ·
+· ç
+ç 
+ 
+ ï
+ï ¼
+¼ 
+ å
+å ¦
+¦ 
+ æ
+æ 
+ 
+ é
+é 
+ 
+ é
+é 
+ ¯
+¯ è
+è ª
+ª ¤
+¤ ã
+ã 
+ 
+ æ
+æ 
+ ¸
+¸ ç
+ç µ
+µ 
+ è
+è ¶
+¶ 
+ ç
+ç 
+ 
+ ç
+ç ­
+­ 
+ ã
+ã 
+ 
+ 
+ `
+` `
+` `
+` `
+` 
+ }
+} }
+} 
+ [
+[ 2
+2 0
+0 2
+2 4
+4 -
+- 1
+1 0
+[xUnit.net 00:00:00.21]       ngaq.svc.wordParser.ParseErr : Unexpected EOF
+[xUnit.net 00:00:00.21]       Stack Trace:
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(703,0): at ngaq.svc.wordParser.WordParser.error(String msg)
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(166,0): at ngaq.svc.wordParser.WordParser.GetNextChar()
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(654,0): at ngaq.svc.wordParser.WordParser.ReadPropValue()
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(642,0): at ngaq.svc.wordParser.WordParser.ReadProp()
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(533,0): at ngaq.svc.wordParser.WordParser.ReadWordBlocks()
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(317,0): at ngaq.svc.wordParser.WordParser.ReadDateBlock()
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(237,0): at ngaq.svc.wordParser.WordParser.Parse()
+0 -
+- 2
+2 0
+0 T
+T 1
+1 9
+9 :
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\test\src\parser\TestWordParser.cs(14,0): at test.parser.TestWordParser._Main()
+: 3
+3 9
+9 :
+: 1
+1 0
+0 .
+[xUnit.net 00:00:00.21]         E:\_code\csngaq\test\UnitTest1.cs(11,0): at test.UnitTest1.Test1()
+. 6
+6 6
+6 2
+2 +
++ 0
+0 8
+[xUnit.net 00:00:00.21]         --- End of stack trace from previous location ---
+8 :
+: 0
+0 0
+0 ]
+] 
+ {
+{ {
+{ 
+ i
+i m
+m m
+m e
+e n
+n s
+s e
+e l
+l y
+y 
+ ç
+ç ¾
+¾ 
+ :
+:  
+  [
+[ É
+É ª
+ª Ë
+Ë 
+ m
+m e
+e n
+n s
+s l
+l i
+i ]
+] 
+ è
+è 
+ ±
+± :
+:  
+  [
+[ É
+É ª
+ª '
+' m
+m e
+e n
+n s
+s l
+l i
+i ]
+] 
+ a
+a d
+d v
+v .
+. 	
+	 é
+é 
+ 
+ å
+å ¸
+¸ ¸
+¸ ï
+ï ¼
+¼ 
+ æ
+æ ¥
+¥ µ
+µ ç
+ç «
+« ¯
+¯ å
+å 
+ °
+° ï
+ï ¼
+¼ 
+ æ
+æ ¥
+¥ µ
+µ å
+å ¤
+¤ §
+§ å
+å 
+ °
+° 
+ ç
+ç ½
+½ 
+ ç
+ç µ
+µ ¡
+¡ 	
+	 æ
+æ 
+  
+  é
+é 
+ 
+ å
+å 
+ °
+° ï
+ï ¼
+¼ 
+ æ
+æ 
+  
+  ä
+ä »
+» »
+» ï
+ï ¼
+¼ 
+ å
+å ¾
+¾ 
+ 
+ }
+} }
+} ￿
+[xUnit.net 00:00:00.22]   Finished:    test
+  失败 test.UnitTest1.Test1 [49 ms]
+  错误消息:
+   ngaq.svc.wordParser.ParseErr : Unexpected EOF
+  堆栈跟踪:
+     at ngaq.svc.wordParser.WordParser.error(String msg) in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 703
+   at ngaq.svc.wordParser.WordParser.GetNextChar() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 166
+   at ngaq.svc.wordParser.WordParser.ReadPropValue() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 654
+   at ngaq.svc.wordParser.WordParser.ReadProp() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 642
+   at ngaq.svc.wordParser.WordParser.ReadWordBlocks() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 533
+   at ngaq.svc.wordParser.WordParser.ReadDateBlock() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 317
+   at ngaq.svc.wordParser.WordParser.Parse() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 237
+   at test.parser.TestWordParser._Main() in E:\_code\csngaq\test\src\parser\TestWordParser.cs:line 14
+   at test.UnitTest1.Test1() in E:\_code\csngaq\test\UnitTest1.cs:line 11
+--- End of stack trace from previous location ---
+
+测试总数: 1
+     失败数: 1
+总时间: 0.7938 秒
+
+有可用的工作负载更新。有关详细信息，请运行 `dotnet workload list`。

@@ -12,3 +12,13 @@ public class UnitTest1{
 		System.Console.WriteLine("________________");
 	}
 }
+
+
+// interface I1{
+// 	int age{get;set;}
+// }
+
+// struct S1:I1{
+// 	public int age{get;set;}
+// }
+

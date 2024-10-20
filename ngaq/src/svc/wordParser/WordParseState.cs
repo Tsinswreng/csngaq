@@ -18,11 +18,14 @@ public enum WordParseState{
 	,Prop // [[
 	,PropKey
 	,PropValue
-	,WordBlock //{{
 	,DateBlock_TopSpace
+	,WordBlocks //{{
+	,WordBlock
 	,HeadOfWordDelimiter
+	,WordBlock_TopSpace
 	,WordBlockFirstLine
 	,RestOfWordBlock //除去首行之后的部分
 	,FirstLeftSquareBracketInWordBlockProp // [ 詞屬性之首中括號
-	,WordBlockEnd
+	,WordBlockEnd // ````
+	,DateBlockEnd
 }

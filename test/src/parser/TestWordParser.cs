@@ -5,7 +5,9 @@ namespace test.parser;
 public class TestWordParser{
 
 	public static async Task _Main(){
-		var path = "E:/_code/ngaq/srcWordList/jap/japanese.ngaq";
+		//var path = "E:/_code/ngaq/srcWordList/jap/japanese.ngaq";
+		var path = "E:/_code/csngaq/test/assets/eng.ngaq";
+		//var path = "E:/_code/ngaq/srcWordList/eng/english.ngaq";
 		var reader = new NextCharReader(path);
 		var parser = new WordParser(reader);
 		parser.encoding = Encoding.UTF8;

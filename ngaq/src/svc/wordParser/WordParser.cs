@@ -1,9 +1,7 @@
-/* 
-TODO 統一用\n
- */
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using tools;
 
@@ -11,6 +9,7 @@ namespace ngaq.svc.wordParser;
 
 //靜態多態
 using word = i32;
+using WPS = WordParseState;
 
 public class ParseErr : std.Exception{
 	public ParseErr(str msg):base(msg){
@@ -34,12 +33,11 @@ public class Pos : I_LineCol{
 }
 
 class Status{
-	public WordParseState state {get; set;} = WordParseState.Start;
+	public WPS state {get; set;} = WPS.Start;
 	public I_LineCol line_col {get; set;} = new Pos();
 	public i32 pos {get;set;} = 0;
 
-	[Obsolete]
-	public Stack<WordParseState> stack {get; set;} = new();
+	public Stack<WPS> stack {get; set;} = new();
 
 	public word curChar {get; set;} = default;
 
@@ -74,7 +72,7 @@ public class WordParser{
 		}
 	}
 
-	public WordParseState state{
+	public WPS state{
 		get{
 			return _status.state;
 		}
@@ -134,7 +132,7 @@ public class WordParser{
 		}
 
 		if(isNil(ans)){
-			state = WordParseState.End;
+			state = WPS.End;
 			return ans;
 		}
 
@@ -145,6 +143,7 @@ public class WordParser{
 					ans = '\n';
 					preReadBuffer.Clear();
 					pos_preRead = 0;
+					_status.pos++;
 				}
 			}
 		}
@@ -186,6 +185,10 @@ public class WordParser{
 		return s1 == s2;
 	}
 
+	public bool eq(word s1, word s2){
+		return s1 == s2;
+	}
+
 
 	/// <summary>
 	/// 會清空buffer
@@ -218,26 +221,29 @@ public class WordParser{
 
 	public async Task<IList<I_DateBlock>> Parse(){
 		IList<I_DateBlock> ans = new List<I_DateBlock>();
-		for(;;){
-			G.log(state.ToString());//t
+		for(var i = 0;;i++){
+			//G.log(state.ToString());
 			switch(_status.state){
-				case WordParseState.Start:
+				case WPS.Start:
 					await Start(); // -> TopSpace
 				break;
-				case WordParseState.TopSpace:
+				case WPS.TopSpace:
 					await TopSpace(); // -> Metadata, DateBlock
 				break;
-				case WordParseState.Metadata:
-					G.log(_status.line_col);//t
-					G.log(_status.pos);//t
+				case WPS.Metadata:
 					await Metadata(); // -> TopSpace
 				break;
-				case WordParseState.DateBlock:
+				case WPS.DateBlock:
 					var ua = await ReadDateBlock(); // -> TopSpace
-					G.logJson(ua);//t
+					// if(i < 5){
+					// 	G.logNoLn(i);
+					// 	G.log("____________________");
+					// 	G.logJson(ua);
+						
+					// }
 					ans.Add(ua);
 				break;
-				case WordParseState.End:
+				case WPS.End:
 					return ans;
 				//break;
 			}
@@ -246,7 +252,7 @@ public class WordParser{
 	}
 
 	public async Task<i32> Start(){
-		state = WordParseState.TopSpace;
+		state = WPS.TopSpace;
 		return 0;
 	}
 
@@ -254,17 +260,17 @@ public class WordParser{
 		for(;;){
 			var c = await GetNextNullableChar();
 			if(c < 0){
-				state = WordParseState.End;
+				state = WPS.End;
 				return 0;
 			}
 			if(isWhite(c)){
 				continue;
 			}else if( eq(c , '<') ){
-				state = WordParseState.Metadata;
+				state = WPS.Metadata;
 				//_status.stack.Push(WordParseState.Metadata);
 				break;
 			}else if( eq(c , '[') ){
-				state = WordParseState.DateBlock;
+				state = WPS.DateBlock;
 				//_status.stack.Push(WordParseState.DateBlock);
 				break;
 			}
@@ -292,26 +298,29 @@ public class WordParser{
 	public async Task<I_DateBlock> ReadDateBlock(){
 		var ans = new DateBlock();
 		for(;;){
-			//G.log(state);//t
+			//G.log(state.ToString(), _status.line_col, _status.pos);
 			switch(state){
-				case WordParseState.DateBlock: //入口
+				case WPS.DateBlock: //入口
 					//_status.state = WordParseState.DateBlock_date;
 					ans.date = await ReadDate();
-					state = WordParseState.DateBlock_TopSpace;
+					state = WPS.DateBlock_TopSpace;
 				break;
-				case WordParseState.DateBlock_TopSpace:
-					await DateBlock_TopSpace(); // -> Prop, WordBlock
+				case WPS.DateBlock_TopSpace:
+					await DateBlock_TopSpace(); // -> Prop, WordBlocks
 				break;
-				case WordParseState.Prop:
+				case WPS.Prop:
 					var prop = await ReadProp();
 					ans.props.Add(prop);
-					state = WordParseState.DateBlock_TopSpace;
+					state = WPS.DateBlock_TopSpace;
 				break;
-				case WordParseState.WordBlock:
-					var wordBlock = await ReadWordBlock(); // -> TopSpace
-					ans.words.Add(wordBlock);
+				case WPS.WordBlocks:
+					var wordBlocks = await ReadWordBlocks(); // -> TopSpace
+					foreach(var w in wordBlocks){ans.words.Add(w);}
 				break;
-				case WordParseState.TopSpace:
+				case WPS.DateBlockEnd:
+					state = WPS.TopSpace;
+				break;
+				case WPS.TopSpace:
 					return ans;
 				//break;
 			}
@@ -336,13 +345,8 @@ public class WordParser{
 		return encoding.GetString(bytes);
 	}
 
-
-	/// 第一行不得寫prop; 將被trim
-	/// state -> RestOfWordBlock
-	public async Task<I_StrSegment> ReadWordBlockHead(){
-		var firstC = await SkipWhite();
+	public async Task<I_StrSegment> ReadLine(){
 		var buf = new List<word>();
-		buf.Add(firstC);
 		var start = _status.pos;
 		for(;;){
 			var c = await GetNextChar();
@@ -354,6 +358,7 @@ public class WordParser{
 				};
 				return ans;
 			}
+			buf.Add(c);
 		}
 	}
 
@@ -368,17 +373,35 @@ public class WordParser{
 	// 不含prop之wordBlockBody
 	/// @return body之I_StrSegment、非完整。
 	public async Task<I_StrSegment> WordBlockBody(){
-		for(;;){
-			var c = await GetNextChar();
-			if( eq(c , '[') ){
-				state = WordParseState.FirstLeftSquareBracketInWordBlockProp;
-				return bufferToStrSegmentEtClr();
-			}else if(c == _status.headOfWordDelimiter){
-				state = WordParseState.HeadOfWordDelimiter;
-				return bufferToStrSegmentEtClr();
+		//buffer.Add(_status.curChar);
+		var start = _status.pos;
+		var lc = _status.line_col;
+		try{
+			for(;;){
+				var c = await GetNextChar();
+				var c2 = await PreRead();
+				var c3 = await PreRead();
+				if( eq(c , '[') ){
+					state = WPS.FirstLeftSquareBracketInWordBlockProp;
+					return bufferToStrSegmentEtClr();
+				}else if( eq(c , _status.headOfWordDelimiter) ){
+					state = WPS.HeadOfWordDelimiter;
+					_status.stack.Push(WPS.RestOfWordBlock);
+					return bufferToStrSegmentEtClr();
+				}
+				else if( eq(c2 , '}') && eq(c3, '}') ){
+					buffer.Add(c);
+					state = WPS.WordBlockEnd; // -> WordBlock_TopSpace -> DateBlockEnd
+					return bufferToStrSegmentEtClr();
+				}
+
+				buffer.Add(c);
 			}
-			buffer.Add(c);
 		}
+		catch (System.Exception){
+			throw;
+		}
+
 	}
 
 
@@ -387,15 +410,16 @@ public class WordParser{
 /// </summary>
 /// <returns></returns>
 	public async Task<code> FirstLeftSquareBracketInWordBlockProp(){
-		buffer.Add(_status.curChar); // 加上 "["
+		buffer.Add(_status.curChar); // 加上 第一個 "["
 		for(;;){
 			var c = await GetNextChar();
 			if( eq(c , "[") ){
-				state=WordParseState.Prop;
+				state=WPS.Prop;
 				buffer.Clear();
 				break;
 			}else{
-				state=WordParseState.RestOfWordBlock;
+				buffer.Add(c);
+				state=WPS.RestOfWordBlock;
 				break;
 			}
 		}
@@ -412,19 +436,22 @@ public class WordParser{
 
 	public async Task<code> HeadOfWordDelimiter(){
 		buffer.Add(_status.curChar); // 加上 delimiter首字符
-		var delimiter = G.nn(_status?.metadata?.delimiter);
+		var delimiter = G.nn(_status.metadata?.delimiter);
 		for(var i = 1;i < delimiter.Length;i++){
 			var c = await GetNextChar();
+			buffer.Add(c);
 			if( !eq(c , delimiter[i]) ){
-				state = WordParseState.RestOfWordBlock; // not delimiter, deem as word body
+				//state = WordParseState.RestOfWordBlock; // not delimiter
+				state = _status.stack.Pop(); // 回復原狀態, WordBlock_TopSpace或RestOfWordBlock或FirstLine
 				return 0;
 			}
 		}
-		state = WordParseState.WordBlockEnd;
+		state = WPS.WordBlockEnd;
+		buffer.Clear();
 		return 0;
 	}
 
-	//read until next non-white character
+	///read until next non-white character
 	public async Task<word> SkipWhite(){
 		for(;;){
 			var c = await GetNextChar();
@@ -435,62 +462,174 @@ public class WordParser{
 		}
 	}
 
-	public async Task<I_WordBlock> ReadWordBlock(){
-		I_StrSegment? head = null;
-		var bodySegs = new List<I_StrSegment>();
-		var props = new List<I_Prop>();
+
+	public async Task<code> WordBlock_TopSpace(){
 		for(;;){
-			switch (state){
-				case WordParseState.WordBlock:
-					var firstLine = await ReadWordBlockHead();
-					head = firstLine;
-					state = WordParseState.RestOfWordBlock;
-				break;
-				case WordParseState.RestOfWordBlock:
-					var bodySeg = await WordBlockBody();
-					bodySegs.Add(bodySeg);
-					//state->WordParseState.FirstLeftSquareBracketInWordBlockProp;
-				break;
-				case WordParseState.FirstLeftSquareBracketInWordBlockProp:
-					await FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
-				break;
-				case WordParseState.Prop:
-					//await WordBlockProp(); // -> RestOfWordBlock
-					var prop = await ReadProp();
-					props.Add(prop);
-					state = WordParseState.RestOfWordBlock;
-				break;
-				case WordParseState.HeadOfWordDelimiter:
-					// state -> WordBlockEnd, RestOfWordBlock
-					await HeadOfWordDelimiter();
-				break;
-				case WordParseState.WordBlockEnd:
-					state = WordParseState.TopSpace;
-					var ans = new WordBlock{
-						head = G.nn(head)
-						,body = bodySegs
-						,props = props
-					};
-					return ans;
-				//break;
+			var c = await GetNextChar();
+			var c2 = await PreRead();
+			if(isWhite(c)){
+				continue;
+			}
+			if( eq(c, _status.headOfWordDelimiter) ){
+				state = WPS.HeadOfWordDelimiter;
+				_status.stack.Push(WPS.WordBlock_TopSpace);
+				return 0;
+			}else if( eq(c, '}') && eq(c2, '}')){ // }} end of date block
+				await GetNextChar(); // 跳過 "}"
+				state = WPS.DateBlockEnd;
+				return 0;
+			}
+			else{
+				state = WPS.WordBlockFirstLine;
+				return 0;
 			}
 		}
 	}
+
+	public async Task<I_StrSegment> ParseWordBlockHead(){
+		buffer.Add(_status.curChar);
+		for(;;){
+			var c = await GetNextChar();
+			if( eq(c, '\n') ){
+				state = WPS.RestOfWordBlock;
+				return bufferToStrSegmentEtClr();
+			}
+			buffer.Add(c);
+		}
+	}
+
+	public async Task<IList<I_WordBlock>> ReadWordBlocks(){
+		var ans = new List<I_WordBlock>();
+		var ua = new WordBlock();
+		for(;;){
+			G.log(_status.pos, _status.line_col);//t
+			switch(state){
+				case WPS.WordBlocks: // 入口
+					state = WPS.WordBlock_TopSpace;
+				break;
+				case WPS.WordBlock_TopSpace:
+					await WordBlock_TopSpace(); // -> DateBlockEnd, WordBlockFirstLine, headOfWordDelimiter
+				break;
+				case WPS.WordBlockFirstLine:
+					var head = await ParseWordBlockHead(); // -> RestOfWordBlock
+					if(head == null || head.text.Length == 0){
+						continue;
+					}
+					ua.head = head;
+				break;
+
+				case WPS.RestOfWordBlock:
+					//state->FirstLeftSquareBracketInWordBlockProp, HeadOfWordDelimiter
+					var bodySeg = await WordBlockBody();
+					ua.body.Add(bodySeg);
+				break;
+
+				case WPS.FirstLeftSquareBracketInWordBlockProp:
+					await FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
+				break;
+
+				case WPS.Prop:
+					//await WordBlockProp(); // -> RestOfWordBlock
+					var prop = await ReadProp();
+					ua.props.Add(prop);
+					state = WPS.RestOfWordBlock;
+				break;
+
+				case WPS.HeadOfWordDelimiter:
+					// state -> state = _status.stack.Pop(), WordBlockEnd
+					await HeadOfWordDelimiter();
+				break;
+
+				case WPS.WordBlockEnd:
+					if(ua.head != null && ua.head.text.Length > 0){
+						ans.Add(ua);
+						ua = new WordBlock();
+					}
+					state = WPS.WordBlock_TopSpace;
+				break;
+
+				case WPS.DateBlockEnd: // 出口
+					return ans;
+			}
+		}
+		
+	}
+
+/* 
+TODO 空wordBlock、及head中有不完整ʹ分隔符者
+ */
+	// public async Task<I_WordBlock?> ReadOneWordBlock(){
+	// 	I_StrSegment? head = null;
+	// 	var bodySegs = new List<I_StrSegment>();
+	// 	var props = new List<I_Prop>();
+	// 	for(;;){
+	// 		G.log(state.ToString());
+	// 		switch (state){
+	// 			case WPS.WordBlocks: // 入口
+	// 				// var firstLine = await ReadLine(); //TODO
+	// 				// head = firstLine;
+	// 				// state = WordParseState.RestOfWordBlock;
+	// 				state = WPS.WordBlock_TopSpace;
+	// 			break;
+	// 			case WPS.WordBlock_TopSpace:
+	// 				await WordBlock_TopSpace(); // -> HeadOfWordDelimiter, FirstLine
+	// 			break;
+	// 			case WPS.WordBlockFirstLine:
+	// 				head = await ParseWordBlockHead(); // -> RestOfWordBlock
+	// 				if(head == null || head.text.Length == 0){
+	// 					return null;//TODO 判斷純空白
+	// 				}
+	// 			break;
+	// 			case WPS.RestOfWordBlock:
+	// 				var bodySeg = await WordBlockBody();
+	// 				bodySegs.Add(bodySeg);
+	// 				//state->WordParseState.FirstLeftSquareBracketInWordBlockProp;
+	// 			break;
+	// 			case WPS.FirstLeftSquareBracketInWordBlockProp:
+	// 				await FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
+	// 			break;
+	// 			case WPS.Prop:
+	// 				//await WordBlockProp(); // -> RestOfWordBlock
+	// 				var prop = await ReadProp();
+	// 				props.Add(prop);
+	// 				state = WPS.RestOfWordBlock;
+	// 			break;
+	// 			case WPS.HeadOfWordDelimiter:
+	// 				// state -> WordBlockEnd, RestOfWordBlock
+	// 				await HeadOfWordDelimiter();
+	// 			break;
+	// 			case WPS.WordBlockEnd:
+	// 				state = WPS.WordBlock_TopSpace;
+	// 				if(head == null){
+	// 					return null;
+	// 				}
+	// 				var ans = new WordBlock{
+	// 					head = head
+	// 					,body = bodySegs
+	// 					,props = props
+	// 				};
+	// 				return ans;
+	// 			//break;
+	// 		}
+	// 	}
+	// }
 
 	//讀完日期後 、[2024-10-19T15:51:19.877+08:00] 後面
 	public async Task<code> DateBlock_TopSpace(){
 		for(;;){
 			var c = await GetNextChar();
-			var c2 = await GetNextChar();
+			var c2 = await PreRead();
 			//if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF");return 1;}
 			if(isWhite(c)){
 				continue;
 			}
 			if( eq(c , '[') && eq(c2 , '[')){
-				_status.state = WordParseState.Prop;
+				await GetNextChar(); // 跳過 "["
+				_status.state = WPS.Prop;
 				break;
 			}else if( eq(c , '{') && eq(c2 , '{')){
-				_status.state = WordParseState.WordBlock;
+				await GetNextChar(); // 跳過 "{"
+				_status.state = WPS.WordBlocks;
 				break;
 			}
 		}
@@ -511,12 +650,14 @@ public class WordParser{
 	public async Task<I_StrSegment> ReadPropValue(){
 		var start = _status.pos;
 		var buf = new List<word>();
-		for(;;){
+		for(var i = 0;;i++){
 			var c = await GetNextChar();
-			var c2 = await GetNextChar();
+			var c2 = await PreRead();
+			G.log((char)c, (char)c2);//t
 			if( eq(c , ']') && eq(c2 , ']') ){
 				//c != "]" 但 c2 == "]" 旹 、buf加入c,c2後、末字符是"]"、則今除㞢
-				buf.RemoveAt(buf.Count-1);
+				//buf.RemoveAt(buf.Count-1);
+				await GetNextChar(); // 跳過 "]"
 				var value = new StrSegment{
 					start = start
 					,text = bufToStr(buf)
@@ -524,7 +665,6 @@ public class WordParser{
 				return value;
 			}
 			buf.Add(c);
-			buf.Add(c2);
 		}
 	}
 
@@ -576,9 +716,6 @@ public class WordParser{
 						var c = await GetNextChar();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						buffer.Add(c);
-						// if(j<100){
-						// 	G.log(bufToStr(buffer));//t
-						// }
 						if( eq(c , '>') ){
 							if(chk_metadataStartEtClr()){ // joined buffer is <metadata>
 								metadataStatus = 1;
@@ -630,11 +767,12 @@ public class WordParser{
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						buffer.Add(c);
 						if( eq(c , '>') ){
-							if(isMetadataEnd(_status.buffer)){
+							if(isMetadataEnd(buffer)){
+								buffer.Clear();
 								//_status.metadataBuf = metadataContent;
 								parseMetadataBuffer(metadataContent);
 								//_status.stack.Pop();
-								_status.state = WordParseState.TopSpace;
+								_status.state = WPS.TopSpace;
 								return 0;
 								//break;
 							}
@@ -691,6 +829,7 @@ public class WordParser{
 		}
 		return false;
 	}
+
 
 }
 
