@@ -83,15 +83,19 @@ public class WordParser{
 		}
 	}
 
+	//讀ʹ果ˇ存
 	public IList<word> buffer{
 		get{
 			return _status.buffer;
 		}
 	}
 
+	public IList<word> preReadBuffer{get;set;} = new List<word>();
+	public i32 pos_preRead{get;set;} = 0;
+
 	public Encoding encoding{get; set;} = Encoding.UTF8;
 
-	//public str unifiedNewLines{get; set;} = "\n";
+	public bool unifiedNewLine{get; set;} = true;
 
 	// [Obsolete]
 	// public I_DateBlock getCurDateBlock(){
@@ -111,13 +115,40 @@ public class WordParser{
 	// 	return curWordBlock;
 	// }
 	
+	//不移指標 預讀。
+	protected async Task<word> PreRead(){
+		var ans = await _getNextChar.GetNextChar();
+		preReadBuffer.Add(ans);
+		return ans;
+	}
+
 
 	protected async Task<word> GetNextNullableChar(){
-		var ans = await _getNextChar.GetNextChar();
+		//var ans = await _getNextChar.GetNextChar();
+		word ans;
+		if(pos_preRead < preReadBuffer.Count){
+			ans = preReadBuffer[pos_preRead];
+			pos_preRead++;
+		}else{
+			ans = await _getNextChar.GetNextChar();
+		}
+
 		if(isNil(ans)){
 			state = WordParseState.End;
 			return ans;
 		}
+
+		if(unifiedNewLine){
+			if( eq(ans, '\r') ){
+				var p = await PreRead();
+				if( eq(p, '\n') ){
+					ans = '\n';
+					preReadBuffer.Clear();
+					pos_preRead = 0;
+				}
+			}
+		}
+
 		lineCol.col++;
 		_status.pos++;
 		if( eq(ans , '\n') ){
@@ -226,7 +257,7 @@ public class WordParser{
 				state = WordParseState.End;
 				return 0;
 			}
-			if(isSpace(c)){
+			if(isWhite(c)){
 				continue;
 			}else if( eq(c , '<') ){
 				state = WordParseState.Metadata;
@@ -308,8 +339,10 @@ public class WordParser{
 
 	/// 第一行不得寫prop; 將被trim
 	/// state -> RestOfWordBlock
-	public async Task<I_StrSegment> ReadWordBlockFirstLine(){
+	public async Task<I_StrSegment> ReadWordBlockHead(){
+		var firstC = await SkipWhite();
 		var buf = new List<word>();
+		buf.Add(firstC);
 		var start = _status.pos;
 		for(;;){
 			var c = await GetNextChar();
@@ -391,6 +424,17 @@ public class WordParser{
 		return 0;
 	}
 
+	//read until next non-white character
+	public async Task<word> SkipWhite(){
+		for(;;){
+			var c = await GetNextChar();
+			if(!isWhite(c)){
+				return c;
+			}
+
+		}
+	}
+
 	public async Task<I_WordBlock> ReadWordBlock(){
 		I_StrSegment? head = null;
 		var bodySegs = new List<I_StrSegment>();
@@ -398,7 +442,7 @@ public class WordParser{
 		for(;;){
 			switch (state){
 				case WordParseState.WordBlock:
-					var firstLine = await ReadWordBlockFirstLine(); 
+					var firstLine = await ReadWordBlockHead();
 					head = firstLine;
 					state = WordParseState.RestOfWordBlock;
 				break;
@@ -439,7 +483,7 @@ public class WordParser{
 			var c = await GetNextChar();
 			var c2 = await GetNextChar();
 			//if( isNil(c)  ||  isNil(c) ){error("Unexpected EOF");return 1;}
-			if(isSpace(c)){
+			if(isWhite(c)){
 				continue;
 			}
 			if( eq(c , '[') && eq(c2 , '[')){
@@ -570,7 +614,7 @@ public class WordParser{
 					for(;;){
 						var c = await GetNextChar();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
-						if(isSpace(c)){
+						if(isWhite(c)){
 							continue;
 						}else if( eq(c, '<') ){
 							buffer.Add(c);
@@ -601,7 +645,7 @@ public class WordParser{
 		}
 	}
 
-	public bool isSpace(str s){
+	public bool isWhite(str s){
 		if(s == " "){return true;}
 		if(s == "\t"){return true;}
 		if(s == "\n"){return true;}
@@ -609,7 +653,7 @@ public class WordParser{
 		return false;
 	}
 
-	public bool isSpace(word s){
+	public bool isWhite(word s){
 		if( eq(s , ' ') ){return true;}
 		if( eq(s , '\t') ){return true;}
 		if( eq(s , '\n') ){return true;}
