@@ -1,18 +1,5 @@
   正在确定要还原的项目…
   所有项目均是最新的，无法还原。
-E:\_code\csngaq\ngaq\GlobalUsing.cs(1,14): warning CS8981: 类型名称 "std" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\GlobalUsing.cs(4,14): warning CS8981: 类型名称 "code" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\GlobalUsing.cs(10,14): warning CS8981: 类型名称 "str" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\GlobalUsing.cs(11,14): warning CS8981: 类型名称 "unknown" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\GlobalUsing.cs(12,14): warning CS8981: 类型名称 "any" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\src\svc\wordParser\NextCharReader.cs(14,7): warning CS8981: 类型名称 "word" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(11,7): warning CS8981: 类型名称 "word" 仅包含小写 ascii 字符。此类名称可能会成为该语言的保留值。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\src\svc\wordParser\BinaryBufReader.cs(12,47): warning CS8425: 异步迭代器“AsyncFileReader.ReadFileAsync(string, int, CancellationToken)”具有一个或多个类型为 "CancellationToken" 的参数，但它们都未用 "EnumeratorCancellation" 属性修饰，因此将不使用所生成的 "IAsyncEnumerable<>.GetAsyncEnumerator" 中的取消令牌参数 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\src\svc\wordParser\ParseResult.cs(20,9): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "key" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\src\svc\wordParser\ParseResult.cs(20,9): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "value" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\src\svc\wordParser\ParseResult.cs(53,9): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "head" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\src\svc\wordParser\ParseResult.cs(34,9): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "date" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [E:\_code\csngaq\ngaq\ngaq.csproj]
-E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(254,25): warning CS1998: 此异步方法缺少 "await" 运算符，将以同步方式运行。请考虑使用 "await" 运算符等待非阻止的 API 调用，或者使用 "await Task.Run(...)" 在后台线程上执行占用大量 CPU 的工作。 [E:\_code\csngaq\ngaq\ngaq.csproj]
   ngaq -> E:\_code\csngaq\ngaq\bin\Debug\net8.0\ngaq.dll
   test -> E:\_code\csngaq\test\bin\Debug\net8.0\test.dll
 E:\_code\csngaq\test\bin\Debug\net8.0\test.dll (.NETCoreApp,Version=v8.0)的测试运行
@@ -24,962 +11,305 @@ E:\_code\csngaq\test\bin\Debug\net8.0\test.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.8)
 [xUnit.net 00:00:00.07]   Discovering: test
 [xUnit.net 00:00:00.10]   Discovered:  test
-[xUnit.net 00:00:00.10]   Starting:    test
-t e
-e s
-s t
-t _
-_ s
-s o
-o u
-u r
-r c
-c e
-e ]
-] ]
-t e
-e s
-s t
-t _
-_ t
-t a
-a g
-g ]
-] ]
-155 (10,2)
-155 (10,2)
-161 (12,1)
-169 (13,0)
-170 (13,1)
-171 (13,2)
-182 (14,6)
-183 (14,7)
-202 (15,6)
-203 (15,7)
-344 (19,1)
-345 (19,2)
-t ¼
-e 
-s æ
-t ­
-_ ¡
-a æ
-n 
-n ¶
-o 
-t 
-a ç
-t ½
-i 
-o ç
-n µ
-] ¡
-] 	
- ¶
-[ ç
-[ ¥
-t 
-a ï
-g ¼
-| 
-t æ
-e ­
-s ¡
-t å
-_ 
-t ¼
-a ï
-g ¼
-1 
-] å
-] 
- æ
- 
-[ 
-[ 
-t 
-a `
-g `
-| `
-t `
-e 
-s 
-t 
-_ 
-t `
-a s
-g p
-2 e
-] `
-] 
- æ
-æ ¸
-¸ ¬
-¬ è
-è ©
-© ¦
-¦ é
-é 
- 
- å
-å ®
-® 
- æ
-æ 
- ´
-´ å
-å 
- 
- é
-é 
- 
- ç
-ç ¬
-¬ ¦
-¦ 
- `
-` `
-` `
-` `
-` 
- `
-` `
-` `
-` s
-s p
-p e
-e `
-` `
-` `
-` 
- æ
-æ ¸
-¸ ¬
-¬ è
-è ©
-© ¦
-¦ é
-é 
- 
- å
-å ®
-® 
- æ
-æ 
- ´
-´ å
-å 
- 
- é
-é 
- 
- ç
-ç ¬
-¬ ¦
-¦ 2
-2 
- `
-` `
-` `
-` `
-` 
- [
-[ {
-{ 
- æ
-æ ¸
-¸ ¬
-¬ è
-è ©
-© ¦
-¦ ç
-ç 
- ¹
-¹ æ
-æ ®
-® 
- ç
-ç ¬
-¬ ¦
-¦ è
-è 
- 
- 1
-1 
- `
-` `
-` `
-` `
-` 
- }
-} ]
-] 
- æ
-æ ¸
-¸ ¬
-¬ è
-è ©
-© ¦
-¦ ç
-ç 
- ¹
-¹ æ
-æ ®
-® 
- ç
-ç ¬
-¬ ¦
-¦ è
-è 
- 
- 2
-2 
- `
-` `
-` `
-` `
-` 
- `
-` `
-` `
-` `
-` 
- `
-` `
-` `
-` `
-` 
- }
-} }
-} 
- [
-[ 2
-2 0
-0 2
-2 5
-5 -
-- 1
-1 0
-0 -
-- 2
-2 0
-0 T
-T 1
-1 1
-1 :
-: 0
-0 2
-2 :
-: 0
-0 7
-7 .
-. 3
-3 4
-4 6
-6 +
-+ 0
-0 8
-8 :
-: 0
-0 0
-0 ]
-] 
- {
-{ {
-{ 
- `
-` `
-` `
-` `
-` 
- c
-c r
-r u
-u n
-n c
-c h
-h  
-  t
-t i
-i m
-m e
-e 
- è
-è 
- ±
-±  
-  [
-[ Ë
-Ë 
- k
-k r
-r Ê
-Ê 
- n
-n t
-t Ê
-Ê 
-  
-  t
-t a
-a É
-É ª
-ª m
-m ]
-] ç
-ç ¾
-¾ 
-  
-  [
-[ Ë
-Ë 
- k
-k r
-r Ê
-Ê 
- n
-n t
-t Ê
-Ê 
-  
-  t
-t a
-a É
-É ª
-ª m
-m ]
-] 
- é
-é 
- 
- é
-é 
- µ
-µ æ
-æ 
- 
- å
-å 
- »
-» æ
-æ 
- 
- é
-é 
- 
- é
-é 
- µ
-µ æ
-æ 
- 
- æ
-æ 
- 
- ï
-ï ¼
-¼ 
- æ
-æ ¯
-¯ 
- å
-å ¦
-¦ 
- å
-å 
- ¨
-¨ æ
-æ ¯
-¯ 
- è
-è ³
-³ ½
-½ æ
-æ 
- ¥
-¥ è
-è ¿
-¿ 
- ç
-ç µ
-µ 
- æ
-æ 
- 
- æ
-æ 
- 
- ï
-ï ¼
-¼ 
- ï
-ï ¼
-¼ 
- é
-é 
- 
- è
-è ¦
-¦ 
- é
-é 
- 
- å
-å 
- 
- æ
-æ ±
-± º
-º å
-å ®
-® 
- æ
-æ 
- §
-§ ç
-ç 
- 
- è
-è ¡
-¡ 
- å
-å 
- 
- 
- `
-` `
-` `
-` `
-` 
- a
-a r
-r i
-i t
-t h
-h m
-m e
-e t
-t i
-i c
-c 
- ç
-ç ¾
-¾ 
- :
-:  
-  [
-[ É
-É 
- Ë
-Ë 
- r
-r É
-É ª
-ª Î
-Î ¸
-¸ m
-m É
-É 
- t
-t É
-É ª
-ª k
-k ]
-] 
- è
-è 
- ±
-± :
-:  
-  [
-[ .
-. Ã
-Ã ¦
-¦ r
-r É
-É ª
-ª Î
-Î ¸
-¸ '
-' m
-m e
-e t
-t É
-É ª
-ª k
-k ]
-] 
- n
-n .
-. 	
-	 ç
-ç ®
-® 
- è
-è ¡
-¡ 
- ï
-ï ¼
-¼ 
- ç
-ç ®
-® 
- è
-è ¡
-¡ 
- é
-é 
- 
- ç
-ç ®
-® 
- ï
-ï ¼
-¼ 
- å
-å 
- 
- å
-å 
- 
- é
-é 
- 
- ç
-ç ®
-® 
- 
- ç
-ç ½
-½ 
- ç
-ç µ
-µ ¡
-¡ 	
-	 ç
-ç ®
-® 
- æ
-æ ³
-³ 
- ï
-ï ¼
-¼ 
- è
-è ¨
-¨ 
- ç
-ç ®
-® 
- ï
-ï ¼
-¼ 
- ç
-ç ®
-® 
- æ
-æ 
- ¸
-¸ 
- `
-` `
-` `
-` `
-` 
- s
-s e
-e g
-g f
-f a
-a u
-u l
-l t
-t 
- n
-n .
-.  
-  æ
-æ ®
-® µ
-µ é
-é 
- ¯
-¯ è
-è ª
-ª ¤
-¤ ï
-ï ¼
-¼ 
- ä
-ä ¸
-¸ 
- ç
-ç §
-§ 
- è
-è ¨
-¨ 
- ç
-ç ®
-® 
- æ
-æ 
- º
-º ç
-ç ¨
-¨ 
- å
-å º
-º 
- é
-é 
- ¯
-¯ è
-è ª
-ª ¤
-¤ ï
-ï ¼
-¼ 
- ç
-ç 
- ¶
-¶ ç
-ç ¨
-¨ 
- å
-å º
-º 
- è
-è ©
-© ¦
-¦ å
-å 
- 
- è
-è ¨
-¨ ª
-ª å
-å 
- 
- å
-å 
- ¶
-¶ æ
-æ 
- ª
-ª è
-è ¢
-¢ «
-« æ
-æ 
- 
- æ
-æ ¬
-¬ 
- è
-è ¨
-¨ ª
-ª å
-å 
- 
- ç
-ç 
- 
- å
-å 
- §
-§ å
-å ­
-­ 
- å
-å 
- 
- å
-å 
- 
- æ
-æ 
- 
- ç
-ç 
- ¼
-¼ ç
-ç 
- 
- ã
-ã 
- 
- é
-é 
- 
- å
-å ¸
-¸ ¸
-¸ æ
-æ 
- ¯
-¯ ç
-ç 
- ±
-± ä
-ä º
-º 
- ç
-ç ¨
-¨ 
- å
-å º
-º 
- ä
-ä ¸
-¸ ­
-­ ç
-ç 
- 
- é
-é 
- ¯
-¯ è
-è ª
-ª ¤
-¤ å
-å ¼
-¼ 
- è
-è µ
-µ ·
-· ç
-ç 
- 
- ï
-ï ¼
-¼ 
- å
-å ¦
-¦ 
- æ
-æ 
- 
- é
-é 
- 
- é
-é 
- ¯
-¯ è
-è ª
-ª ¤
-¤ ã
-ã 
- 
- æ
-æ 
- ¸
-¸ ç
-ç µ
-µ 
- è
-è ¶
-¶ 
- ç
-ç 
- 
- ç
-ç ­
-­ 
- ã
-ã 
- 
- 
- `
-` `
-` `
-` `
-` 
- }
-} }
-} 
- [
-[ 2
-2 0
-0 2
-2 4
-4 -
-- 1
-1 0
-[xUnit.net 00:00:00.21]       ngaq.svc.wordParser.ParseErr : Unexpected EOF
-[xUnit.net 00:00:00.21]       Stack Trace:
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(703,0): at ngaq.svc.wordParser.WordParser.error(String msg)
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(166,0): at ngaq.svc.wordParser.WordParser.GetNextChar()
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(654,0): at ngaq.svc.wordParser.WordParser.ReadPropValue()
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(642,0): at ngaq.svc.wordParser.WordParser.ReadProp()
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(533,0): at ngaq.svc.wordParser.WordParser.ReadWordBlocks()
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(317,0): at ngaq.svc.wordParser.WordParser.ReadDateBlock()
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs(237,0): at ngaq.svc.wordParser.WordParser.Parse()
-0 -
-- 2
-2 0
-0 T
-T 1
-1 9
-9 :
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\test\src\parser\TestWordParser.cs(14,0): at test.parser.TestWordParser._Main()
-: 3
-3 9
-9 :
-: 1
-1 0
-0 .
-[xUnit.net 00:00:00.21]         E:\_code\csngaq\test\UnitTest1.cs(11,0): at test.UnitTest1.Test1()
-. 6
-6 6
-6 2
-2 +
-+ 0
-0 8
-[xUnit.net 00:00:00.21]         --- End of stack trace from previous location ---
-8 :
-: 0
-0 0
-0 ]
-] 
- {
-{ {
-{ 
- i
-i m
-m m
-m e
-e n
-n s
-s e
-e l
-l y
-y 
- ç
-ç ¾
-¾ 
- :
-:  
-  [
-[ É
-É ª
-ª Ë
-Ë 
- m
-m e
-e n
-n s
-s l
-l i
-i ]
-] 
- è
-è 
- ±
-± :
-:  
-  [
-[ É
-É ª
-ª '
-' m
-m e
-e n
-n s
-s l
-l i
-i ]
-] 
- a
-a d
-d v
-v .
-. 	
-	 é
-é 
- 
- å
-å ¸
-¸ ¸
-¸ ï
-ï ¼
-¼ 
- æ
-æ ¥
-¥ µ
-µ ç
-ç «
-« ¯
-¯ å
-å 
- °
-° ï
-ï ¼
-¼ 
- æ
-æ ¥
-¥ µ
-µ å
-å ¤
-¤ §
-§ å
-å 
- °
-° 
- ç
-ç ½
-½ 
- ç
-ç µ
-µ ¡
-¡ 	
-	 æ
-æ 
-  
-  é
-é 
- 
- å
-å 
- °
-° ï
-ï ¼
-¼ 
- æ
-æ 
-  
-  ä
-ä »
-» »
-» ï
-ï ¼
-¼ 
- å
-å ¾
-¾ 
- 
- }
-} }
-} ￿
-[xUnit.net 00:00:00.22]   Finished:    test
-  失败 test.UnitTest1.Test1 [49 ms]
-  错误消息:
-   ngaq.svc.wordParser.ParseErr : Unexpected EOF
-  堆栈跟踪:
-     at ngaq.svc.wordParser.WordParser.error(String msg) in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 703
-   at ngaq.svc.wordParser.WordParser.GetNextChar() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 166
-   at ngaq.svc.wordParser.WordParser.ReadPropValue() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 654
-   at ngaq.svc.wordParser.WordParser.ReadProp() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 642
-   at ngaq.svc.wordParser.WordParser.ReadWordBlocks() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 533
-   at ngaq.svc.wordParser.WordParser.ReadDateBlock() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 317
-   at ngaq.svc.wordParser.WordParser.Parse() in E:\_code\csngaq\ngaq\src\svc\wordParser\WordParser.cs:line 237
-   at test.parser.TestWordParser._Main() in E:\_code\csngaq\test\src\parser\TestWordParser.cs:line 14
-   at test.UnitTest1.Test1() in E:\_code\csngaq\test\UnitTest1.cs:line 11
---- End of stack trace from previous location ---
+[xUnit.net 00:00:00.11]   Starting:    test
+[
+  {
+    "date": {
+      "text": "2024-10-20T11:00:16.537+08:00",
+      "start": 81
+    },
+    "words": [
+      {
+        "head": {
+          "text": "triumph\r",
+          "start": 163
+        },
+        "body": [
+          {
+            "text": "[abc]\r\n美: [ˈtraɪəmf]\r\n英: [ˈtraɪʌmf]\r\nv.\t戰胜；成功；打敗\r\nn.\t巨大成功；重大成就；偉大胜利；喜悅\r\n网絡\t黛安芬；凱旋；獲得胜利\r\n",
+            "start": 173
+          },
+          {
+            "text": "\r\n",
+            "start": 377
+          },
+          {
+            "text": "\r\n",
+            "start": 396
+          },
+          {
+            "text": "\r\n",
+            "start": 414
+          }
+        ],
+        "props": [
+          {
+            "key": {
+              "text": "annotation",
+              "start": 347
+            },
+            "value": {
+              "text": "test_annotation",
+              "start": 358
+            }
+          },
+          {
+            "key": {
+              "text": "tag",
+              "start": 379
+            },
+            "value": {
+              "text": "test_tag1",
+              "start": 383
+            }
+          },
+          {
+            "key": {
+              "text": "tag",
+              "start": 398
+            },
+            "value": {
+              "text": "test_tag2",
+              "start": 402
+            }
+          }
+        ]
+      },
+      {
+        "head": {
+          "text": "jubilation\r",
+          "start": 422
+        },
+        "body": [
+          {
+            "text": "美: [ˌdʒubɪˈleɪʃ(ə)n]\r\n英: [ˌdʒuːbɪˈleɪʃ(ə)n]\r\nn.\t歡騰；歡欣鼓舞；歡慶\r\n网絡\t慶祝；歡呼；喜悅\r\n",
+            "start": 434
+          }
+        ],
+        "props": []
+      },
+      {
+        "head": {
+          "text": "`spe`\r",
+          "start": 574
+        },
+        "body": [
+          {
+            "text": "測試非完整分隔符\r\n\r\n",
+            "start": 581
+          }
+        ],
+        "props": []
+      },
+      {
+        "head": {
+          "text": "```spe```\r",
+          "start": 617
+        },
+        "body": [
+          {
+            "text": "測試非完整分隔符2\r\n\r\n",
+            "start": 628
+          }
+        ],
+        "props": []
+      },
+      {
+        "head": {
+          "text": "[{\r",
+          "start": 663
+        },
+        "body": [
+          {
+            "text": "測試特殊符號1\r\n\r\n",
+            "start": 667
+          }
+        ],
+        "props": []
+      },
+      {
+        "head": {
+          "text": "測試特殊符號2\r",
+          "start": 700
+        },
+        "body": [
+          {
+            "text": "\r\n",
+            "start": 721
+          }
+        ],
+        "props": []
+      },
+      {
+        "head": null,
+        "body": [],
+        "props": []
+      }
+    ],
+    "props": [
+      {
+        "key": {
+          "text": "source",
+          "start": 115
+        },
+        "value": {
+          "text": "test_source",
+          "start": 122
+        }
+      },
+      {
+        "key": {
+          "text": "tag",
+          "start": 139
+        },
+        "value": {
+          "text": "test_tag",
+          "start": 143
+        }
+      }
+    ]
+  },
+  {
+    "date": {
+      "text": "2025-10-20T11:02:07.346+08:00",
+      "start": 749
+    },
+    "words": [
+      {
+        "head": {
+          "text": "crunch time\r",
+          "start": 794
+        },
+        "body": [
+          {
+            "text": "英 [ˈkrʌntʃ taɪm]美 [ˈkrʌntʃ taɪm]\r\n關鍵時刻或關鍵時期（比如在比賽接近結束時），需要采取決定性的行動\r\n",
+            "start": 807
+          }
+        ],
+        "props": []
+      },
+      {
+        "head": {
+          "text": "arithmetic\r",
+          "start": 957
+        },
+        "body": [
+          {
+            "text": "美: [əˈrɪθmətɪk]\r\n英: [.ærɪθ'metɪk]\r\nn.\t算術；算術運算；四則運算\r\n网絡\t算法；計算；算數\r\n",
+            "start": 969
+          }
+        ],
+        "props": []
+      },
+      {
+        "head": {
+          "text": "segfault\r",
+          "start": 1098
+        },
+        "body": [
+          {
+            "text": "n. 段錯誤：一种計算机程序錯誤，當程序試圖訪問其未被授權訪問的內存區域時發生。通常是由于程序中的錯誤引起的，如指針錯誤、數組越界等。\r\n",
+            "start": 1108
+          }
+        ],
+        "props": []
+      },
+      {
+        "head": null,
+        "body": [],
+        "props": []
+      }
+    ],
+    "props": []
+  },
+  {
+    "date": {
+      "text": "2024-10-20T19:39:10.662+08:00",
+      "start": 1319
+    },
+    "words": [
+      {
+        "head": {
+          "text": "114514\r",
+          "start": 1356
+        },
+        "body": [
+          {
+            "text": "美: [ɪˈmensli]\r\n英: [ɪ'mensli]\r\nadv.\t非常；極端地；極大地\r\n网絡\t无限地；无任；很\r\nabcde123\r\n",
+            "start": 1365
+          }
+        ],
+        "props": []
+      }
+    ],
+    "props": []
+  }
+]
+[2024-10-20T11:00:16.537+08:00]
+[[source|test_source]]
+[[tag|test_tag]]
+{{
+triumph
+[abc]
+美: [ˈtraɪəmf]
+英: [ˈtraɪʌmf]
+v.	戰胜；成功；打敗
+n.	巨大成功；重大成就；偉大胜利；喜悅
+网絡	黛安芬；凱旋；獲得胜利
+[[annotation|test_annotation]]
+[[tag|test_tag1]]
+[[tag|test_tag2]]
+````
+jubilation
+美: [ˌdʒubɪˈleɪʃ(ə)n]
+英: [ˌdʒuːbɪˈleɪʃ(ə)n]
+n.	歡騰；歡欣鼓舞；歡慶
+网絡	慶祝；歡呼；喜悅
+````
+`spe`
+測試非完整分隔符
+````
+```spe```
+測試非完整分隔符2
+````
+[{
+測試特殊符號1
+````
+測試特殊符號2
+````
+````
+[2025-10-20T11:02:07.346+08:00]
+{{
+crunch time
+英 [ˈkrʌntʃ taɪm]美 [ˈkrʌntʃ taɪm]
+關鍵時刻或關鍵時期（比如在比賽接近結束時），需要采取決定性的行動
+````
+arithmetic
+美: [əˈrɪθmətɪk]
+英: [.ærɪθ'metɪk]
+n.	算術；算術運算；四則運算
+网絡	算法；計算；算數
+````
+segfault
+n. 段錯誤：一种計算机程序錯誤，當程序試圖訪問其未被授權訪問的內存區域時發生。通常是由于程序中的錯誤引起的，如指針錯誤、數組越界等。
+````
+````
+[2024-10-20T19:39:10.662+08:00]
+{{
+114514
+美: [ɪˈmensli]
+英: [ɪ'mensli]
+adv.	非常；極端地；極大地
+网絡	无限地；无任；很
+abcde123
+````
+________________
+[xUnit.net 00:00:00.21]   Finished:    test
+  已通过 test.UnitTest1.Test1 [55 ms]
 
+测试运行成功。
 测试总数: 1
-     失败数: 1
-总时间: 0.7938 秒
+     通过数: 1
+总时间: 0.6918 秒
 
 有可用的工作负载更新。有关详细信息，请运行 `dotnet workload list`。

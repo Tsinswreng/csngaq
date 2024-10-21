@@ -72,7 +72,7 @@ public static class G {
 	}
 
 	public static str log(){
-		#if DEBUG
+		#if true
 		System.Console.WriteLine();
 		#endif
 		return "";
@@ -92,7 +92,7 @@ public static class G {
 			}
 			ans = sb.ToString();
 		}
-		#if DEBUG
+		#if true
 		System.Console.WriteLine(ans);
 		#endif
 		return ans;

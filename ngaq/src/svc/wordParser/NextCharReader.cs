@@ -29,7 +29,7 @@ public class NextCharReader: I_GetNextChar_i32, IDisposable{
 
 	protected i32 _byteRead = -1;
 
-	public i32 bufferSize{get; set;} = 0x1000;
+	public i32 bufferSize{get; set;} = 0x100000;
 
 	public i32 pos{get; set;} = 0;
 	public Chunk curChunk{get; set;} = default;
@@ -87,6 +87,7 @@ public class NextCharReader: I_GetNextChar_i32, IDisposable{
 		var ans = curChunk[chunkPos];
 		chunkPos++;
 		pos++;
+		//G.logNoLn((char)ans);
 		return ans;
 	}
 
