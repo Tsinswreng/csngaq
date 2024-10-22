@@ -5,10 +5,13 @@ using System.Linq;
 using System.Text;
 using tools;
 
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
+using System.Diagnostics;
 namespace ngaq.svc.wordParser;
 
 //靜態多態
-using word = i32;
+using word = byte?;
 using WPS = WordParseState;
 
 public class ParseErr : std.Exception{
@@ -60,9 +63,9 @@ public class Tokens{
 
 
 public class WordParser{
-	I_GetNextChar_i32 _getNextChar;
-	public WordParser(I_GetNextChar_i32 getNextChar){
-		_getNextChar = getNextChar;
+	I_GetNextByteNil _getNextByte;
+	public WordParser(I_GetNextByteNil getNextChar){
+		_getNextByte = getNextChar;
 	}
 	Status _status {get; set;}= new Status();
 
@@ -116,14 +119,14 @@ public class WordParser{
 	//不移指標 預讀。
 	[Obsolete]
 	protected async Task<word> PreRead(){
-		var ans = await _getNextChar.GetNextChar();
+		var ans = await _getNextByte.GetNextChar();
 		preReadBuffer.Add(ans);
 		return ans;
 	}
 
 
 	protected async Task<word> GetNextNullableChar(){
-		var ans = await _getNextChar.GetNextChar();
+		var ans = await _getNextByte.GetNextChar();
 		// word ans;
 		// if(pos_preRead < preReadBuffer.Count){
 		// 	ans = preReadBuffer[pos_preRead];
@@ -148,23 +151,37 @@ public class WordParser{
 		// 	}
 		// }
 
-		lineCol.col++;
+		//lineCol.col++;
 		_status.pos++;
-		if( eq(ans , '\n') ){
-			lineCol.line++;
-			lineCol.col = 0;
-		}
+		// if( eq(ans , '\n') ){
+		// 	lineCol.line++;
+		// 	lineCol.col = 0;
+		// }
 		_status.curChar = ans;
 		
 		
 		return ans;
 	}
 
+	i64 _cnt = 0;
+	Stopwatch _sw = new Stopwatch();
+	[Benchmark]
 	public async Task<word> GetNextChar(){
+		// _cnt++;
+		// if(_cnt == 1){
+		// 	_sw.Start();
+		// }
 		var c = await GetNextNullableChar();
 		if(c < 0){
 			error("Unexpected EOF");
 		}
+		// if(_cnt == 10000){
+		// 	_sw.Stop();
+		// 	G.log((double)_sw.ElapsedTicks / Stopwatch.Frequency); //s
+		// 	G.log(_sw.ElapsedMilliseconds);
+		// 	_sw.Reset();
+		// }
+
 		return c;
 	}
 
@@ -225,14 +242,13 @@ public class WordParser{
 		if(obj.delimiter == null || obj.delimiter.Length == 0){
 			error("Invalid delimiter");return 1;
 		}
-		_status.headOfWordDelimiter = obj.delimiter[0];
+		_status.headOfWordDelimiter = (byte)obj.delimiter[0]; //TODO 
 		return 0;
 	}
 
 	public async Task<IList<I_DateBlock>> Parse(){
 		IList<I_DateBlock> ans = new List<I_DateBlock>();
 		for(var i = 0;;i++){
-			//G.log(state.ToString(), _status.line_col);
 			switch(_status.state){
 				case WPS.Start:
 					await Start(); // -> TopSpace
@@ -263,7 +279,8 @@ public class WordParser{
 	public async Task<i32> TopSpace(){
 		for(;;){
 			var c = await GetNextNullableChar();
-			if(c < 0){
+			//G.logNoLn((char)(c??48));
+			if(isNil(c)){
 				state = WPS.End;
 				return 0;
 			}
@@ -340,13 +357,22 @@ public class WordParser{
 		var bytes = new byte[buf.Count];
 		for (int i = 0; i < buf.Count; i++){
 			// 检查是否超出 byte 的范围 (0-255)
-			if (buf[i] < 0 || buf[i] > 255){
-				throw new std.ArgumentOutOfRangeException(nameof(buf), $"Word value {buf[i]} is out of range for byte.");
-			}
+			// if (buf[i] < 0 || buf[i] > 255){
+			// 	throw new std.ArgumentOutOfRangeException(nameof(buf), $"Word value {buf[i]} is out of range for byte.");
+			// }
 			bytes[i] = (byte)buf[i];
 		}
+		//var bytes = buf.ToArray();
 		return encoding.GetString(bytes);
 	}
+
+	// public str bufToStr(IList<word> buf){
+	// 	var encoding = this.encoding;
+	// 	//IList<byte> nonNullBuf = (IList<byte>)buf;
+	// 	var nonNull
+	// 	var arr = nonNullBuf.ToArray();
+	// 	return encoding.GetString(arr);
+	// }
 
 	public async Task<I_StrSegment> ReadLine(){
 		var buf = new List<word>();
@@ -471,7 +497,7 @@ public class WordParser{
 		for(;;){
 			var c = await GetNextChar(start);
 			//var c = await GetNextNullableChar();
-			//G.log(_status.pos,"______"+(char)c);//t
+			//G.log(_status.pos,"______"+(char)c);
 			if(isWhite(c)){
 				continue;
 			}
@@ -711,8 +737,15 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 		}
 	}
 
+	// public bool isNil(word s){
+	// 	if(s < 0){
+	// 		return true;
+	// 	}
+	// 	return false;
+	// }
+
 	public bool isNil(word s){
-		if(s < 0){
+		if(s == null){
 			return true;
 		}
 		return false;

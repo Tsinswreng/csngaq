@@ -26,7 +26,7 @@ public class TestWordParser{
 		var ans = await parser.Parse();
 		sw.Stop();
 		G.log("Elapsed time: " + sw.ElapsedMilliseconds + " ms");
-		//G.logJson(ans);
+		G.logJson(ans);
 		// var concated = WordParser.concatBack(ans);
 		// var str = string.Join("", concated);
 		//G.log(str);

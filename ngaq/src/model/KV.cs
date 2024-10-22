@@ -30,7 +30,7 @@ public class KV : IdBlCtUt, I_KV {
 
 
 /* 
-能不能寫一個源生成器、把類或結構體轉成Dictionary<string, object>
+能不能寫一個源生成3.器、把類或結構體轉成Dictionary<string, object>
 
 比如
 public class Rectangle{

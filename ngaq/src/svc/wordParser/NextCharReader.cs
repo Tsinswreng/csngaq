@@ -11,12 +11,12 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
-using word = byte;
+using word = byte?;
 using Chunk = System.ArraySegment<byte>; // 其Count是數組片段之長、非內部數組之長。
 
 namespace ngaq.svc.wordParser;
 
-public class NextCharReader: I_GetNextChar_i32, IDisposable{
+public class NextCharReader: I_GetNextByteNil, IDisposable{
 	
 	public str path{get; set;}
 
@@ -48,6 +48,7 @@ public class NextCharReader: I_GetNextChar_i32, IDisposable{
 	public async Task< Chunk > ReadNextChunk(){
 		byte[] buffer = new byte[bufferSize];
 		i32 bytesRead = await fs.ReadAsync(buffer, 0, bufferSize);
+		//i32 bytesRead = fs.Read(buffer, 0, bufferSize);
 		if(bytesRead <= 0){
 			return default; //Array=null, Count=0, Offset=0
 		}
@@ -76,18 +77,18 @@ public class NextCharReader: I_GetNextChar_i32, IDisposable{
 	// 	}
 	// }
 
-	public async Task<i32> GetNextChar(){
+	public async Task<word> GetNextChar(){
 		if(chunkPos >= curChunk.Count){
 			curChunk = await ReadNextChunk();
 			chunkPos = 0;
 		}
 		if(chunkPos >= curChunk.Count){
-			return -1; // EOF
+			//return -1; // EOF
+			return null;
 		}
 		var ans = curChunk[chunkPos];
 		chunkPos++;
 		pos++;
-		//G.logNoLn((char)ans);
 		return ans;
 	}
 
