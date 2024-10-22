@@ -8,8 +8,8 @@ namespace test.parser;
 public class TestWordParser{
 
 	public static async Task _Main(){
- 		//BenchmarkRunner.Run<TestWordParser>();
-		await new TestWordParser().Method();
+ 		BenchmarkRunner.Run<TestWordParser>();
+		//await new TestWordParser().Method();
 	}
 
 	[Benchmark]
@@ -18,7 +18,7 @@ public class TestWordParser{
 		//var path = "E:/_code/csngaq/test/assets/eng.ngaq";
 		//var path = "E:/_code/ngaq/srcWordList/eng/english.ngaq";
 		var reader = new NextCharReader(path);
-		var parser = new WordParser(reader);
+		var parser = new WordParser(reader, reader.byteSize);
 		parser.encoding = Encoding.UTF8;
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
@@ -26,7 +26,7 @@ public class TestWordParser{
 		var ans = await parser.Parse();
 		sw.Stop();
 		G.log("Elapsed time: " + sw.ElapsedMilliseconds + " ms");
-		G.logJson(ans);
+		//G.logJson(ans);
 		// var concated = WordParser.concatBack(ans);
 		// var str = string.Join("", concated);
 		//G.log(str);

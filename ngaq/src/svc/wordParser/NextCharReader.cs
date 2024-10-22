@@ -11,12 +11,12 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
-using word = byte?;
+using word = byte;
 using Chunk = System.ArraySegment<byte>; // 其Count是數組片段之長、非內部數組之長。
 
 namespace ngaq.svc.wordParser;
 
-public class NextCharReader: I_GetNextByteNil, IDisposable{
+public class NextCharReader: I_GetNextByte, IDisposable{
 	
 	public str path{get; set;}
 
@@ -32,6 +32,8 @@ public class NextCharReader: I_GetNextByteNil, IDisposable{
 	public i32 bufferSize{get; set;} = 0x100000;
 
 	public i32 pos{get; set;} = 0;
+	//public Chunk nextChunk{get; set;} = default;
+	public i64 byteSize{get; set;}
 	public Chunk curChunk{get; set;} = default;
 	public i32 chunkPos{get; set;} = 0;//下次將讀取的位置
 
@@ -42,6 +44,7 @@ public class NextCharReader: I_GetNextByteNil, IDisposable{
 		this.path = path;
 		//buffer = new word[bufferSize];
 		fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+		byteSize = fs.Length;
 	}
 
 
@@ -76,15 +79,20 @@ public class NextCharReader: I_GetNextByteNil, IDisposable{
 	// 		yield return data;
 	// 	}
 	// }
+	public bool isEnd{get; set;} = false;
+	public bool hasNext(){
+		return pos < byteSize;
+	}
 
-	public async Task<word> GetNextChar(){
+	public async Task<word> GetNextByte(){
 		if(chunkPos >= curChunk.Count){
 			curChunk = await ReadNextChunk();
 			chunkPos = 0;
-		}
-		if(chunkPos >= curChunk.Count){
-			//return -1; // EOF
-			return null;
+			if(chunkPos >= curChunk.Count){
+				//return -1; // EOF
+				isEnd = true;
+				return 0;
+			}
 		}
 		var ans = curChunk[chunkPos];
 		chunkPos++;

@@ -9,7 +9,7 @@ namespace model;
 [Table("KV")]
 public class KV : IdBlCtUt, I_KV {
 	/** TEXT, INT */
-	public str kType {get; set;} = KVType.STR.ToString(); 
+	public str kType {get; set;} = KVType.STR.ToString();
 	public str? kStr {get; set;}
 	public i64? kI64 {get; set;}
 	//public str KeyType {get; set;} = "";

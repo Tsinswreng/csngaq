@@ -12,6 +12,14 @@ public interface I_GetNextChar_i32{
 	Task<i32> GetNextChar();
 }
 
+[Obsolete]
 public interface I_GetNextByteNil{
 	Task<byte?> GetNextChar();
+}
+
+
+public interface I_GetNextByte{
+	Task<byte> GetNextByte();
+	//Task<bool> HasNext();
+	bool hasNext();
 }

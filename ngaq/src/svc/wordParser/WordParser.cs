@@ -11,7 +11,7 @@ using System.Diagnostics;
 namespace ngaq.svc.wordParser;
 
 //靜態多態
-using word = byte?;
+using word = byte;
 using WPS = WordParseState;
 
 public class ParseErr : std.Exception{
@@ -63,9 +63,11 @@ public class Tokens{
 
 
 public class WordParser{
-	I_GetNextByteNil _getNextByte;
-	public WordParser(I_GetNextByteNil getNextChar){
+	I_GetNextByte _getNextByte;
+	public i64 byteSize{get;set;}
+	public WordParser(I_GetNextByte getNextChar, i64 byteSize){
 		_getNextByte = getNextChar;
+		this.byteSize = byteSize;
 	}
 	Status _status {get; set;}= new Status();
 
@@ -119,14 +121,17 @@ public class WordParser{
 	//不移指標 預讀。
 	[Obsolete]
 	protected async Task<word> PreRead(){
-		var ans = await _getNextByte.GetNextChar();
+		var ans = await _getNextByte.GetNextByte();
 		preReadBuffer.Add(ans);
 		return ans;
 	}
 
+	public bool hasNext(){
+		return _getNextByte.hasNext();
+	}
 
-	protected async Task<word> GetNextNullableChar(){
-		var ans = await _getNextByte.GetNextChar();
+	protected async Task<word> TryGetNextByte(){
+		var ans = await _getNextByte.GetNextByte();
 		// word ans;
 		// if(pos_preRead < preReadBuffer.Count){
 		// 	ans = preReadBuffer[pos_preRead];
@@ -135,9 +140,9 @@ public class WordParser{
 		// 	ans = await _getNextChar.GetNextChar();
 		// }
 
-		if(isNil(ans)){
-			return ans;
-		}
+		// if(isNil(ans)){
+		// 	return ans;
+		// }
 
 		// if(unifiedNewLine){
 		// 	if( eq(ans, '\r') ){
@@ -166,15 +171,16 @@ public class WordParser{
 	i64 _cnt = 0;
 	Stopwatch _sw = new Stopwatch();
 	[Benchmark]
-	public async Task<word> GetNextChar(){
+	public async Task<word> GetNextByte(){
 		// _cnt++;
 		// if(_cnt == 1){
 		// 	_sw.Start();
 		// }
-		var c = await GetNextNullableChar();
-		if(c < 0){
+		if(!_getNextByte.hasNext()){
 			error("Unexpected EOF");
+			return 1;
 		}
+		var c = await TryGetNextByte();
 		// if(_cnt == 10000){
 		// 	_sw.Stop();
 		// 	G.log((double)_sw.ElapsedTicks / Stopwatch.Frequency); //s
@@ -188,10 +194,10 @@ public class WordParser{
 
 
 	public async Task<word> GetNextChar(i32 pos){
-		var c = await GetNextNullableChar();
-		if(c < 0){
+		if(!hasNext()){
 			error($"From {pos} to Unexpected EOF");
 		}
+		var c = await TryGetNextByte();
 		return c;
 	}
 	
@@ -278,12 +284,12 @@ public class WordParser{
 
 	public async Task<i32> TopSpace(){
 		for(;;){
-			var c = await GetNextNullableChar();
-			//G.logNoLn((char)(c??48));
-			if(isNil(c)){
+			if(!hasNext()){
 				state = WPS.End;
 				return 0;
 			}
+			var c = await TryGetNextByte();
+			//G.logNoLn((char)(c??48));
 			if(isWhite(c)){
 				continue;
 			}else if( eq(c , '<') ){
@@ -303,7 +309,7 @@ public class WordParser{
 		var buf = new List<word>();
 		var start = _status.pos;
 		for(;;){
-			var c = await GetNextChar();
+			var c = await GetNextByte();
 			if( eq(c , ']') ){
 				//state = WordParseState.TopSpace;
 				var ans = new StrSegment{
@@ -354,16 +360,16 @@ public class WordParser{
 		if(buf.Count == 0){
 			return "";
 		}
-		var bytes = new byte[buf.Count];
-		for (int i = 0; i < buf.Count; i++){
-			// 检查是否超出 byte 的范围 (0-255)
-			// if (buf[i] < 0 || buf[i] > 255){
-			// 	throw new std.ArgumentOutOfRangeException(nameof(buf), $"Word value {buf[i]} is out of range for byte.");
-			// }
-			bytes[i] = (byte)buf[i];
-		}
+		//var bytes = new byte[buf.Count];
+		// for (int i = 0; i < buf.Count; i++){
+		// 	// 检查是否超出 byte 的范围 (0-255)
+		// 	// if (buf[i] < 0 || buf[i] > 255){
+		// 	// 	throw new std.ArgumentOutOfRangeException(nameof(buf), $"Word value {buf[i]} is out of range for byte.");
+		// 	// }
+		// 	bytes[i] = (byte)buf[i];
+		// }
 		//var bytes = buf.ToArray();
-		return encoding.GetString(bytes);
+		return encoding.GetString(buf.ToArray());
 	}
 
 	// public str bufToStr(IList<word> buf){
@@ -378,7 +384,7 @@ public class WordParser{
 		var buf = new List<word>();
 		var start = _status.pos;
 		for(;;){
-			var c = await GetNextChar();
+			var c = await GetNextByte();
 			if( eq(c , '\n')){
 				//state = WordParseState.RestOfWordBlock;
 				var ans = new StrSegment{
@@ -404,9 +410,9 @@ public class WordParser{
 	public async Task<I_StrSegment> WordBlockBody(){
 		//buffer.Add(_status.curChar);
 		for(;;){
-			var c = await GetNextChar();
+			var c = await GetNextByte();
 			if( eq(c , '[') ){
-				var c2 = await GetNextChar();
+				var c2 = await GetNextByte();
 				if( eq(c2, '[') ){
 					state = WPS.Prop;
 					return bufferToStrSegmentEtClr();
@@ -419,7 +425,7 @@ public class WordParser{
 				_status.stack.Push(WPS.RestOfWordBlock);
 				return bufferToStrSegmentEtClr();
 			}else if( eq(c , '}')){
-				var c2 = await GetNextChar();
+				var c2 = await GetNextByte();
 				if( eq(c2 , '}') ){
 					state = WPS.DateBlockEnd; // -> WordBlock_TopSpace -> DateBlockEnd
 					return bufferToStrSegmentEtClr();
@@ -467,7 +473,7 @@ public class WordParser{
 		buffer.Add(_status.curChar); // 加上 delimiter首字符
 		var delimiter = G.nn(_status.metadata?.delimiter);
 		for(var i = 1;i < delimiter.Length;i++){
-			var c = await GetNextChar();
+			var c = await GetNextByte();
 			buffer.Add(c);
 			if( !eq(c , delimiter[i]) ){
 				//state = WordParseState.RestOfWordBlock; // not delimiter
@@ -483,7 +489,7 @@ public class WordParser{
 	///read until next non-white character
 	public async Task<word> SkipWhite(){
 		for(;;){
-			var c = await GetNextChar();
+			var c = await GetNextByte();
 			if(!isWhite(c)){
 				return c;
 			}
@@ -506,7 +512,7 @@ public class WordParser{
 				_status.stack.Push(WPS.WordBlock_TopSpace);
 				return 0;
 			}else if( eq(c, '}')){
-				var c2 = await GetNextChar();
+				var c2 = await GetNextByte();
 				if(eq(c2, '}')){// }} end of date block
 					state = WPS.DateBlockEnd;
 					return 0;
@@ -522,7 +528,7 @@ public class WordParser{
 	public async Task<I_StrSegment> ParseWordBlockHead(){
 		buffer.Add(_status.curChar);
 		for(;;){
-			var c = await GetNextChar();
+			var c = await GetNextByte();
 			if( eq(c, '\n') ){
 				state = WPS.RestOfWordBlock;
 				return bufferToStrSegmentEtClr();
@@ -652,12 +658,12 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 	//讀完日期後 、[2024-10-19T15:51:19.877+08:00] 後面
 	public async Task<code> DateBlock_TopSpace(){
 		for(;;){
-			var c = await GetNextChar();
+			var c = await GetNextByte();
 			if(isWhite(c)){
 				continue;
 			}
 			if( eq(c , '[') ){
-				var c2 = await GetNextChar();
+				var c2 = await GetNextByte();
 				if(eq(c2 , '[')){
 					_status.state = WPS.Prop;
 					break;
@@ -666,7 +672,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 					return 1;
 				}
 			}else if( eq(c , '{') ){
-				var c2 = await GetNextChar();
+				var c2 = await GetNextByte();
 				if(eq(c2 , '{')){
 					_status.state = WPS.WordBlocks;
 					break;
@@ -724,7 +730,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 		var start = _status.pos;
 		var buf = new List<word>();
 		for(;;){
-			var c = await GetNextChar();
+			var c = await GetNextByte();
 			if( eq(c , '|') ){
 				var joined = bufToStr(buf);
 				var key = new StrSegment{
@@ -768,7 +774,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 			switch(metadataStatus){
 				case 0: //<metadata>
 					for(var j = 0; ;j++){
-						var c = await GetNextChar();
+						var c = await GetNextByte();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						buffer.Add(c);
 						if( eq(c , '>') ){
@@ -783,7 +789,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 				break;
 				case 1:
 					for(;;){
-						var c = await GetNextChar();
+						var c = await GetNextByte();
 						//if( isNil(c) ){error("Unexpected EOF"); return 0;}
 						metadataContent.Add(c);
 						if( eq(c,'{') ){
@@ -804,7 +810,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 				case 2: //</metadata>
 					//除ᵣ末大括號到</metadata>間之空白
 					for(;;){
-						var c = await GetNextChar();
+						var c = await GetNextByte();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						if(isWhite(c)){
 							continue;
@@ -818,7 +824,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 					}
 
 					for(;;){
-						var c = await GetNextChar();
+						var c = await GetNextByte();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						buffer.Add(c);
 						if( eq(c , '>') ){
