@@ -23,7 +23,7 @@ public class TestWordParser{
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 		//50001行、 1,043,388 字节
-		var ans = await parser.Parse();
+		var ans = parser.parse();
 		sw.Stop();
 		G.log("Elapsed time: " + sw.ElapsedMilliseconds + " ms");
 		//G.logJson(ans);

@@ -63,9 +63,9 @@ public class Tokens{
 
 
 public class WordParser{
-	I_GetNextByte _getNextByte;
+	I_getNextByte _getNextByte;
 	public i64 byteSize{get;set;}
-	public WordParser(I_GetNextByte getNextChar, i64 byteSize){
+	public WordParser(I_getNextByte getNextChar, i64 byteSize){
 		_getNextByte = getNextChar;
 		this.byteSize = byteSize;
 	}
@@ -118,26 +118,18 @@ public class WordParser{
 	// 	return curWordBlock;
 	// }
 	
-	//不移指標 預讀。
-	[Obsolete]
-	protected async Task<word> PreRead(){
-		var ans = await _getNextByte.GetNextByte();
-		preReadBuffer.Add(ans);
-		return ans;
-	}
-
 	public bool hasNext(){
 		return _getNextByte.hasNext();
 	}
 
-	protected async Task<word> TryGetNextByte(){
-		var ans = await _getNextByte.GetNextByte();
+	protected word tryGetNextByte(){
+		var ans = _getNextByte.getNextByte();
 		// word ans;
 		// if(pos_preRead < preReadBuffer.Count){
 		// 	ans = preReadBuffer[pos_preRead];
 		// 	pos_preRead++;
 		// }else{
-		// 	ans = await _getNextChar.GetNextChar();
+		// 	ans =  _getNextChar.GetNextChar();
 		// }
 
 		// if(isNil(ans)){
@@ -146,7 +138,7 @@ public class WordParser{
 
 		// if(unifiedNewLine){
 		// 	if( eq(ans, '\r') ){
-		// 		var p = await PreRead();
+		// 		var p =  PreRead();
 		// 		if( eq(p, '\n') ){
 		// 			ans = '\n';
 		// 			preReadBuffer.Clear();
@@ -170,34 +162,22 @@ public class WordParser{
 
 	i64 _cnt = 0;
 	Stopwatch _sw = new Stopwatch();
-	[Benchmark]
-	public async Task<word> GetNextByte(){
-		// _cnt++;
-		// if(_cnt == 1){
-		// 	_sw.Start();
-		// }
-		if(!_getNextByte.hasNext()){
+	public word getNextByte(){
+		if(!hasNext()){
 			error("Unexpected EOF");
 			return 1;
 		}
-		var c = await TryGetNextByte();
-		// if(_cnt == 10000){
-		// 	_sw.Stop();
-		// 	G.log((double)_sw.ElapsedTicks / Stopwatch.Frequency); //s
-		// 	G.log(_sw.ElapsedMilliseconds);
-		// 	_sw.Reset();
-		// }
-
+		var c =  tryGetNextByte();
 		return c;
 	}
 
 
 
-	public async Task<word> GetNextChar(i32 pos){
+	public word getNextChar(i32 pos){
 		if(!hasNext()){
 			error($"From {pos} to Unexpected EOF");
 		}
-		var c = await TryGetNextByte();
+		var c =  tryGetNextByte();
 		return c;
 	}
 	
@@ -252,21 +232,21 @@ public class WordParser{
 		return 0;
 	}
 
-	public async Task<IList<I_DateBlock>> Parse(){
+	public IList<I_DateBlock> parse(){
 		IList<I_DateBlock> ans = new List<I_DateBlock>();
 		for(var i = 0;;i++){
 			switch(_status.state){
 				case WPS.Start:
-					await Start(); // -> TopSpace
+					start(); // -> TopSpace
 				break;
 				case WPS.TopSpace:
-					await TopSpace(); // -> Metadata, DateBlock, End
+					topSpace(); // -> Metadata, DateBlock, End
 				break;
 				case WPS.Metadata:
-					await Metadata(); // -> TopSpace
+					metadata(); // -> TopSpace
 				break;
 				case WPS.DateBlock:
-					var ua = await ReadDateBlock(); // -> TopSpace
+					var ua = readDateBlock(); // -> TopSpace
 					ans.Add(ua);
 				break;
 				case WPS.End:
@@ -277,18 +257,18 @@ public class WordParser{
 		//return 0;
 	}
 
-	public async Task<i32> Start(){
+	public i32 start(){
 		state = WPS.TopSpace;
 		return 0;
 	}
 
-	public async Task<i32> TopSpace(){
+	public i32 topSpace(){
 		for(;;){
 			if(!hasNext()){
 				state = WPS.End;
 				return 0;
 			}
-			var c = await TryGetNextByte();
+			var c =  tryGetNextByte();
 			//G.logNoLn((char)(c??48));
 			if(isWhite(c)){
 				continue;
@@ -305,11 +285,11 @@ public class WordParser{
 		return 0;
 	}
 
-	public async Task<I_StrSegment> ReadDate(){
+	public I_StrSegment readDate(){
 		var buf = new List<word>();
 		var start = _status.pos;
 		for(;;){
-			var c = await GetNextByte();
+			var c =  getNextByte();
 			if( eq(c , ']') ){
 				//state = WordParseState.TopSpace;
 				var ans = new StrSegment{
@@ -322,25 +302,25 @@ public class WordParser{
 		}
 	}
 
-	public async Task<I_DateBlock> ReadDateBlock(){
+	public I_DateBlock readDateBlock(){
 		var ans = new DateBlock();
 		for(;;){
 			switch(state){
 				case WPS.DateBlock: //入口
 					//_status.state = WordParseState.DateBlock_date;
-					ans.date = await ReadDate();
+					ans.date =  readDate();
 					state = WPS.DateBlock_TopSpace;
 				break;
 				case WPS.DateBlock_TopSpace:
-					await DateBlock_TopSpace(); // -> Prop, WordBlocks
+					dateBlock_TopSpace(); // -> Prop, WordBlocks
 				break;
 				case WPS.Prop:
-					var prop = await ReadProp();
+					var prop = readProp();
 					ans.props.Add(prop);
 					state = WPS.DateBlock_TopSpace;
 				break;
 				case WPS.WordBlocks:
-					var wordBlocks = await ReadWordBlocks(); // -> TopSpace
+					var wordBlocks = readWordBlocks(); // -> TopSpace
 					foreach(var w in wordBlocks){ans.words.Add(w);}
 				break;
 				case WPS.DateBlockEnd:
@@ -380,11 +360,11 @@ public class WordParser{
 	// 	return encoding.GetString(arr);
 	// }
 
-	public async Task<I_StrSegment> ReadLine(){
+	public I_StrSegment readLine(){
 		var buf = new List<word>();
 		var start = _status.pos;
 		for(;;){
-			var c = await GetNextByte();
+			var c = getNextByte();
 			if( eq(c , '\n')){
 				//state = WordParseState.RestOfWordBlock;
 				var ans = new StrSegment{
@@ -407,12 +387,12 @@ public class WordParser{
 
 	// 不含prop之wordBlockBody
 	/// @return body之I_StrSegment、非完整。
-	public async Task<I_StrSegment> WordBlockBody(){
+	public I_StrSegment wordBlockBody(){
 		//buffer.Add(_status.curChar);
 		for(;;){
-			var c = await GetNextByte();
+			var c =  getNextByte();
 			if( eq(c , '[') ){
-				var c2 = await GetNextByte();
+				var c2 =  getNextByte();
 				if( eq(c2, '[') ){
 					state = WPS.Prop;
 					return bufferToStrSegmentEtClr();
@@ -425,7 +405,7 @@ public class WordParser{
 				_status.stack.Push(WPS.RestOfWordBlock);
 				return bufferToStrSegmentEtClr();
 			}else if( eq(c , '}')){
-				var c2 = await GetNextByte();
+				var c2 =  getNextByte();
 				if( eq(c2 , '}') ){
 					state = WPS.DateBlockEnd; // -> WordBlock_TopSpace -> DateBlockEnd
 					return bufferToStrSegmentEtClr();
@@ -446,10 +426,10 @@ public class WordParser{
 /// -> Prop, RestOfWordBlock
 /// </summary>
 /// <returns></returns>
-	// public async Task<code> FirstLeftSquareBracketInWordBlockProp(){
+	// public code FirstLeftSquareBracketInWordBlockProp(){
 	// 	buffer.Add(_status.curChar); // 加上 第一個 "["
 	// 	for(;;){
-	// 		var c = await GetNextChar();
+	// 		var c =  GetNextChar();
 	// 		if( eq(c , '[') ){
 	// 			state=WPS.Prop;
 	// 			buffer.Clear();
@@ -464,16 +444,16 @@ public class WordParser{
 	// }
 
 
-	public async Task<code> HeadOfWordDelimiter(){
+	public code headOfWordDelimiter(){
 		var toReturn = _status.stack.Pop();
-		return await HeadOfWordDelimiter(toReturn);
+		return headOfWordDelimiter(toReturn);
 	}
 
-	public async Task<code> HeadOfWordDelimiter(WPS stateToReturn){
+	public code headOfWordDelimiter(WPS stateToReturn){
 		buffer.Add(_status.curChar); // 加上 delimiter首字符
 		var delimiter = G.nn(_status.metadata?.delimiter);
 		for(var i = 1;i < delimiter.Length;i++){
-			var c = await GetNextByte();
+			var c =  getNextByte();
 			buffer.Add(c);
 			if( !eq(c , delimiter[i]) ){
 				//state = WordParseState.RestOfWordBlock; // not delimiter
@@ -487,9 +467,9 @@ public class WordParser{
 	}
 
 	///read until next non-white character
-	public async Task<word> SkipWhite(){
+	public word skipWhite(){
 		for(;;){
-			var c = await GetNextByte();
+			var c =  getNextByte();
 			if(!isWhite(c)){
 				return c;
 			}
@@ -498,11 +478,11 @@ public class WordParser{
 	}
 
 
-	public async Task<code> WordBlock_TopSpace(){
+	public code wordBlock_TopSpace(){
 		var start = _status.pos;
 		for(;;){
-			var c = await GetNextChar(start);
-			//var c = await GetNextNullableChar();
+			var c =  getNextChar(start);
+			//var c =  GetNextNullableChar();
 			//G.log(_status.pos,"______"+(char)c);
 			if(isWhite(c)){
 				continue;
@@ -512,7 +492,7 @@ public class WordParser{
 				_status.stack.Push(WPS.WordBlock_TopSpace);
 				return 0;
 			}else if( eq(c, '}')){
-				var c2 = await GetNextByte();
+				var c2 =  getNextByte();
 				if(eq(c2, '}')){// }} end of date block
 					state = WPS.DateBlockEnd;
 					return 0;
@@ -525,10 +505,10 @@ public class WordParser{
 		}
 	}
 
-	public async Task<I_StrSegment> ParseWordBlockHead(){
+	public I_StrSegment parseWordBlockHead(){
 		buffer.Add(_status.curChar);
 		for(;;){
-			var c = await GetNextByte();
+			var c =  getNextByte();
 			if( eq(c, '\n') ){
 				state = WPS.RestOfWordBlock;
 				return bufferToStrSegmentEtClr();
@@ -537,7 +517,7 @@ public class WordParser{
 		}
 	}
 
-	public async Task<IList<I_WordBlock>> ReadWordBlocks(){
+	public IList<I_WordBlock> readWordBlocks(){
 		var ans = new List<I_WordBlock>();
 		var ua = new WordBlock();
 		for(;;){
@@ -547,10 +527,10 @@ public class WordParser{
 					state = WPS.WordBlock_TopSpace;
 				break;
 				case WPS.WordBlock_TopSpace:
-					await WordBlock_TopSpace(); // -> DateBlockEnd, WordBlockFirstLine, headOfWordDelimiter
+					wordBlock_TopSpace(); // -> DateBlockEnd, WordBlockFirstLine, headOfWordDelimiter
 				break;
 				case WPS.WordBlockFirstLine:
-					var head = await ParseWordBlockHead(); // -> RestOfWordBlock
+					var head =  parseWordBlockHead(); // -> RestOfWordBlock
 					if(head == null || head.text.Length == 0){
 						continue;
 					}
@@ -559,24 +539,24 @@ public class WordParser{
 
 				case WPS.RestOfWordBlock:
 					//state->, HeadOfWordDelimiter, Prop, DateBlockEnd
-					var bodySeg = await WordBlockBody();
+					var bodySeg = wordBlockBody();
 					ua.body.Add(bodySeg);
 				break;
 
 				// case WPS.FirstLeftSquareBracketInWordBlockProp:
-				// 	await FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
+				// 	 FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
 				// break;
 
 				case WPS.Prop:
-					//await WordBlockProp(); // -> RestOfWordBlock
-					var prop = await ReadProp();
+					// WordBlockProp(); // -> RestOfWordBlock
+					var prop = readProp();
 					ua.props.Add(prop);
 					state = WPS.RestOfWordBlock;
 				break;
 
 				case WPS.HeadOfWordDelimiter:
 					// state -> state = _status.stack.Pop(), WordBlockEnd
-					await HeadOfWordDelimiter();
+					headOfWordDelimiter();
 				break;
 
 				case WPS.WordBlockEnd:
@@ -599,7 +579,7 @@ public class WordParser{
 /* 
 TODO 空wordBlock、及head中有不完整ʹ分隔符者
  */
-	// public async Task<I_WordBlock?> ReadOneWordBlock(){
+	// public I_WordBlock? ReadOneWordBlock(){
 	// 	I_StrSegment? head = null;
 	// 	var bodySegs = new List<I_StrSegment>();
 	// 	var props = new List<I_Prop>();
@@ -607,37 +587,37 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 	// 		G.log(state.ToString());
 	// 		switch (state){
 	// 			case WPS.WordBlocks: // 入口
-	// 				// var firstLine = await ReadLine(); //TODO
+	// 				// var firstLine =  ReadLine(); //TODO
 	// 				// head = firstLine;
 	// 				// state = WordParseState.RestOfWordBlock;
 	// 				state = WPS.WordBlock_TopSpace;
 	// 			break;
 	// 			case WPS.WordBlock_TopSpace:
-	// 				await WordBlock_TopSpace(); // -> HeadOfWordDelimiter, FirstLine
+	// 				 WordBlock_TopSpace(); // -> HeadOfWordDelimiter, FirstLine
 	// 			break;
 	// 			case WPS.WordBlockFirstLine:
-	// 				head = await ParseWordBlockHead(); // -> RestOfWordBlock
+	// 				head =  ParseWordBlockHead(); // -> RestOfWordBlock
 	// 				if(head == null || head.text.Length == 0){
 	// 					return null;//TODO 判斷純空白
 	// 				}
 	// 			break;
 	// 			case WPS.RestOfWordBlock:
-	// 				var bodySeg = await WordBlockBody();
+	// 				var bodySeg =  WordBlockBody();
 	// 				bodySegs.Add(bodySeg);
 	// 				//state->WordParseState.FirstLeftSquareBracketInWordBlockProp;
 	// 			break;
 	// 			case WPS.FirstLeftSquareBracketInWordBlockProp:
-	// 				await FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
+	// 				 FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
 	// 			break;
 	// 			case WPS.Prop:
-	// 				//await WordBlockProp(); // -> RestOfWordBlock
-	// 				var prop = await ReadProp();
+	// 				// WordBlockProp(); // -> RestOfWordBlock
+	// 				var prop =  ReadProp();
 	// 				props.Add(prop);
 	// 				state = WPS.RestOfWordBlock;
 	// 			break;
 	// 			case WPS.HeadOfWordDelimiter:
 	// 				// state -> WordBlockEnd, RestOfWordBlock
-	// 				await HeadOfWordDelimiter();
+	// 				 HeadOfWordDelimiter();
 	// 			break;
 	// 			case WPS.WordBlockEnd:
 	// 				state = WPS.WordBlock_TopSpace;
@@ -656,14 +636,14 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 	// }
 
 	//讀完日期後 、[2024-10-19T15:51:19.877+08:00] 後面
-	public async Task<code> DateBlock_TopSpace(){
+	public code dateBlock_TopSpace(){
 		for(;;){
-			var c = await GetNextByte();
+			var c = getNextByte();
 			if(isWhite(c)){
 				continue;
 			}
 			if( eq(c , '[') ){
-				var c2 = await GetNextByte();
+				var c2 =  getNextByte();
 				if(eq(c2 , '[')){
 					_status.state = WPS.Prop;
 					break;
@@ -672,7 +652,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 					return 1;
 				}
 			}else if( eq(c , '{') ){
-				var c2 = await GetNextByte();
+				var c2 = getNextByte();
 				if(eq(c2 , '{')){
 					_status.state = WPS.WordBlocks;
 					break;
@@ -686,9 +666,9 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 	}
 
 
-	public async Task<I_Prop> ReadProp(){
-		var key = await ReadPropKey();
-		var value = await ReadPropValue();
+	public I_Prop readProp(){
+		var key = readPropKey();
+		var value = readPropValue();
 		var ans = new Prop{
 			key = key
 			,value = value
@@ -696,14 +676,14 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 		return ans;
 	}
 
-	public async Task<I_StrSegment> ReadPropValue(){
+	public I_StrSegment readPropValue(){
 		var start = _status.pos;
 		var buf = new List<word>();
 		for(var i = 0;;i++){
-			var c = await GetNextChar(start);
-			//var c2 = await PreRead();
+			var c = getNextChar(start);
+			//var c2 =  PreRead();
 			if( eq(c , ']')){
-				var c2 = await GetNextChar(start);
+				var c2 = getNextChar(start);
 				if( eq(c2, ']') ){
 					var value = new StrSegment{
 						start = start
@@ -726,11 +706,11 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 /// 不改變狀態機、只往後讀字符
 /// </summary>
 /// <returns></returns>
-	public async Task<I_StrSegment> ReadPropKey(){
+	public I_StrSegment readPropKey(){
 		var start = _status.pos;
 		var buf = new List<word>();
 		for(;;){
-			var c = await GetNextByte();
+			var c = getNextByte();
 			if( eq(c , '|') ){
 				var joined = bufToStr(buf);
 				var key = new StrSegment{
@@ -750,6 +730,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 	// 	return false;
 	// }
 
+	[Obsolete]
 	public bool isNil(word s){
 		if(s == null){
 			return true;
@@ -765,7 +746,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 		//return ex;
 	}
 
-	public async Task<code> Metadata(){
+	public code metadata(){
 		_status.buffer.Add(_status.curChar); // <
 		var metadataStatus = 0; //0:<metadata>; 1:content; 2:</metadata>
 		var bracesStack = new List<word>(); //元數據內json之大括號
@@ -774,7 +755,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 			switch(metadataStatus){
 				case 0: //<metadata>
 					for(var j = 0; ;j++){
-						var c = await GetNextByte();
+						var c = getNextByte();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						buffer.Add(c);
 						if( eq(c , '>') ){
@@ -789,7 +770,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 				break;
 				case 1:
 					for(;;){
-						var c = await GetNextByte();
+						var c = getNextByte();
 						//if( isNil(c) ){error("Unexpected EOF"); return 0;}
 						metadataContent.Add(c);
 						if( eq(c,'{') ){
@@ -810,7 +791,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 				case 2: //</metadata>
 					//除ᵣ末大括號到</metadata>間之空白
 					for(;;){
-						var c = await GetNextByte();
+						var c = getNextByte();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						if(isWhite(c)){
 							continue;
@@ -824,7 +805,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 					}
 
 					for(;;){
-						var c = await GetNextByte();
+						var c = getNextByte();
 						//if( isNil(c) ){error("Unexpected EOF");return 0;}
 						buffer.Add(c);
 						if( eq(c , '>') ){
@@ -936,7 +917,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 /* 
 var txtLength = 1000000;
 for(var i = 0; i < txtLength, i++){
-	string c = await GetNextChar(); //c是只有一個碼點的字符串。從文件讀取。
+	string c =  GetNextChar(); //c是只有一個碼點的字符串。從文件讀取。
 	handle(c);
 }
 handle方法中會判斷c並把c加入到List<string>中。

@@ -8,7 +8,7 @@ public class TestNextCharReader{
 		var path = "E:/_code/csngaq/test/src/parser/TestNextCharReader.cs";
 		var reader = new NextCharReader(path);
 		for(;;){
-			var c = await reader.GetNextByte();
+			var c = reader.getNextByte();
 			if(c == -1) break;
 			G.logNoLn(c+" ");
 		}
