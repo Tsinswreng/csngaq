@@ -22,15 +22,11 @@
 	<Grid>
 		<TextBlock Text="{Binding Greeting}" />
 		<!-- HorizontalAlignment="Center" VerticalAlignment="Center" -->
-		<!-- 
-		{Binding Greeting} 是一个数据绑定表达式。这意味着文本块的 Text 属性将绑定到一个名为 Greeting 的数据源属性。
-		当 Greeting 属性的值发生变化时，文本块显示的文本也会自动更新。
-		这个数据源通常来自一个 ViewModel 或数据上下文。
-		-->
 		<Button Click="Button_Click">
 			Calc
 		</Button>
 		<TextBlock Text="{DynamicResource GreetingText}" />
+		
 	</Grid>
 
 </UserControl>
