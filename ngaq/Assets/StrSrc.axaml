@@ -1,0 +1,6 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<!-- <string x:Key="AppName">我的应用程序</string>
+	<string x:Key="WelcomeMessage">欢迎使用 {0}！</string>
+	<string x:Key="ErrorMessage">发生错误！</string> -->
+</ResourceDictionary>
