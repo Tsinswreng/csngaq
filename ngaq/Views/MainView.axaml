@@ -25,8 +25,12 @@
 		<Button Click="Button_Click">
 			Calc
 		</Button>
-		<TextBlock Text="{DynamicResource GreetingText}" />
-		
+		<!-- <TextBlock Text="{DynamicResource GreetingText}" /> -->
+
+		<!-- <TextBlock Text="{DynamicResource AppName}" />
+		<TextBlock Text="{DynamicResource HelloWorld}" /> -->
+		<TextBlock Text="{x:Static ngaq.Resources:Resources.Greeting}" />
+
 	</Grid>
 
 </UserControl>

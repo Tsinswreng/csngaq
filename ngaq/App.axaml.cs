@@ -1,15 +1,32 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Avalonia.Markup.Xaml.Styling;
 using ngaq.ViewModels;
 using ngaq.Views;
+using System.Globalization;
+using System.Threading;
 
 namespace ngaq {
 	public partial class App : Application {
 		public override void Initialize() {
 			AvaloniaXamlLoader.Load(this);
+			var culture = CultureInfo.CurrentCulture;
+			var resourcePath = $"Resources/Strings.{culture.Name}.xaml";
+			
+			G.log(resourcePath);//t
+			//尝试加载特定语言的资源，如果失败则加载默认资源
+			try {
+				var style = new StyleInclude(new Uri("avares://ngaq/Styles.xaml")) { Source = new Uri(resourcePath) };
+				Styles.Add(style);
+			}
+			catch {
+				var style = new StyleInclude(new Uri("avares://ngaq/Styles.xaml")) { Source = new Uri("avares://ngaq/Resources/Strings.xaml") };
+				Styles.Add(style);
+			}
 		}
 
 		public override void OnFrameworkInitializationCompleted() {
@@ -26,6 +43,10 @@ namespace ngaq {
 					DataContext = new MainViewModel()
 				};
 			}
+
+			var culture = CultureInfo.CurrentCulture;
+			Thread.CurrentThread.CurrentUICulture = culture;
+
 
 			base.OnFrameworkInitializationCompleted();
 		}
