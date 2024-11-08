@@ -4,9 +4,10 @@ public interface I_LineCol{
 	/// <summary>
 	/// from 0
 	/// </summary>
-	public i32 line {get; set;}
+	public u64 line {get; set;}
 	/// <summary>
 	/// from 0
 	/// </summary>
-	public i32 col {get; set;}
+	public u64 col {get; set;}
 }
+

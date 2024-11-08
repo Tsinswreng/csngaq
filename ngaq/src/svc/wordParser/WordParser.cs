@@ -20,15 +20,15 @@ public class ParseErr : std.Exception{
 	}
 
 	public I_LineCol? lineCol{get;set;}
-	public i32? pos{get;set;}
+	public u64? pos{get;set;}
 }
 
 public class Pos : I_LineCol{
 	public Pos(){
 
 	}
-	public i32 line {get; set;} = 0;
-	public i32 col {get; set;} = 0;
+	public u64 line {get; set;} = 0;
+	public u64 col {get; set;} = 0;
 
 	public override str ToString(){
 		return $"({line},{col})";
@@ -38,7 +38,7 @@ public class Pos : I_LineCol{
 class Status{
 	public WPS state {get; set;} = WPS.Start;
 	public I_LineCol line_col {get; set;} = new Pos();
-	public i32 pos {get;set;} = 0;
+	public u64 pos {get;set;} = 0;
 
 	public Stack<WPS> stack {get; set;} = new();
 
@@ -173,7 +173,7 @@ public class WordParser{
 
 
 
-	public word getNextChar(i32 pos){
+	public word getNextChar(u64 pos){
 		if(!hasNext()){
 			error($"From {pos} to Unexpected EOF");
 		}
@@ -208,7 +208,7 @@ public class WordParser{
 	/// </summary>
 	/// <returns></returns>
 	public I_StrSegment bufferToStrSegmentEtClr(){
-		var start = _status.pos - _status.buffer.Count;
+		var start = _status.pos - (u64)_status.buffer.Count;
 		var text = bufToStr(_status.buffer);
 		_status.buffer.Clear();
 		return new StrSegment{
@@ -923,3 +923,6 @@ for(var i = 0; i < txtLength, i++){
 handle方法中會判斷c並把c加入到List<string>中。
 以上代碼會有明顯的GC壓力或性能問題嗎?
  */
+
+
+
