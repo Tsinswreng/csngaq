@@ -39,3 +39,4 @@ MainView: 这是 Avalonia 应用在非经典桌面环境（例如移动平台、
 你的 Avalonia 项目在 Windows 上执行 dotnet run 时，显示的是 MainWindow。
 
 这是因为默认情况下，Avalonia 的项目模板使用的是 IClassicDesktopStyleApplicationLifetime，这个生命周期模型专门为传统的桌面应用程序设计，它会创建一个主窗口 (MainWindow) 来显示你的应用程序界面。  除非你在项目中显式地更改了应用程序生命周期模型，否则 dotnet run 将始终启动并显示 MainWindow。 MainView 只在使用 ISingleViewApplicationLifetime 时才会被用到，而这通常用于非传统桌面环境（例如移动应用或 WebAssembly 应用）。 
+
