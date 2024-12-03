@@ -14,19 +14,19 @@ namespace ngaq {
 	public partial class App : Application {
 		public override void Initialize() {
 			AvaloniaXamlLoader.Load(this);
-			var culture = CultureInfo.CurrentCulture;
-			var resourcePath = $"Resources/Strings.{culture.Name}.xaml";
+			// var culture = CultureInfo.CurrentCulture;
+			// var resourcePath = $"Resources/Strings.{culture.Name}.xaml";
 			
-			G.log(resourcePath);//t
-			//尝试加载特定语言的资源，如果失败则加载默认资源
-			try {
-				var style = new StyleInclude(new Uri("avares://ngaq/Styles.xaml")) { Source = new Uri(resourcePath) };
-				Styles.Add(style);
-			}
-			catch {
-				var style = new StyleInclude(new Uri("avares://ngaq/Styles.xaml")) { Source = new Uri("avares://ngaq/Resources/Strings.xaml") };
-				Styles.Add(style);
-			}
+			// G.log(resourcePath);//t
+			// //尝试加载特定语言的资源，如果失败则加载默认资源
+			// try {
+			// 	var style = new StyleInclude(new Uri("avares://ngaq/Styles.xaml")) { Source = new Uri(resourcePath) };
+			// 	Styles.Add(style);
+			// }
+			// catch {
+			// 	var style = new StyleInclude(new Uri("avares://ngaq/Styles.xaml")) { Source = new Uri("avares://ngaq/Resources/Strings.xaml") };
+			// 	Styles.Add(style);
+			// }
 		}
 
 		public override void OnFrameworkInitializationCompleted() {
