@@ -65,10 +65,11 @@ public static class G {
 		//dotnet test -> E:\_code\rime-tools\test\bin\Debug\net8.0\
 		string domainDir = AppDomain.CurrentDomain.BaseDirectory;
 		string baseDir = Path.GetFullPath(Path.Combine(domainDir, @"../../../../"));
+		baseDir = baseDir.Replace("\\", "/");
 		if(baseDir.EndsWith("/")){
 			baseDir = baseDir.Substring(0, baseDir.Length-1);
 		}
-		return baseDir.Replace("\\", "/");
+		return baseDir;
 	}
 
 	public static str log(){

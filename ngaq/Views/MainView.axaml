@@ -29,7 +29,7 @@
 
 		<!-- <TextBlock Text="{DynamicResource AppName}" />
 		<TextBlock Text="{DynamicResource HelloWorld}" /> -->
-		<TextBlock Text="{x:Static ngaq.Resources:Resources.Greeting}" />
+		<!-- <TextBlock Text="{x:Static ngaq.Resources:Resources.Greeting}" /> -->
 
 	</Grid>
 

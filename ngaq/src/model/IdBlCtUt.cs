@@ -10,7 +10,7 @@ using Id_t = str;
 how to export type ?
  */
 
-public class IdBlCtUt{
+public class IdBlCtUt : I_IdBlCtUt {
 	[Key]
 	
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
