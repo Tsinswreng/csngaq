@@ -27,6 +27,10 @@
 		
 	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="../ngaq.Common/ngaq.Common.csproj" />
+	</ItemGroup>
+
 
 <ItemGroup>
   <EmbeddedResource Update="Assets/Resources.resx">

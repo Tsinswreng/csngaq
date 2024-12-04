@@ -16,4 +16,8 @@
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
   </ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="../ngaq.Common/ngaq.Common.csproj" />
+	</ItemGroup>
+
 </Project>
