@@ -9,6 +9,11 @@
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <AvaloniaResource Remove="Assets\Resources.resx" />
+	  <AvaloniaResource Remove="Assets\Resources.zh-CN.resx" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
@@ -29,17 +34,20 @@
 
 
 <ItemGroup>
-  <EmbeddedResource Update="Resources.resx">
+  <EmbeddedResource Update="Assets/Resources.resx">
     <Generator>PublicResXFileCodeGenerator</Generator>
     <LastGenOutput>Resources.Designer.cs</LastGenOutput>
   </EmbeddedResource>
-  <EmbeddedResource Update="Resources.zh-CN.resx">
-    <Generator>PublicResXFileCodeGenerator</Generator>
-    <LastGenOutput>Resources.zh-CN.Designer.cs</LastGenOutput>
-  </EmbeddedResource>
-  <!-- Add similar entries for other languages -->
 </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Assets/Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+ 
 
 
 </Project>

@@ -10,6 +10,7 @@ using ngaq.Views;
 using System.Globalization;
 using System.Threading;
 
+
 namespace ngaq {
 	public partial class App : Application {
 		public override void Initialize() {
@@ -30,6 +31,8 @@ namespace ngaq {
 		}
 
 		public override void OnFrameworkInitializationCompleted() {
+			Assets.Resources.Culture = new CultureInfo("zh-CN");
+			//System.Globalization.CultureInfo resourceCulture = new CultureInfo("zh-CN");
 			if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
 				// Line below is needed to remove Avalonia data validation.
 				// Without this line you will get duplicate validations from both Avalonia and CT
