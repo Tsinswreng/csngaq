@@ -51,3 +51,10 @@ BMP 只能表示 0x0000 到 0xFFFF 之间的字符，也就是 65,536 个字符�
 
 代理对是 UTF-16 编码中的一种机制，用于表示超出基本多语言平面 (BMP) 的 Unicode 字符。它由一个高代理和一个低代理组成，两者组合起来表示一个完整的字符。  理解代理对对于正确处理和操作 Unicode 字符至关重要，尤其是在处理不同编码方式的文本时。
 
+
+
+#
+[2024-12-04T23:13:06.697+08:00_W49-3]
+
+我的avalonia项目、在xxx.Browser文件夾下 運行dotnet run爲甚麼瀏覽器上只有一個Powered by Avalonia頁面、沒顯示MainWindow.axaml的內容? 但是我在xxx.Desktop中運行dotnet run 就有顯示MainWindow.axaml的內容?
+##

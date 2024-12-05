@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using tools;
 
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
+
 using System.Diagnostics;
 namespace ngaq.svc.wordParser;
 
