@@ -1,26 +1,30 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using ngaq.ViewModels;
-using System;
 
-namespace ngaq{
-	public class ViewLocator : IDataTemplate{
-		public Control? Build(object? data){
-			if (data is null)
-				return null;
+namespace ngaq;
 
-			var name = data.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
-			var type = Type.GetType(name);
+public class ViewLocator : IDataTemplate
+{
+    public Control? Build(object? param)
+    {
+        if (param is null)
+            return null;
 
-			if (type != null){
-				return (Control)Activator.CreateInstance(type)!;
-			}
+        var name = param.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+        var type = Type.GetType(name);
 
-			return new TextBlock { Text = "Not Found: " + name };
-		}
+        if (type != null)
+        {
+            return (Control)Activator.CreateInstance(type)!;
+        }
 
-		public bool Match(object? data){
-			return data is ViewModelBase;
-		}
-	}
+        return new TextBlock { Text = "Not Found: " + name };
+    }
+
+    public bool Match(object? data)
+    {
+        return data is ViewModelBase;
+    }
 }

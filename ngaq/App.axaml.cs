@@ -1,93 +1,54 @@
-using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
+using System.Linq;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.Styling;
 using ngaq.ViewModels;
 using ngaq.Views;
-using System.Globalization;
-using System.Threading;
 
+namespace ngaq;
 
-namespace ngaq {
-	public partial class App : Application {
-		public override void Initialize() {
-			AvaloniaXamlLoader.Load(this);
-			// var culture = CultureInfo.CurrentCulture;
-			// var resourcePath = $"Resources/Strings.{culture.Name}.xaml";
-			
-			// G.log(resourcePath);//t
-			// //尝试加载特定语言的资源，如果失败则加载默认资源
-			// try {
-			// 	var style = new StyleInclude(new Uri("avares://ngaq/Styles.xaml")) { Source = new Uri(resourcePath) };
-			// 	Styles.Add(style);
-			// }
-			// catch {
-			// 	var style = new StyleInclude(new Uri("avares://ngaq/Styles.xaml")) { Source = new Uri("avares://ngaq/Resources/Strings.xaml") };
-			// 	Styles.Add(style);
-			// }
-		}
-
-		public override void OnFrameworkInitializationCompleted() {
-			Assets.Resources.Culture = new CultureInfo("zh-CN");
-			//System.Globalization.CultureInfo resourceCulture = new CultureInfo("zh-CN");
-			if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-				// Line below is needed to remove Avalonia data validation.
-				// Without this line you will get duplicate validations from both Avalonia and CT
-				BindingPlugins.DataValidators.RemoveAt(0);
-				desktop.MainWindow = new MainWindow {
-					DataContext = new MainViewModel()
-				};
-			}
-			else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform) {
-				singleViewPlatform.MainView = new MainView {
-					DataContext = new MainViewModel()
-				};
-			}
-
-			var culture = CultureInfo.CurrentCulture;
-			Thread.CurrentThread.CurrentUICulture = culture;
-
-
-			base.OnFrameworkInitializationCompleted();
-		}
-	}
-}
-
-/* 
-<TextBlock Text="{DynamicResource AppName}" />
-<TextBlock Text="{DynamicResource HelloWorld}" />
-<TextBlock Text="{DynamicResource Greeting}" />
-
-
-using Avalonia.Markup.Xaml.Styling;
-using System.Globalization;
-
-// ... other code ...
-
-public class App : Application
+public partial class App : Application
 {
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        var culture = CultureInfo.CurrentCulture;
-        var resourcePath = $"Resources/Strings.{culture.Name}.xaml";
-
-        //尝试加载特定语言的资源，如果失败则加载默认资源
-        try
-        {
-            var style = new StyleInclude(new Uri("avares://YourAppName/Styles.xaml")) { Source = new Uri(resourcePath) };
-            Styles.Add(style);
-        }
-        catch
-        {
-            var style = new StyleInclude(new Uri("avares://YourAppName/Styles.xaml")) { Source = new Uri("avares://YourAppName/Resources/Strings.xaml") };
-            Styles.Add(style);
-        }
     }
 
-    // ... other code ...
+    public override void OnFrameworkInitializationCompleted()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
+            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
+            DisableAvaloniaDataAnnotationValidation();
+            desktop.MainWindow = new MainWindow
+            {
+                DataContext = new MainViewModel()
+            };
+        }
+        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
+        {
+            singleViewPlatform.MainView = new MainView
+            {
+                DataContext = new MainViewModel()
+            };
+        }
+
+        base.OnFrameworkInitializationCompleted();
+    }
+
+    private void DisableAvaloniaDataAnnotationValidation()
+    {
+        // Get an array of plugins to remove
+        var dataValidationPluginsToRemove =
+            BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
+
+        // remove each entry found
+        foreach (var plugin in dataValidationPluginsToRemove)
+        {
+            BindingPlugins.DataValidators.Remove(plugin);
+        }
+    }
 }
- */

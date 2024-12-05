@@ -10,37 +10,3 @@
         Title="ngaq">
         <views:MainView />
 </Window>
-
-
-
-<!-- 
-
-xmlns="https://github.com/avaloniaui":
-定义了 AvaloniaUI 的 XML 命名空间。这允许你在 XAML 中使用 AvaloniaUI 的元素，例如 Window、Button、TextBlock 等。
-只是指定命名空間、並不會實際訪問
-
-
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml":
-定义了 XAML 语言的命名空间。 x: 前缀用于访问 XAML 的一些特殊属性，例如 x:Class、x:Name 等。
-
-xmlns:vm="using:ngaq.ViewModels":
-定义了一个名为 vm 的 XML 命名空间，它映射到 ngaq.ViewModels 命名空间。这允许你在 XAML 中使用 ngaq.ViewModels 命名空间中定义的 ViewModel 类，通常用于数据绑定。
-
-xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 和 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006":
-这些命名空间与设计器工具 (例如 Blend) 相关，用于设计时支持。mc:Ignorable="d" 表示忽略 d: 前缀的属性，这些属性通常用于设计时，在运行时不会生效。
-
-mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450":
-mc:Ignorable="d" 已经解释过。d:DesignWidth 和 d:DesignHeight 是设计时属性，指定窗口的设计宽度和高度，在运行时不会影响窗口大小。
-
-x:Class="ngaq.Views.MainWindow":
-指定了与这个 XAML 文件关联的代码隐藏类，即 ngaq.Views.MainWindow。 这个类通常包含与窗口交互的 C# 代码。
-
-Icon="/Assets/avalonia-logo.ico":
-指定了窗口的图标，路径为 /Assets/avalonia-logo.ico
-
-Title="ngaq":
-设置窗口的标题为 "ngaq"
-
-<views:MainView />:
-这行代码是关键。它在窗口中创建了一个名为 MainView 的自定义控件。 这个控件很可能在 ngaq.Views 命名空间中定义，并负责窗口的主要内容显示。
- -->
