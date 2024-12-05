@@ -17,8 +17,8 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="../ngaq.Common/ngaq.Common.csproj" />
-		<Compile Include="../ngaq.Common/G.cs" />
+		<ProjectReference Include="../ngaq.Core/ngaq.Core.csproj" />
+		<Compile Include="../ngaq.Core/G.cs" />
 	</ItemGroup>
 
 </Project>
