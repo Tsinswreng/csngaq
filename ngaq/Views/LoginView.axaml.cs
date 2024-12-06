@@ -1,36 +1,43 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Interactivity;
+using ngaq.ViewModels;
 
-namespace MyAvaloniaApp
-{
-	public partial class MainWindow : Window
-	{
-		public MainWindow()
-		{
-			InitializeComponent();
-		}
+namespace ngaq.Views;
 
-		private void InitializeComponent()
-		{
-			AvaloniaXamlLoader.Load(this);
-		}
-
-		private void CopyTextButton_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
-		{
-			if (TextBoxA != null && TextBoxB != null)
-			{
-				TextBoxB.Text = TextBoxA.Text;
-			}
-		}
-
-		//Optional:  Update TextBoxB immediately as TextBoxA changes.
-		private void TextBoxA_TextChanged(object sender, Avalonia.Interactivity.TextChangedEventArgs e)
-		{
-			if (TextBoxA != null && TextBoxB != null)
-			{
-				TextBoxB.Text = TextBoxA.Text;
-			}
-		}
+public partial class LoginView : UserControl {
+	public LoginView() {
+		InitializeComponent();
 	}
+
+	private void InitializeComponent() {
+		AvaloniaXamlLoader.Load(this);
+	}
+
+
+
+	private void LoginView_Loaded(object sender, RoutedEventArgs e){
+		G.log("LoginView_Loaded");
+	}
+
+	private void Button_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
+		// if (TextBoxA != null && TextBoxB != null) {
+		// 	TextBoxB.Text = TextBoxA.Text;
+		// }不效
+		G.log("start");
+		G.log(TextBoxA==null); //True
+		G.log(TextBoxA?.Text??""); //""
+		G.log(123);
+
+		if(this.DataContext is LoginViewModel viewModel){
+			G.log(viewModel.TextBoxAText);
+		}else{
+			G.log("no viewmodel");
+		}
+		//string userText = viewModel.TextBoxAText;
+
+	}
+
+
 }

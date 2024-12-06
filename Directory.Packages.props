@@ -19,4 +19,10 @@
 
         <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1" />
     </ItemGroup>
+
+	<!-- <ItemGroup>
+		<ProjectReference Include="../ngaq.Core/ngaq.Core.csproj" />
+		<Compile Include="../ngaq.Core/G.cs" />
+	</ItemGroup> -->
+
 </Project>
