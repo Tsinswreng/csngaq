@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ngaq\ngaq.csproj" />
+	<Compile Include="../ngaq.Core/GlobalUsing.cs" />
   </ItemGroup>
 
 

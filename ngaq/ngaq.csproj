@@ -24,7 +24,7 @@
 
   <ItemGroup>
 	<ProjectReference Include="../ngaq.Core/ngaq.Core.csproj" />
-	<Compile Include="../ngaq.Core/G.cs" />
+	<Compile Include="../ngaq.Core/GlobalUsing.cs" />
   </ItemGroup>
 
 </Project>

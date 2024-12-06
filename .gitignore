@@ -457,3 +457,6 @@ $RECYCLE.BIN/
 wwwroot/
 xxx/
 trash/
+
+*-shm
+*-wal

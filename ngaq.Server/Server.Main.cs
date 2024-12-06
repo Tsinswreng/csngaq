@@ -1,2 +1,3 @@
 ﻿using ngaq.Server.scripts;
-new Ngaq4Migrate().run();
+await new Ngaq4Migrate().Run();
+System.Console.WriteLine("Done!");

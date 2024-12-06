@@ -6,30 +6,29 @@ using model.consts;
 namespace ngaq.Core.model;
 
 
-public interface I_KV
-{
+public interface I_KV {
 
-    public str kType { get; set; }
-    public str kStr { get; set; }
-    public i64 kI64 { get; set; }
-
-
-    public str kDesc { get; set; }
-
-    public str vType { get; set; }
-
-    public str vDesc { get; set; }
+	public str kType { get; set; }
+	public str? kStr { get; set; }
+	public i64? kI64 { get; set; }
 
 
-    public str vStr { get; set; }
+	public str? kDesc { get; set; }
 
-    public i64 vI64 { get; set; }
+	public str vType { get; set; }
 
-    public f64 vF64 { get; set; }
+	public str? vDesc { get; set; }
+
+
+	public str? vStr { get; set; }
+
+	public i64? vI64 { get; set; }
+
+	public f64? vF64 { get; set; }
 }
 
 
-/* 
+/*
 能不能寫一個源生成器、把類或結構體轉成Dictionary<string, object>
 
 比如

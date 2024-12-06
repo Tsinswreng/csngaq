@@ -4,7 +4,7 @@ using ngaq.Core.model;
 using model;
 using ngaq.model.consts;
 using model.consts;
-
+namespace ngaq.Core.svc.ngaq4;
 public class Ngaq4ModToWordKV{
 
 	public unit assignIdBlCtMt(I_IdBlCtUt target, IdBlCtMt idBlCtMt){
@@ -19,7 +19,7 @@ public class Ngaq4ModToWordKV{
 		I_KVIdBlCtUt kv = new WordKV();
 		assignIdBlCtMt(kv, o);
 		kv.kStr = o.text;
-		kv.bl = BlPrefix.parse(BlPrefix.TextWord, o.bl);
+		kv.bl = BlPrefix.join(BlPrefix.TextWord, o.bl);
 		return kv;
 	}
 
@@ -27,7 +27,7 @@ public class Ngaq4ModToWordKV{
 		I_KVIdBlCtUt kv = new WordKV();
 		assignIdBlCtMt(kv, o);
 		kv.setVStr(o.text);
-		kv.bl = BlPrefix.parse(BlPrefix.Property, o.bl);
+		kv.bl = BlPrefix.join(BlPrefix.Property, o.bl);
 		kv.setKI64(o.wid);
 		kv.kDesc = KDesc.fKey.ToString();
 		return kv;
@@ -36,7 +36,7 @@ public class Ngaq4ModToWordKV{
 	public I_KVIdBlCtUt convertLearn(Learn o){
 		I_KVIdBlCtUt kv = new WordKV();
 		assignIdBlCtMt(kv, o);
-		kv.bl = BlPrefix.parse(BlPrefix.Learn, "");
+		kv.bl = BlPrefix.join(BlPrefix.Learn, "");
 		kv.setVStr(o.bl);
 		kv.setKI64(o.wid);
 		kv.kDesc = KDesc.fKey.ToString();

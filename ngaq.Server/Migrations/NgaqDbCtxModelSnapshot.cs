@@ -6,7 +6,7 @@ using db;
 
 #nullable disable
 
-namespace ngaq.Migrations
+namespace ngaq.Server.Migrations
 {
     [DbContext(typeof(NgaqDbCtx))]
     partial class NgaqDbCtxModelSnapshot : ModelSnapshot
@@ -32,14 +32,12 @@ namespace ngaq.Migrations
                         .HasDefaultValueSql("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))");
 
                     b.Property<string>("kDesc")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("kI64")
+                    b.Property<long?>("kI64")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("kStr")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("kType")
@@ -54,17 +52,15 @@ namespace ngaq.Migrations
                         .HasDefaultValueSql("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))");
 
                     b.Property<string>("vDesc")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("vF64")
+                    b.Property<double?>("vF64")
                         .HasColumnType("REAL");
 
-                    b.Property<long>("vI64")
+                    b.Property<long?>("vI64")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("vStr")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("vType")
@@ -88,6 +84,76 @@ namespace ngaq.Migrations
                     b.HasIndex("ut");
 
                     b.ToTable("WordKV", (string)null);
+                });
+
+            modelBuilder.Entity("ngaq.Core.model._KV", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("bl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("ct")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValueSql("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))");
+
+                    b.Property<string>("kDesc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("kI64")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("kStr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("kType")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("STR");
+
+                    b.Property<long>("ut")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValueSql("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))");
+
+                    b.Property<string>("vDesc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("vF64")
+                        .HasColumnType("REAL");
+
+                    b.Property<long?>("vI64")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("vStr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("vType")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("STR");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("bl");
+
+                    b.HasIndex("ct");
+
+                    b.HasIndex("kDesc");
+
+                    b.HasIndex("kI64");
+
+                    b.HasIndex("kStr");
+
+                    b.HasIndex("ut");
+
+                    b.ToTable("_KV", (string)null);
                 });
 #pragma warning restore 612, 618
         }
