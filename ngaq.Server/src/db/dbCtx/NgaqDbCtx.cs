@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using model;
+using ngaq.Core.model;
 using model.consts;
 
 namespace db;
 
 public class NgaqDbCtx : DbContext
 {
-	public DbSet<KV> KVEntities { get; set; }
+	public DbSet<WordKV> WordKV { get; set; }
 
 	protected code _configKV<T>(ModelBuilder mb) where T : class, I_KV {
 
@@ -36,13 +36,13 @@ public class NgaqDbCtx : DbContext
 		// 這裡可以進行進一步的配置，例如設置主鍵、索引等
 
 //DatabaseGenerated(DatabaseGeneratedOption.Identity)
-		mb.Entity<KV>().ToTable("KV");
-		_configIdBlCtUt<KV>(mb);
-		_configKV<KV>(mb);
-		
+		mb.Entity<WordKV>().ToTable("WordKV");
+		_configIdBlCtUt<WordKV>(mb);
+		_configKV<WordKV>(mb);
+
 		// mb.Entity<KV>().HasKey(e=>e.id);
 		// mb.Entity<KV>().Property(e=>e.id).ValueGeneratedOnAdd();
-		
+
 		// mb.Entity<KV>().HasIndex(e => e.bl);
 		// mb.Entity<KV>().HasIndex(e => e.ct);
 		// mb.Entity<KV>().HasIndex(e => e.ut);
@@ -53,7 +53,7 @@ public class NgaqDbCtx : DbContext
 		// mb.Entity<KV>().Property(e=>e.kType).HasDefaultValue(KVType.STR.ToString());
 		// mb.Entity<KV>().Property(e=>e.vType).HasDefaultValue(KVType.STR.ToString());
 
-		
+
 
 		// mb.Entity<KV>().Property(e=>e.ct).HasDefaultValueSql("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))");
 		// mb.Entity<KV>().Property(e=>e.ut).HasDefaultValueSql("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))");
@@ -64,8 +64,8 @@ public class NgaqDbCtx : DbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
 		// 在這裡配置您的數據庫連接字符串
-		var dir = G.getBaseDir()+"/"+G.main+"/db";
-		var path = dir+"/db.sqlite";
+		var dir = G.getBaseDir()+"/db";
+		var path = dir+"/csngaq.sqlite";
 		std.IO.Directory.CreateDirectory(dir); // TODO不效
 		optionsBuilder.UseSqlite($"Data Source={path}");
 	}
@@ -78,8 +78,10 @@ public class NgaqDbCtx : DbContext
 //dotnet ef migrations add InitialCreate
 //dotnet ef database update
 
+//dotnet ef migrations add _20241206211440_csngaq_init
 
-/* 
+
+/*
 ts的class-transformer庫是直接把轉換邏輯函數寫進裝飾器裏的
 如
 class User {
@@ -92,7 +94,7 @@ c#的映射庫是怎麼做的?
 
 //AutoMapper:
 
-/* 
+/*
 using AutoMapper;
 
 public class User
@@ -127,7 +129,7 @@ var userDto = mapper.Map<UserDto>(user);
 */
 
 
-/* 
+/*
 using Newtonsoft.Json;
 using System;
 
