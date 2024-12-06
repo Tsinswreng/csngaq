@@ -16,7 +16,7 @@
 
 
 
-// /* 
+// /*
 // 用str表示相當于js之string
 // 用String表示相當於js之String
 // 勿用new String()、須用字面量

@@ -8,7 +8,7 @@ namespace test.parser;
 public class TestWordParser{
 
 	public static async Task _Main(){
- 		BenchmarkRunner.Run<TestWordParser>();
+		BenchmarkRunner.Run<TestWordParser>();
 		//await new TestWordParser().Method();
 	}
 

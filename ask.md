@@ -58,3 +58,73 @@ BMP 只能表示 0x0000 到 0xFFFF 之间的字符，也就是 65,536 个字符�
 
 我的avalonia项目、在xxx.Browser文件夾下 運行dotnet run爲甚麼瀏覽器上只有一個Powered by Avalonia頁面、沒顯示MainWindow.axaml的內容? 但是我在xxx.Desktop中運行dotnet run 就有顯示MainWindow.axaml的內容?
 ##
+
+看avalonia文檔
+
+#
+[2024-12-05T15:25:48.970+08:00_W49-4]
+<!-- ```html
+<input type="text" id="myInput"/>
+<><>
+```
+
+```ts
+const input = document.getElementById("myInput");
+``` -->
+
+avalonia 幫我做一個文本輸入框A, 一個文本框B和一個按鈕、點擊按鈕後即在B顯示A的內容。
+##
+
+
+
+#
+[2024-12-05T16:04:49.894+08:00_W49-4]
+
+vscode c# .editorconifg 設置左大括號不換行
+
+
+
+#
+[2024-12-05T22:23:42.832+08:00_W49-4]
+
+vscode c# 插件 在打開某個特定文件夾後 只有代碼跳轉 查找定義 引用、但是有錯時不報。打開別的項目就沒問題。怎麼解決?
+項目中已經有.sln
+##
+
+
+#
+[2024-12-05T22:45:30.631+08:00_W49-4]
+<!-- vscode打开文件夹后的配置都是保存在哪里的? 比如他怎麼記綠我這個文件夾啓用了甚麼插件?
+我的文件夾下沒有.vscode文件夾 -->
+
+vscode、 我打開文件夾、 找到一個已安裝但未啓用的插件、選擇啓用(工作區)、然後退出vscode、再打開文件夾、發現插件已經啓用。 但是我打開別的文件夾、再看這個插件、發現這個插件就沒啓用。
+VSCode是在哪裏記錄工作區配置的? (全程 我的文件夾下都沒有.vscode文件夾)
+
+能不能清空一個文件夾的vscode的工作區配置?
+
+##
+不能直接清空单个文件夹的 VS Code 工作区配置，因为 VS Code 的工作区配置并非存储在项目文件夹内。如前所述，VS Code 将工作区配置存储在用户数据目录下的隐藏文件夹中，这些文件夹包含每个工作区的配置数据，以 JSON 文件的形式存储，通常以工作区文件夹的哈希值命名。  [1](https://code.visualstudio.com/docs/editor/workspaces) [2](https://stackoverflow.com/questions/53840644/location-of-vs-code-preferences) [5](https://vscode-docs.readthedocs.io/en/stable/customization/userandworkspace/)
+
+要清除特定文件夹的工作区配置，你需要手动找到并删除与该文件夹对应的 JSON 配置文件。  这需要以下步骤：
+
+1. **找到 `workspaceStorage` 文件夹:**  这个文件夹的位置取决于你的操作系统：
+    * **Windows:** `%APPDATA%\Code\User\workspaceStorage`
+    * **macOS/Linux:** `$HOME/.vscode/workspaceStorage`
+
+2. **找到与你的文件夹对应的文件:**  这个文件夹包含许多以哈希值命名的子文件夹，每个子文件夹对应一个工作区。 你需要找到与你的目标文件夹对应的子文件夹。  这可能需要一些尝试和错误，因为你无法直接从文件名识别出对应的文件夹。  你可以尝试打开你的目标文件夹，然后在 VS Code 中执行一些操作（例如，安装或启用一个插件），这可能会在 `workspaceStorage` 文件夹中生成或更新与该文件夹对应的文件。
+
+3. **删除对应的子文件夹:**  一旦你找到了正确的子文件夹，你可以安全地删除它。  这将清除 VS Code 中与该文件夹相关的工作区配置。
+
+**警告:**  直接操作 `workspaceStorage` 文件夹存在风险。  错误地删除文件可能会导致 VS Code 的数据丢失或损坏。  建议在操作前备份你的 VS Code 设置。
+
+
+**更安全的替代方案:**
+
+与其直接删除文件，更好的方法是：
+
+* **在 VS Code 中关闭工作区:**  最简单的方法是关闭 VS Code 中打开的目标文件夹。  这不会删除任何文件，但会清除 VS Code 中该文件夹的工作区配置。  下次打开该文件夹时，VS Code 将重新加载配置。
+
+* **创建新的工作区:**  如果你想完全重置 VS Code 对该文件夹的配置，可以创建一个新的工作区。  这将创建一个新的工作区配置，而不会影响其他工作区。
+
+
+总而言之，虽然不能直接“清空”特定文件夹的 VS Code 工作区配置，但可以通过关闭工作区或创建新的工作区来达到类似的效果，这比直接操作系统文件更安全可靠。

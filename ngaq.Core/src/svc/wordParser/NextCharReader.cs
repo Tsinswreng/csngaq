@@ -1,4 +1,4 @@
-/* 
+/*
 c# 異步流式讀文件、每次讀一部分。
 讀內容的時候異步。
 不用指定字符編碼、直接返回數字。
@@ -17,7 +17,7 @@ using Chunk = System.ArraySegment<byte>; // 其Count是數組片段之長、非�
 namespace ngaq.svc.wordParser;
 
 public class NextCharReader: I_getNextByte, IDisposable{
-	
+
 	public str path{get; set;}
 
 	[Obsolete]
@@ -121,7 +121,7 @@ public class NextCharReader: I_getNextByte, IDisposable{
 }
 
 
-/* 
+/*
 
 c# 如何異步以utf8逐碼點讀文件?
 比如我的文件是:   一1a𠂇😍
@@ -132,7 +132,7 @@ c# 如何異步以utf8逐碼點讀文件?
 超過了0xffff。要把他們當成整個字符讀取、不要拆開。
  */
 
-/* 
+/*
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -198,7 +198,7 @@ public async Task ExampleAsync()
  */
 
 
-/* 
+/*
 
 Result* getResult(args){
 	//do sth.
