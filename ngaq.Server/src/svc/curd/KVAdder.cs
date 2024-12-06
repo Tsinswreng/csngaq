@@ -18,7 +18,9 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 	protected unit _init_sql_add(){
 		sql_add =
 @$"INSERT INTO {tblName} (
-	 {nameof(KV.bl)}
+	{nameof(KV.bl)}
+	,{nameof(KV.ct)}
+	,{nameof(KV.ut)}
 	,{nameof(KV.kType)}
 	,{nameof(KV.kStr)}
 	,{nameof(KV.kI64)}
@@ -29,7 +31,9 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 	,{nameof(KV.vF64)}
 	,{nameof(KV.vDesc)}
 )VALUES (
-	 @{nameof(KV.bl)}
+	@{nameof(KV.bl)}
+	,@{nameof(KV.ct)}
+	,@{nameof(KV.ut)}
 	,@{nameof(KV.kType)}
 	,@{nameof(KV.kStr)}
 	,@{nameof(KV.kI64)}
@@ -61,11 +65,11 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 		Dispose();
 	}
 	public void Dispose() {
-		if (conn!= null) {conn.Dispose();}
-		if(_tx!= null){_tx.Dispose();}
-		if(dbCtx!= null){dbCtx.Dispose();}
-		if(_cmd_add!= null){_cmd_add.Dispose();}
-		if(_cmd_lastId!= null){_cmd_lastId.Dispose();}
+		conn?.Dispose();
+		_tx?.Dispose();
+		dbCtx?.Dispose();
+		_cmd_add?.Dispose();
+		_cmd_lastId?.Dispose();
 	}
 
 	public System.Data.Common.DbConnection conn{get; set;}
@@ -94,7 +98,11 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 		_cmd_add.Transaction = _tx.GetDbTransaction();
 		_cmd_lastId.Transaction = _tx.GetDbTransaction();
 
+		//_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.id)}", DbType.Int64));
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.bl)}", DbType.String));
+		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.ct)}", DbType.Int64));
+		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.ut)}", DbType.Int64));
+
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.kType)}", DbType.String));
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.kStr)}", DbType.String));
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.kI64)}", DbType.Int64));
@@ -102,7 +110,7 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.vType)}", DbType.String));
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.vStr)}", DbType.String));
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.vI64)}", DbType.Int64));
-		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.vF64)}", DbType.Single));
+		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.vF64)}", DbType.Double));
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.vDesc)}", DbType.String));
 		return 0;
 	}
@@ -121,6 +129,9 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 
 	public async Task<i64?> TxAddAsync(I_KVIdBlCtUt e){
 		_cmd_add.Parameters[$"@{nameof(KV.bl)}"].Value = nc(e.bl);
+		_cmd_add.Parameters[$"@{nameof(KV.ct)}"].Value = nc(e.ct);
+		_cmd_add.Parameters[$"@{nameof(KV.ut)}"].Value = nc(e.ut);
+
 		_cmd_add.Parameters[$"@{nameof(KV.kType)}"].Value = nc(e.kType);
 		_cmd_add.Parameters[$"@{nameof(KV.kStr)}"].Value = nc(e.kStr);
 		_cmd_add.Parameters[$"@{nameof(KV.kI64)}"].Value = nc(e.kI64);
