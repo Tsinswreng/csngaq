@@ -3,7 +3,8 @@ sqlite select * from textWord 返回對象作爲csharp TextWord對象
  */
 
 using System.Data.SQLite;
-
+using ngaq.Core.model;
+using ngaq.Core.model.ngaq4;
 
 public class GetNgaq4Words {
 	public static List<TextWord> GetTextWords(string connectionString) {

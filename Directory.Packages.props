@@ -15,6 +15,9 @@
     <PackageVersion Include="Avalonia.Browser" Version="11.2.1" />
     <PackageVersion Include="Avalonia.Android" Version="11.2.1" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageVersion Include="efcore" Version="1.1.2" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
     <PackageVersion Include="System.Data.SQLite" Version="1.0.119" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1" />
   </ItemGroup>
