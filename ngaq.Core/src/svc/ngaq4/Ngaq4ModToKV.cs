@@ -38,6 +38,7 @@ public class Ngaq4ModToWordKV{
 		kv.bl = BlPrefix.join(BlPrefix.Learn, "");
 		kv.setVStr(o.belong);
 		kv.setKI64(o.wid);
+		
 		kv.kDesc = KDesc.fKey.ToString();
 		return kv;
 	}

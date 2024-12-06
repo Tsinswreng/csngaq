@@ -7,6 +7,10 @@ using ngaq.Core.model;
 using ngaq.Core.model.ngaq4;
 using Dapper;
 namespace ngaq.Server.db.ngaq4;
+
+
+
+
 public class GetNgaq4Words {
 	public GetNgaq4Words(str connStr) {
 		_connStr = connStr;
@@ -32,19 +36,53 @@ public class GetNgaq4Words {
 		return $"SELECT * FROM {tbl}";
 	}
 
+	public JoinedWord GetJoinedWord(TextWord textWord){
+		var id = textWord.id;
+		var learns = GetLearnsByWid(id);
+		var propertys = GetPropertysByWid(id);
+		return new JoinedWord{
+			TextWord = textWord,
+			Learns = learns,
+			Propertys = propertys
+		};
+	}
+
+	public IList<JoinedWord> GetAllJoinedWords(){
+		var textWords = GetTextWords();
+		var result = new List<JoinedWord>();
+		foreach(var textWord in textWords){
+			var joinedWord = GetJoinedWord(textWord);
+			result.Add(joinedWord);
+		}
+		return result;
+	}
+
+
+	public IList<Learn> GetLearnsByWid(i64 wid){
+		var sql = "SELECT * FROM learn WHERE wid = @wid";
+		return _conn.Query<Learn>(sql, new { wid = wid }).ToList();
+	}
+
+	public IList<Property> GetPropertysByWid(i64 wid){
+		var sql = "SELECT * FROM property WHERE wid = @wid";
+		return _conn.Query<Property>(sql, new { wid = wid }).ToList();
+	}
+
 	public IList<TextWord> GetTextWords() {
 		var connection = _conn;
 		return connection.Query<TextWord>("SELECT * FROM textWord").ToList();
 	}
-
+	[Obsolete]
 	public IList<Property> GetPropertys(){
 		var sql = _geneSql("property");
 		return _conn.Query<Property>(sql).ToList();
 	}
-
+	[Obsolete]
 	public IList<Learn> GetLearns(){
 		var sql = _geneSql("learn");
 		return _conn.Query<Learn>(sql).ToList();
 	}
+
+
 }
 

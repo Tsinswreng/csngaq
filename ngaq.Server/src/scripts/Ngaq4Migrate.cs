@@ -17,29 +17,30 @@ public class Ngaq4Migrate{
 		// foreach(var word in ngaq4Db.GetTextWords()){
 		// 	G.logJson(word);
 		// }
-		var TextWord5 = ngaq4Db.GetTextWords().Select(e=>converter.convertTextWord(e)).ToList();
-		var Learn5 = ngaq4Db.GetLearns().Select(e=>converter.convertLearn(e)).ToList();
-		var Property5 = ngaq4Db.GetLearns().Select(e=>converter.convertLearn(e)).ToList();
+		var joinedWord = ngaq4Db.GetAllJoinedWords();
 		using(var kvAdder = new KVAdder(nameof(WordKV))){
 			await kvAdder.Begin();
-			// for(var i = 0; i < 10000; i++){
-			// 	G.log(i);
-			// }
-			for(var i = 0; i < TextWord5.Count(); i++){
-				if(i>100){break;}//t
-				G.log("a"+i);
-				await kvAdder.TxAddAsync(TextWord5.ElementAt(i));
+
+			for(var i = 0; i < joinedWord.Count; i++){
+				var word = joinedWord[i];
+				var textWord = converter.convertTextWord(word.TextWord);
+				var id = await kvAdder.TxAddAsync(textWord);
+				if(id==null){throw new Exception("id is null");}
+				var learns = word.Learns.Select(
+					e=>{e.wid = (long)id ; var ans = converter.convertLearn(e);return ans;}
+				).ToList();
+				var propertys = word.Propertys.Select(
+					e=>{e.wid = (long)id ; var ans = converter.convertProperty(e);return ans;}
+				).ToList();
+				for(var j = 0; j < learns.Count; j++){
+					await kvAdder.TxAddAsync(learns[j]);
+				}
+
+				for(var j = 0; j < propertys.Count; j++){
+					await kvAdder.TxAddAsync(propertys[j]);
+				}
 			}
-			for(var i = 0; i < Learn5.Count(); i++){
-				if(i>100){break;}//t
-				G.log("b"+i);
-				await kvAdder.TxAddAsync(Learn5.ElementAt(i));
-			}
-			for(var i = 0; i < Property5.Count(); i++){
-				if(i>100){break;}//t
-				G.log("c"+i);
-				await kvAdder.TxAddAsync(Property5.ElementAt(i));
-			}
+
 			await kvAdder.Commit();
 		}
 		return 0;
