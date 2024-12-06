@@ -5,4 +5,8 @@ public class BlPrefix{
 	public static str parse(str prefix, str name){
 		return prefix + delimiter + name;
 	}
+
+	public const str TextWord = "TextWord";
+	public const str Learn = "Learn";
+	public const str Property = "Property";
 }

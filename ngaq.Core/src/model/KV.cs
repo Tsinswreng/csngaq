@@ -6,8 +6,7 @@ using model.consts;
 
 namespace model;
 
-[Table("KV")]
-public class KV : IdBlCtUt, I_KV {
+public class KV : IdBlCtUt, I_KVIdBlCtUt {
 	/** TEXT, INT */
 	public str kType {get; set;} = KVType.STR.ToString();
 	public str? kStr {get; set;}
@@ -26,10 +25,11 @@ public class KV : IdBlCtUt, I_KV {
 	public i64? vI64 {get; set;}
 
 	public f64? vF64 {get; set;}
+
 }
 
 
-/* 
+/*
 能不能寫一個源生成3.器、把類或結構體轉成Dictionary<string, object>
 
 比如
