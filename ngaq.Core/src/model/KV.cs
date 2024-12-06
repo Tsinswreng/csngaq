@@ -1,30 +1,31 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using model;
 using model.consts;
 
-namespace model;
+namespace ngaq.Core.model;
 
-public class KV : IdBlCtUt, I_KVIdBlCtUt {
-	/** TEXT, INT */
-	public str kType {get; set;} = KVType.STR.ToString();
-	public str? kStr {get; set;}
-	public i64? kI64 {get; set;}
-	//public str KeyType {get; set;} = "";
+public class KV : IdBlCtUt, I_KVIdBlCtUt
+{
+    /** TEXT, INT */
+    public str kType { get; set; } = KVType.STR.ToString();
+    public str kStr { get; set; }
+    public i64 kI64 { get; set; }
+    //public str KeyType {get; set;} = "";
 
-	public str? kDesc {get; set;}
+    public str kDesc { get; set; }
 
-	public str vType {get; set;}= KVType.STR.ToString();
+    public str vType { get; set; } = KVType.STR.ToString();
 
-	public str? vDesc {get; set;}
+    public str vDesc { get; set; }
 
-	//[Column("str")]
-	public str? vStr {get; set;}
-	//[Column("int")]
-	public i64? vI64 {get; set;}
+    //[Column("str")]
+    public str vStr { get; set; }
+    //[Column("int")]
+    public i64 vI64 { get; set; }
 
-	public f64? vF64 {get; set;}
+    public f64 vF64 { get; set; }
 
 }
 

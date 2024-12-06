@@ -1,5 +1,8 @@
-namespace model;
+using model;
 
-public interface I_WordKV : I_KVIdBlCtUt{
+namespace ngaq.Core.model;
+
+public interface I_WordKV : I_KVIdBlCtUt
+{
 
 }
