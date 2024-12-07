@@ -4,14 +4,19 @@ using ngaq.Server.db.crud;
 using ngaq.model.consts;
 using ngaq.Core.model.wordIF;
 using tools.IF;
+using ngaq.Server.Db.Crud.IF;
+using Microsoft.EntityFrameworkCore.Storage;
+using ngaq.Core.model.consts;
+using model.consts;
+using ngaq.Core.svc;
 
 namespace ngaq.Server.svc.crud.wordCrud;
 
 
 public class WordAdder:
-	I_TxAdderAsync<IList<I_WordKV>>
+	I_TxAdderAsync<IList<I_JoinedWordKV>, unit>
 	, IDisposable
-	,I_SetTx<>
+	,I_SetTx_DbCtx
 {
 
 	public WordAdder() {
@@ -26,7 +31,12 @@ public class WordAdder:
 	}
 
 
+
 	protected KVAdder _kvAdder = new(Opt.inst().tblName_WordKV);
+	protected IDbContextTransaction? _tx;
+
+	protected DiffWord _wordDiff = new ();
+
 
 	public Task<unit> Begin() {
 		return _kvAdder.Begin();
@@ -36,17 +46,77 @@ public class WordAdder:
 		return _kvAdder.Commit();
 	}
 
-	public async Task<long?> TxAddAsync(IList<I_JoinedWordKV> words) {
+	protected i64 getUnixTimeMillis(){
+		return DateTimeOffset.Now.ToUnixTimeMilliseconds();
+	}
+
+	/// <summary>
+	/// 建立一個初始的學習紀錄、"add"
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns></returns>
+	protected I_LearnKV mkLearnKV_add(i64 id){
+		var learn = new WordKV(){
+			bl = BlPrefix.join(BlPrefix.Learn, "")
+		};
+		learn.setVStr(LearnEnum.add.ToString());
+		learn.setKI64(id);
+		learn.kDesc = KDesc.fKey.ToString();
+		learn.ct = getUnixTimeMillis();
+		learn.ut = getUnixTimeMillis();
+		return (I_LearnKV)learn;
+	}
+
+	public List<i64> initAddedWordIds{get; protected set;} = new();
+	public List<i64> newlyAddedPropIds{get; protected set;} = new();
+
+
+
+
+	public async Task<unit> TxAddAsync(IList<I_JoinedWordKV> words) {
 		var wordSeeker = new WordSeeker();
-		var kvAdder = new KVAdder(Opt.inst().tblName_WordKV);
-		foreach(var o in words){
-			var got = await wordSeeker.SeekJoinedWordKVByTextEtBl(o.textWord.kStr??"", o.textWord.bl);
-			if(got == null){ //表中原無此詞則直ᵈ添
-				kvAdder.
+
+		var initAddedWordIds = new List<i64>();//錄id芝詞芝初添者(曩未嘗被添者)
+		var newlyAddedPropIds = new List<i64>();//錄id芝詞ʹ屬性芝既存ʹ詞ˋ新得者
+		foreach(var wordToAdd in words){
+			var existedWord = await wordSeeker.SeekJoinedWordKVByTextEtBl(wordToAdd.textWord.kStr??"", wordToAdd.textWord.bl);
+			if(existedWord == null){ //表中原無此詞則直ᵈ添
+				await _kvAdder.TxAddAsync(wordToAdd.textWord);
+				var lastId = await _kvAdder.GetLastId() ?? throw new Exception("cannot get last ID");
+				var learn = mkLearnKV_add(lastId);
+				await _kvAdder.TxAddAsync(learn);
+				initAddedWordIds.Add(lastId);
+			}else{//表中既有此詞>
+				var propToAdd = _wordDiff.diffProperty(wordToAdd, existedWord);
+				var oldWordId = existedWord.textWord.id;
+				var hasAddedProp = false;
+				foreach(var neoProp in propToAdd){
+					hasAddedProp = true;
+					neoProp.setKI64(oldWordId);
+					neoProp.kDesc = KDesc.fKey.ToString();
+					await _kvAdder.TxAddAsync(neoProp);
+					var ua = await _kvAdder.GetLastId();
+					if(ua != null){
+						newlyAddedPropIds.Add((long)ua);
+					}else{
+						throw new Exception("cannot get last ID");
+					}
+				}
+				if(hasAddedProp){
+					var learn = mkLearnKV_add(oldWordId);
+					await _kvAdder.TxAddAsync(learn);
+				}
 			}
 		}
+		this.initAddedWordIds = initAddedWordIds;
+		this.newlyAddedPropIds = newlyAddedPropIds;
+		return 0;
+	}
 
-
+	public async Task<unit> SetTx(IDbContextTransaction transaction) {
+		_tx = transaction;
+		await _kvAdder.SetTx(transaction);
+		return 0;
 	}
 
 

@@ -16,8 +16,9 @@ namespace ngaq.Server.db.crud;
 
 public class KVAdder:
 	IDisposable
-	, I_TxAdderAsync<I_KVIdBlCtUt>
+	, I_TxAdderAsync<I_KVIdBlCtUt, unit>
 	,I_SetTx<IDbContextTransaction>
+	,I_GetLastId<i64?>
 {
 
 	protected unit _init_sql_add(){
@@ -142,7 +143,7 @@ public class KVAdder:
 		return v;
 	}
 
-	public async Task<i64?> TxAddAsync(I_KVIdBlCtUt e){
+	public async Task<unit> TxAddAsync(I_KVIdBlCtUt e){
 		_cmd_add.Parameters[$"@{nameof(KV.bl)}"].Value = nc(e.bl);
 		_cmd_add.Parameters[$"@{nameof(KV.ct)}"].Value = nc(e.ct);
 		_cmd_add.Parameters[$"@{nameof(KV.ut)}"].Value = nc(e.ut);
@@ -158,6 +159,15 @@ public class KVAdder:
 		_cmd_add.Parameters[$"@{nameof(KV.vDesc)}"].Value = nc(e.vDesc);
 
 		await _cmd_add.ExecuteNonQueryAsync(); // 执行命令
+		return 0;
+	}
+
+	public async Task<unit> Commit(){
+		if(_tx !=null){await _tx.CommitAsync();}
+		return 0;
+	}
+
+	public async Task<i64?> GetLastId() {
 		var result = await _cmd_lastId.ExecuteScalarAsync(); // 獲取lastId
 		if(result != null && result is i64){
 			return (i64)result;
@@ -165,10 +175,4 @@ public class KVAdder:
 			return null;
 		}
 	}
-
-	public async Task<unit> Commit(){
-		await _tx.CommitAsync();
-		return 0;
-	}
-
 }
