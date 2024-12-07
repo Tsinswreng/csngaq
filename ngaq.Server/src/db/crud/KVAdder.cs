@@ -9,11 +9,16 @@ using Microsoft.Data.Sqlite;
 using System.Data;
 using model;
 using ngaq.Core.svc.crud;
+using tools.IF;
 
 
-namespace ngaq.Server.svc.crud;
+namespace ngaq.Server.db.crud;
 
-public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
+public class KVAdder:
+	IDisposable
+	, I_TxAdderAsync<I_KVIdBlCtUt>
+	,I_SetTx<IDbContextTransaction>
+{
 
 	protected unit _init_sql_add(){
 		sql_add =
@@ -77,10 +82,17 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 	protected System.Data.Common.DbCommand _cmd_add;
 	protected System.Data.Common.DbCommand _cmd_lastId{get;set;}
 
-	protected IDbContextTransaction _tx{get; set;}
+	protected IDbContextTransaction? _tx{get; set;}
 
 	protected NgaqDbCtx dbCtx = new();
 
+
+	public async Task<unit> SetTx(IDbContextTransaction tx){
+		_tx = tx;
+		_cmd_add.Transaction = _tx.GetDbTransaction();
+		_cmd_lastId.Transaction = _tx.GetDbTransaction();
+		return 0;
+	}
 
 	public async Task<unit> Begin(){
 		conn = dbCtx.Database.GetDbConnection();
@@ -93,10 +105,13 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 		_cmd_lastId.CommandText = sql_lastId;
 		_cmd_lastId.CommandType = System.Data.CommandType.Text;
 
-		_tx = await dbCtx.BeginTrans();
+		// _tx = await dbCtx.BeginTrans();
 
-		_cmd_add.Transaction = _tx.GetDbTransaction();
-		_cmd_lastId.Transaction = _tx.GetDbTransaction();
+		// _cmd_add.Transaction = _tx.GetDbTransaction(); // AI曰 如果没有这两行代码，_cmd_add 和 _cmd_lastId 命令将独立于事务执行。
+		// _cmd_lastId.Transaction = _tx.GetDbTransaction();
+		if(_tx !=null){
+			await SetTx(_tx);
+		}
 
 		//_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.id)}", DbType.Int64));
 		_cmd_add.Parameters.Add(new SqliteParameter($"@{nameof(KV.bl)}", DbType.String));
@@ -155,4 +170,5 @@ public class KVAdder:IDisposable, I_TxAdderAsync<I_KVIdBlCtUt>{
 		await _tx.CommitAsync();
 		return 0;
 	}
+
 }

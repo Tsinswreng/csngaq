@@ -1,6 +1,6 @@
 using ngaq.Server.db.ngaq4;
 using ngaq.Core.svc.ngaq4;
-using ngaq.Server.svc.crud;
+using ngaq.Server.db.crud;
 using ngaq.Core.model.ngaq4;
 using ngaq.Core.model;
 namespace ngaq.Server.scripts;
@@ -10,7 +10,7 @@ public class Ngaq4Migrate{
 	using ngaq.Server.scripts;
 	new Ngaq4Migrate().run();
 	 */
-	public async Task<unit> Run(){//TODO kvAdder不會添加原有id、需自己維護外鍵
+	public async Task<unit> Run(){
 		var dbConnStr = "Data Source=E:/_code/ngaq/db/userDb/user-1.sqlite";
 		var ngaq4Db = new GetNgaq4Words(dbConnStr);
 		var converter = new Ngaq4ModToWordKV();
