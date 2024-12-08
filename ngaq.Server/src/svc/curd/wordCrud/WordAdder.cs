@@ -27,7 +27,7 @@ public class WordAdder:
 		Dispose();
 	}
 	public void Dispose() {
-		_kvAdder.Dispose();
+		_kvAdder?.Dispose();
 	}
 
 
@@ -67,12 +67,21 @@ public class WordAdder:
 		return (I_LearnKV)learn;
 	}
 
+/// <summary>
+/// 錄id芝詞芝初添者(曩未嘗被添者)
+/// </summary>
 	public List<i64> initAddedWordIds{get; protected set;} = new();
+/// <summary>
+/// 錄id芝詞ʹ屬性芝既存ʹ詞ˋ新得者
+/// </summary>
 	public List<i64> newlyAddedPropIds{get; protected set;} = new();
 
 
 
-
+	/**
+	 * 用于 從txt詞表中取(無Learnˉ屬性 之 諸JoinedWordᵘ)後再添厥入庫
+	 * 成功則自動添一Learn(belong=add)
+	 */
 	public async Task<unit> TxAddAsync(IList<I_JoinedWordKV> words) {
 		var wordSeeker = new WordSeeker();
 
@@ -86,7 +95,8 @@ public class WordAdder:
 				var learn = mkLearnKV_add(lastId);
 				await _kvAdder.TxAddAsync(learn);
 				initAddedWordIds.Add(lastId);
-			}else{//表中既有此詞>
+			}//~if(existedWord == null)表中原無此詞
+			else{//表中既有此詞>
 				var propToAdd = _wordDiff.diffProperty(wordToAdd, existedWord);
 				var oldWordId = existedWord.textWord.id;
 				var hasAddedProp = false;
@@ -101,13 +111,13 @@ public class WordAdder:
 					}else{
 						throw new Exception("cannot get last ID");
 					}
-				}
+				}//~foreach(var neoProp in propToAdd)
 				if(hasAddedProp){
 					var learn = mkLearnKV_add(oldWordId);
 					await _kvAdder.TxAddAsync(learn);
 				}
-			}
-		}
+			}//~if(existedWord == null)表中既有此詞
+		}//~foreach(var wordToAdd in words)
 		this.initAddedWordIds = initAddedWordIds;
 		this.newlyAddedPropIds = newlyAddedPropIds;
 		return 0;

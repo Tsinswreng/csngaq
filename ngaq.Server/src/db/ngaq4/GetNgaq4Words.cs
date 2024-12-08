@@ -36,20 +36,20 @@ public class GetNgaq4Words {
 		return $"SELECT * FROM {tbl}";
 	}
 
-	public JoinedWord GetJoinedWord(TextWord textWord){
+	public JoinedWord4 GetJoinedWord(TextWord4 textWord){
 		var id = textWord.id;
 		var learns = GetLearnsByWid(id);
 		var propertys = GetPropertysByWid(id);
-		return new JoinedWord{
+		return new JoinedWord4{
 			TextWord = textWord,
 			Learns = learns,
 			Propertys = propertys
 		};
 	}
 
-	public IList<JoinedWord> GetAllJoinedWords(){
+	public IList<JoinedWord4> GetAllJoinedWords(){
 		var textWords = GetTextWords();
-		var result = new List<JoinedWord>();
+		var result = new List<JoinedWord4>();
 		foreach(var textWord in textWords){
 			var joinedWord = GetJoinedWord(textWord);
 			result.Add(joinedWord);
@@ -58,29 +58,29 @@ public class GetNgaq4Words {
 	}
 
 
-	public IList<Learn> GetLearnsByWid(i64 wid){
+	public IList<Learn4> GetLearnsByWid(i64 wid){
 		var sql = "SELECT * FROM learn WHERE wid = @wid";
-		return _conn.Query<Learn>(sql, new { wid = wid }).ToList();
+		return _conn.Query<Learn4>(sql, new { wid = wid }).ToList();
 	}
 
-	public IList<Property> GetPropertysByWid(i64 wid){
+	public IList<Property4> GetPropertysByWid(i64 wid){
 		var sql = "SELECT * FROM property WHERE wid = @wid";
-		return _conn.Query<Property>(sql, new { wid = wid }).ToList();
+		return _conn.Query<Property4>(sql, new { wid = wid }).ToList();
 	}
 
-	public IList<TextWord> GetTextWords() {
+	public IList<TextWord4> GetTextWords() {
 		var connection = _conn;
-		return connection.Query<TextWord>("SELECT * FROM textWord").ToList();
+		return connection.Query<TextWord4>("SELECT * FROM textWord").ToList();
 	}
 	[Obsolete]
-	public IList<Property> GetPropertys(){
+	public IList<Property4> GetPropertys(){
 		var sql = _geneSql("property");
-		return _conn.Query<Property>(sql).ToList();
+		return _conn.Query<Property4>(sql).ToList();
 	}
 	[Obsolete]
-	public IList<Learn> GetLearns(){
+	public IList<Learn4> GetLearns(){
 		var sql = _geneSql("learn");
-		return _conn.Query<Learn>(sql).ToList();
+		return _conn.Query<Learn4>(sql).ToList();
 	}
 
 
