@@ -41,9 +41,9 @@ public class GetNgaq4Words {
 		var learns = GetLearnsByWid(id);
 		var propertys = GetPropertysByWid(id);
 		return new JoinedWord4{
-			TextWord = textWord,
-			Learns = learns,
-			Propertys = propertys
+			textWord = textWord,
+			learns = learns,
+			propertys = propertys
 		};
 	}
 

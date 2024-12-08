@@ -23,13 +23,13 @@ public class Ngaq4Migrate{
 
 			for(var i = 0; i < joinedWord.Count; i++){
 				var word = joinedWord[i];
-				var textWord = converter.convertTextWord(word.TextWord);
+				var textWord = converter.convertTextWord(word.textWord);
 				var id = await kvAdder.TxAddAsync(textWord);
 				if(id==null){throw new Exception("id is null");}
-				var learns = word.Learns.Select(
+				var learns = word.learns.Select(
 					e=>{e.wid = (long)id ; var ans = converter.convertLearn(e);return ans;}
 				).ToList();
-				var propertys = word.Propertys.Select(
+				var propertys = word.propertys.Select(
 					e=>{e.wid = (long)id ; var ans = converter.convertProperty(e);return ans;}
 				).ToList();
 				for(var j = 0; j < learns.Count; j++){
