@@ -88,7 +88,10 @@ public class WordAdder:
 		var initAddedWordIds = new List<i64>();//錄id芝詞芝初添者(曩未嘗被添者)
 		var newlyAddedPropIds = new List<i64>();//錄id芝詞ʹ屬性芝既存ʹ詞ˋ新得者
 		foreach(var wordToAdd in words){
-			var existedWord = await wordSeeker.SeekJoinedWordKVByTextEtBl(wordToAdd.textWord.kStr??"", wordToAdd.textWord.bl);
+			var existedWord = await wordSeeker.SeekJoinedWordKVByTextEtBl(
+				wordToAdd.textWord.get_text()
+				, wordToAdd.textWord.bl
+			);
 			if(existedWord == null){ //表中原無此詞則直ᵈ添
 				await _kvAdder.TxAddAsync(wordToAdd.textWord);
 				var lastId = await _kvAdder.GetLastId() ?? throw new Exception("cannot get last ID");

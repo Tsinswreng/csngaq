@@ -13,6 +13,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Imput:" Margin="10"/>
         <TextBox x:Name="TextBoxA" Grid.Row="1" Margin="10" Text="{Binding TextBoxAText}" />

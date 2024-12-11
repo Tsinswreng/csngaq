@@ -25,16 +25,22 @@ public partial class LoginView : UserControl {
 		// if (TextBoxA != null && TextBoxB != null) {
 		// 	TextBoxB.Text = TextBoxA.Text;
 		// }不效
-		G.log("start");
-		G.log(TextBoxA==null); //True
-		G.log(TextBoxA?.Text??""); //""
-		G.log(123);
+		try{
+			G.log("start");
+			G.log(TextBoxA==null); //True
+			G.log(TextBoxA?.Text??""); //""
+			G.log(123);
 
-		if(this.DataContext is LoginViewModel viewModel){
-			G.log(viewModel.TextBoxAText);
-		}else{
-			G.log("no viewmodel");
+			if(this.DataContext is LoginViewModel viewModel){
+				G.log(viewModel.TextBoxAText);
+			}else{
+				G.log("no viewmodel");
+			}
 		}
+		catch (System.Exception ex){
+			System.Console.WriteLine(ex);
+		}
+
 		//string userText = viewModel.TextBoxAText;
 
 	}

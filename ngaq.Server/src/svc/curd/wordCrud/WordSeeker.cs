@@ -17,13 +17,13 @@ public class WordSeeker: IDisposable {
 		Dispose();
 	}
 	public void Dispose() {
-		_dbCtx?.Dispose();
+		dbCtx?.Dispose();
 	}
 
-	NgaqDbCtx _dbCtx = new();
+	public NgaqDbCtx dbCtx{get;set;} = new();
 
 	public async Task< I_JoinedWordKV? > SeekJoinedWordKVById(i64 id){
-		var textWords = await _dbCtx.WordKV.Where(
+		var textWords = await dbCtx.WordKV.Where(
 			e=>e.id == id
 			&& e.bl.StartsWith(BlPrefix.TextWord)
 		).ToListAsync();
@@ -34,13 +34,13 @@ public class WordSeeker: IDisposable {
 			throw new Exception("id: "+id+"\nMultiple text words found for the same id.");
 		}
 		var textWord = textWords[0];
-		var learns = await _dbCtx.WordKV.Where(e=>
+		var learns = await dbCtx.WordKV.Where(e=>
 			e.kI64 == textWord.id
 			&& e.bl.StartsWith(BlPrefix.Learn)
 			&& e.kDesc == KDesc.fKey.ToString()
 		).ToListAsync();
 
-		var propertys = await _dbCtx.WordKV.Where(e=>
+		var propertys = await dbCtx.WordKV.Where(e=>
 			e.kI64 == textWord.id
 			&& e.bl.StartsWith(BlPrefix.Property)
 			&& e.kDesc == KDesc.fKey.ToString()
@@ -62,7 +62,7 @@ public class WordSeeker: IDisposable {
 	/// <returns></returns>
 	public async Task< I_JoinedWordKV? > SeekJoinedWordKVByTextEtBl(str text, str bl){
 		var fullBl = BlPrefix.join(BlPrefix.TextWord, bl);
-		var textWordIds = await _dbCtx.WordKV.Where(e=>
+		var textWordIds = await dbCtx.WordKV.Where(e=>
 			e.kStr == text
 			&& e.bl == fullBl
 		).Select(e=>e.id)
