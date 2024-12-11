@@ -1,25 +1,32 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		xmlns:vm="clr-namespace:ngaq.ViewModels"
-        x:Class="ngaq.Views.LoginView"
+		x:Class="ngaq.Views.LoginView"
 		x:DataType="vm:LoginViewModel"
 		Loaded="LoginView_Loaded"
 >
-     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+	<Grid>
+		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Imput:" Margin="10"/>
-        <TextBox x:Name="TextBoxA" Grid.Row="1" Margin="10" Text="{Binding TextBoxAText}" />
-        <TextBlock Grid.Row="2" Text="输出文本:" Margin="10"  />
-        <TextBox x:Name="TextBoxB" Grid.Row="3" Margin="10" IsReadOnly="True"/>
-        <Button Grid.Row="4" Content="复制文本" Click="Button_Click" Margin="10"/>
-    </Grid>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<TextBlock Grid.Row="0" Text="Imput:" Margin="10"/>
+		<TextBox x:Name="TextBoxA" Grid.Row="1" Margin="10" Text="{Binding TextBoxAText}" />
+		<!-- <TextBox x:Name="TextBoxA" Grid.Row="1" Margin="10" Text="" /> -->
+		<TextBlock Grid.Row="2" Text="输出文本:" Margin="10"  />
+		<TextBox
+			x:Name="TextBoxB"
+			Grid.Row="3"
+			Margin="10"
+			IsReadOnly="True"
+			Text="{Binding TextBoxBText}"
+		/>
+		<Button Grid.Row="4" Content="复制文本" Click="Button_Click" Margin="10"/>
+	</Grid>
 </UserControl>

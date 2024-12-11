@@ -512,21 +512,6 @@ class LoginView : UserControl {
 ##
 
 
-#
-[2024-12-06T16:03:44.293+08:00_W49-5]
-
-我一在輸入框中輸入文字就報錯
-
-System. InvalidCastException: Unable to cast object of type ' ngaq. ViewModels. MainViewModel' to type ' ngaq. ViewModels. LoginViewModel'.
-at CompiledAvaloniaXaml. XamillHelpers. ngaq. ViewModels. LoginViewModel, ngaq. TextBoxAText! Setter(Object, Object)
-at Avalonia. Data. Core. CIrPropertylnfo. Set(Object target, Object value)
-at Avalonia. Markup. Xaml. MarkupExtensions. CompiledBindings. InpcPropertyAccessor. SetValue(Object value, BindingPriority priority)
-at Avalonia. Data. Core. Plugins. DataValidationBase. SetValue(Object value, BindingPriority priority)
-at Avalonia. Data. Core. Plugins. ExceptionValidationPlugin. Validator. SetValue(Object value, BindingPriority priority)
-
-怎麼回事?
-##
-
 
 #
 [2024-12-06T22:57:19.971+08:00_W49-5]
@@ -798,4 +783,538 @@ public record User(string Name, string Email);
 
 
 Minimal APIs 的设计目标是简洁，因此它没有像 Express.js 那样复杂的路由器机制。  选择哪种方法取决于你的项目规模和复杂性。  重要的是保持代码的清晰和可维护性。
+
+
+
+
+
+#
+[2024-12-06T16:03:44.293+08:00_W49-5]
+[2024-12-11T16:28:16.213+08:00_W50-3]
+
+
+
+avalonia
+
+LoginView.axaml.cs
+
+```cs
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using Avalonia.Interactivity;
+using ngaq.ViewModels;
+
+namespace ngaq.Views;
+
+public partial class LoginView : UserControl {
+	public LoginView() {
+		InitializeComponent();
+	}
+
+	private void InitializeComponent() {
+		AvaloniaXamlLoader.Load(this);
+	}
+
+
+
+	private void LoginView_Loaded(object sender, RoutedEventArgs e){
+		G.log("LoginView_Loaded");
+	}
+
+	private void Button_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
+		// if (TextBoxA != null && TextBoxB != null) {
+		// 	TextBoxB.Text = TextBoxA.Text;
+		// }不效
+		try{
+			G.log("start");
+			G.log(TextBoxA==null); //True
+			G.log(TextBoxA?.Text??""); //""
+			G.log(123);
+
+			if(this.DataContext is LoginViewModel viewModel){
+				G.log(viewModel.TextBoxAText);
+			}else{
+				G.log("no viewmodel");
+			}
+		}
+		catch (System.Exception ex){
+			System.Console.WriteLine(ex);
+		}
+
+		//string userText = viewModel.TextBoxAText;
+
+	}
+
+
+}
+
+```
+;
+
+
+LoginView.axaml:
+
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:vm="clr-namespace:ngaq.ViewModels"
+        x:Class="ngaq.Views.LoginView"
+		x:DataType="vm:LoginViewModel"
+		Loaded="LoginView_Loaded"
+>
+     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Imput:" Margin="10"/>
+        <TextBox x:Name="TextBoxA" Grid.Row="1" Margin="10" Text="{Binding TextBoxAText}" />
+        <TextBlock Grid.Row="2" Text="输出文本:" Margin="10"  />
+        <TextBox x:Name="TextBoxB" Grid.Row="3" Margin="10" IsReadOnly="True"/>
+        <Button Grid.Row="4" Content="复制文本" Click="Button_Click" Margin="10"/>
+    </Grid>
+</UserControl>
+```
+;
+
+LoginViewModel.cs
+
+```csharp
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace ngaq.ViewModels;
+
+public partial class LoginViewModel : ViewModelBase {
+	[ObservableProperty]
+	private string _textBoxAText = "Welcome to Avalonia!";
+}
+
+```
+;
+
+我一在輸入框中輸入文字就報錯
+
+```
+System. InvalidCastException: Unable to cast object of type ' ngaq. ViewModels. MainViewModel' to type ' ngaq. ViewModels. LoginViewModel'.
+at CompiledAvaloniaXaml. XamillHelpers. ngaq. ViewModels. LoginViewModel, ngaq. TextBoxAText! Setter(Object, Object)
+at Avalonia. Data. Core. CIrPropertylnfo. Set(Object target, Object value)
+at Avalonia. Markup. Xaml. MarkupExtensions. CompiledBindings. InpcPropertyAccessor. SetValue(Object value, BindingPriority priority)
+at Avalonia. Data. Core. Plugins. DataValidationBase. SetValue(Object value, BindingPriority priority)
+at Avalonia. Data. Core. Plugins. ExceptionValidationPlugin. Validator. SetValue(Object value, BindingPriority priority)
+
+```
+;
+
+怎麼回事?
+
+##
+
+[2024-12-11T16:31:31.752+08:00_W50-3]
+
+
+
+
+你的错误信息 `System.InvalidCastException: Unable to cast object of type 'ngaq.ViewModels.MainViewModel' to type 'ngaq.ViewModels.LoginViewModel'` 指出 Avalonia 试图将 `MainViewModel` 实例强制转换为 `LoginViewModel` 实例，但两者类型不兼容。这通常发生在你的 `LoginView` 的 `DataContext` 被错误地设置为 `MainViewModel` 而不是 `LoginViewModel` 的情况下。
+
+你的 `LoginView.axaml` 文件已经正确地设置了 `x:DataType="vm:LoginViewModel"`，这表明你期望 `LoginView` 使用 `LoginViewModel` 作为数据上下文。问题在于你的应用程序的其余部分可能没有正确地设置 `LoginView` 的数据上下文。
+
+以下是几种可能导致此问题的原因以及解决方法：
+
+**1.  `LoginView` 的父级控件的 `DataContext` 设置错误:**
+
+* **问题:** 如果 `LoginView` 是嵌套在另一个控件中，而该父控件的 `DataContext` 被设置为 `MainViewModel`，那么 `LoginView` 会继承这个错误的上下文。
+* **解决方法:**  确保 `LoginView` 的父控件的 `DataContext` 被正确地设置为 `LoginViewModel` 实例。 你可能需要在你的父视图模型或视图中显式地设置 `LoginView` 的 `DataContext` 属性。 例如：
+
+```csharp
+// 在你的父视图模型中
+public partial class ParentViewModel : ViewModelBase
+{
+    public LoginViewModel LoginViewModel { get; } = new LoginViewModel();
+
+    // ... 其他代码 ...
+}
+
+// 在你的父视图中
+<ContentControl DataContext="{Binding LoginViewModel}">
+    <views:LoginView />
+</ContentControl>
+```
+
+**2.  `LoginViewModel` 实例化错误:**
+
+* **问题:**  你可能没有在你的应用程序中正确地创建和设置 `LoginViewModel` 实例。
+* **解决方法:**  检查你的应用程序的启动代码，确保 `LoginViewModel` 被正确地实例化并作为 `LoginView` 的 `DataContext` 传递。  这可能涉及在你的主窗口或应用程序的启动过程中进行设置。
+
+**3.  命名空间问题:**
+
+* **问题:**  确保你的 `xmlns:vm` 声明指向正确的命名空间，并且 `LoginViewModel` 的完整限定名在你的 XAML 和 C# 代码中一致。
+* **解决方法:**  仔细检查你的 `LoginView.axaml` 文件中的 `xmlns:vm` 声明，确保它指向 `ngaq.ViewModels` 命名空间。
+
+**4.  数据绑定时机问题:**
+
+* **问题:**  `DataContext` 可能在 `LoginView_Loaded` 事件触发之前尚未设置。
+* **解决方法:**  避免在 `LoginView_Loaded` 事件中依赖 `DataContext`。  如果需要在视图加载后执行依赖于 `DataContext` 的操作，请使用 `BindingOperations.SetBinding` 方法，并使用 `Binding` 对象的 `Source` 属性指定数据源。
+
+**调试步骤:**
+
+1. **在 `Button_Click` 方法中添加调试语句:**  在 `try` 块之前添加 `G.log(this.DataContext.GetType().ToString());` 来检查 `LoginView` 的实际 `DataContext` 类型。 这将帮助你确定是否 `DataContext` 被正确设置。
+
+2. **检查父视图的 `DataContext`:**  在你的父视图的代码中设置断点，检查父视图的 `DataContext` 是否正确。
+
+3. **简化你的 XAML:**  暂时移除一些不必要的元素，看看是否能缩小问题的范围。
+
+4. **使用调试器:**  使用调试器逐步执行你的代码，检查变量的值，并找出 `InvalidCastException` 发生的确切位置。
+
+
+通过仔细检查这些方面，你应该能够找到并解决导致 `InvalidCastException` 的根本原因。  记住，提供你的应用程序的更完整代码片段（例如，你的主窗口的 XAML 和代码）将有助于更准确地诊断问题。
+
+
+#
+[2024-12-11T16:44:57.440+08:00_W50-3]
+
+avalonia一個usercontrol內可以再包含其他userControl嗎
+
+##
+
+是的，在 AvaloniaUI 中，一个 UserControl 可以包含其他 UserControl。这与 WPF 等其他 XAML 框架类似，是一种常见的 UI 构建方式，用于创建可重用的组件和模块化 UI 设计。
+
+你可以通过在父 UserControl 的 XAML 中直接添加子 UserControl 元素来实现嵌套。  例如：
+
+**父 UserControl (ParentUserControl.axaml):**
+
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:YourNamespace"
+             x:Class="YourNamespace.ParentUserControl">
+    <Grid>
+        <local:ChildUserControl1 x:Name="child1" />
+        <local:ChildUserControl2 x:Name="child2" />
+    </Grid>
+</UserControl>
+```
+
+在这个例子中，`ParentUserControl` 包含了两个子 UserControl：`ChildUserControl1` 和 `ChildUserControl2`。  你需要确保你的命名空间 (`xmlns:local`) 正确地指向包含这些子 UserControl 的命名空间。
+
+
+**子 UserControl 示例 (ChildUserControl1.axaml):**
+
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="YourNamespace.ChildUserControl1">
+    <TextBlock Text="This is Child User Control 1" />
+</UserControl>
+```
+
+记住，你需要在你的项目中创建对应的 `ChildUserControl1.axaml.cs` 和 `ChildUserControl2.axaml.cs` 文件 (以及对应的 ViewModel，如果需要的话)。  这些文件应该包含 UserControl 的代码逻辑。
+
+
+这种嵌套 UserControl 的方法允许你创建复杂的 UI 结构，同时保持代码的可重用性和可维护性。  通过将 UI 分解成更小的、独立的组件，你可以更容易地管理和更新你的应用程序。  [1](https://stackoverflow.com/questions/60637965/avalonia-ui-putting-a-usercontrol-inside-another) [2](https://github.com/AvaloniaUI/Avalonia/discussions/9895) [3](https://medium.com/@adamciszewski/avalonia-user-vs-templated-control-code-examples-b05301baf3c0)
+
+
+## ask
+
+假設有兩個UserControl A和B、A包着B、A和B都綁定了不同的Model 會出問題嗎
+
+###
+
+如果 UserControl A 包含 UserControl B，并且 A 和 B 都绑定了不同的 Model，那么**可能会**出现问题，具体取决于你的绑定方式和 Model 的设计。  问题主要体现在数据上下文（DataContext）的继承和冲突上。
+
+**可能出现的问题：**
+
+* **数据上下文冲突:**  AvaloniaUI 的数据绑定机制是基于数据上下文的。如果 B 的 `DataContext` 与 A 的 `DataContext` 冲突（例如，两者都试图绑定到同一个属性名，但属性类型或值不同），那么绑定可能会失败，或者出现意想不到的行为。  Avalonia 会优先使用最内层控件的 `DataContext`。
+
+* **意外的数据绑定:**  如果 B 中的绑定表达式没有明确指定数据源，它可能会意外地绑定到 A 的 `DataContext`，而不是 B 的 `DataContext`，导致数据显示错误。
+
+* **性能问题:**  如果 A 和 B 的 Model 非常复杂，或者包含大量的绑定，那么嵌套的结构可能会导致性能下降。
+
+
+**如何避免问题：**
+
+* **明确指定数据源:**  在 B 的 XAML 中，确保所有绑定表达式都明确指定数据源，例如使用 `Binding` 元素的 `Source` 属性，或者使用相对路径绑定，避免依赖于继承的数据上下文。
+
+* **使用不同的属性名:**  如果 A 和 B 的 Model 中存在同名的属性，请更改其中一个属性的名称，以避免命名冲突。
+
+* **使用不同的命名空间:**  如果你的 Model 在不同的命名空间中，这可以帮助避免命名冲突。
+
+* **在代码中设置 DataContext:**  在 A 的代码中，你可以显式地设置 B 的 `DataContext` 为 B 的 Model 实例，而不是依赖于数据上下文的继承。  这可以确保 B 使用正确的数据上下文。 例如：
+
+```csharp
+public partial class UserControlA : UserControl
+{
+    public UserControlA()
+    {
+        InitializeComponent();
+        if (this.FindControl<UserControlB>("UserControlB") is UserControlB userControlB)
+        {
+            userControlB.DataContext = new ModelB(); // 将 ModelB 实例设置为 UserControlB 的 DataContext
+        }
+    }
+}
+```
+
+* **使用 `ContentControl` 和 `DataTemplate`:**  对于更复杂的场景，你可以使用 `ContentControl` 和 `DataTemplate` 来更灵活地管理数据上下文和视图的关联。  `DataTemplate` 可以根据不同的数据类型选择不同的视图，从而避免数据上下文冲突。
+
+
+**示例：**
+
+假设 `ModelA` 有一个属性 `NameA`，`ModelB` 有一个属性 `NameB`。
+
+**UserControlA.axaml:**
+
+```xml
+<UserControl ...>
+    <Grid>
+        <TextBlock Text="{Binding NameA}" />
+        <local:UserControlB x:Name="UserControlB" DataContext="{Binding ModelB}" />  <!-- 显式设置DataContext -->
+    </Grid>
+</UserControl>
+```
+
+**UserControlA.axaml.cs:**
+
+```csharp
+public partial class UserControlA : UserControl
+{
+    public UserControlA()
+    {
+        InitializeComponent();
+        DataContext = new ModelA { NameA = "A's Name", ModelB = new ModelB { NameB = "B's Name" } };
+    }
+
+    public ModelA ModelA { get; set; }
+}
+```
+
+**UserControlB.axaml:**
+
+```xml
+<UserControl ...>
+    <TextBlock Text="{Binding NameB}" />
+</UserControl>
+```
+
+在这个例子中，我们显式地将 `ModelB` 实例传递给 `UserControlB`，避免了数据上下文冲突。
+
+
+总而言之，虽然嵌套 UserControl 并绑定不同的 Model 是可行的，但需要小心处理数据上下文，以避免潜在的问题。  明确的绑定和显式的数据上下文设置是关键。
+
+
+#
+[2024-12-11T16:46:39.322+08:00_W50-3]
+
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:ngaq.ViewModels"
+	mc:Ignorable="d"
+	d:DesignWidth="800"
+	d:DesignHeight="450"
+	x:DataType="vm:MainViewModel"
+	x:Class="ngaq.Views.MainView"
+	xmlns:ngaqView="clr-namespace:ngaq.Views"
+>
+```
+
+avalonia
+
+解釋每一行的意思
+
+##
+
+x:DataType="vm:MainViewModel": 这行代码指定了 UserControl 的数据类型为 ngaq.ViewModels.MainViewModel。 这表示这个 UserControl 将绑定到 MainViewModel 实例，其属性将用于数据绑定。
+
+x:Class="ngaq.Views.MainView": 这行代码指定了与这个 XAML 文件关联的 C# 代码类为 ngaq.Views.MainView。 这个类通常包含 UserControl 的代码逻辑，例如初始化组件、处理事件等。
+
+
+#
+[2024-12-11T17:07:09.491+08:00_W50-3]
+
+avalonia的DataContext是甚麼?
+
+##
+
+在 AvaloniaUI 中，`DataContext` 是一个重要的属性，它扮演着数据绑定机制的核心角色。  简单来说，`DataContext`  是一个对象，它为该控件及其子控件提供数据源。  AvaloniaUI 的数据绑定机制会从 `DataContext` 中获取数据，并将其显示在 UI 元素上。  当 UI 元素的值发生变化时，这些变化也会反映回 `DataContext` 中。
+
+更详细地解释：
+
+* **数据源:** `DataContext` 属性持有任何类型的对象。  这个对象通常是一个视图模型 (ViewModel)，它包含 UI 元素需要显示和操作的数据。  但是，它也可以是任何其他类型的对象，只要它包含可以被绑定的属性即可。
+
+* **继承:**  `DataContext` 属性具有继承性。  如果一个控件没有设置自己的 `DataContext`，它会继承其父控件的 `DataContext`。  这使得你可以方便地将数据从父控件传递到子控件。
+
+* **数据绑定:**  AvaloniaUI 的数据绑定表达式（例如 `{Binding PropertyName}`）会从当前控件的 `DataContext` 中查找指定的属性 (`PropertyName`)。  如果找到该属性，其值就会显示在 UI 元素上。  当属性值发生变化时，UI 元素也会自动更新。  反之，如果支持双向绑定，UI 元素的变化也会更新 `DataContext` 中的属性值。
+
+* **设置方式:**  你可以通过多种方式设置 `DataContext`：
+
+    * **在 XAML 中:**  你可以直接在 XAML 中使用 `DataContext` 属性设置数据上下文，例如： `<TextBlock Text="{Binding Name}" DataContext="{Binding MyViewModel}" />`。
+
+    * **在代码中:**  你可以在代码中使用 `DataContext` 属性设置数据上下文，例如： `myControl.DataContext = new MyViewModel();`。
+
+* **作用:**  `DataContext` 简化了数据绑定，使你能够轻松地将数据从你的后端逻辑（通常是 ViewModel）连接到你的 UI 元素。  它促进了 MVVM (Model-View-ViewModel) 架构的实现，将数据和 UI 逻辑分离，提高了代码的可维护性和可测试性。
+
+
+**示例:**
+
+假设你有一个 `MyViewModel` 类，它包含一个名为 `Name` 的字符串属性：
+
+```csharp
+public class MyViewModel : ViewModelBase
+{
+    private string _name = "Default Name";
+    public string Name
+    {
+        get => _name;
+        set => SetProperty(ref _name, value);
+    }
+}
+```
+
+然后，在你的 Avalonia XAML 中，你可以这样使用 `DataContext`：
+
+```xml
+<Window ...>
+    <StackPanel>
+        <TextBlock Text="{Binding Name}" />  <!-- 绑定到 DataContext.Name -->
+    </StackPanel>
+</Window>
+```
+
+在你的代码中，你可以这样设置 `DataContext`：
+
+```csharp
+var window = new Window();
+window.DataContext = new MyViewModel { Name = "John Doe" };
+window.Show();
+```
+
+在这个例子中，`TextBlock` 会显示 "John Doe"，因为 `DataContext` 被设置为 `MyViewModel` 实例，而 `TextBlock` 的 `Text` 属性绑定到 `MyViewModel` 的 `Name` 属性。
+
+
+总而言之，`DataContext` 是 AvaloniaUI 数据绑定机制的核心，它提供了一种简单而有效的方式来连接你的数据和 UI。  理解 `DataContext` 的工作原理对于构建复杂的 AvaloniaUI 应用程序至关重要。
+
+
+
+#
+[2024-12-11T19:26:51.993+08:00_W50-3]
+
+在c++中、我有main.cc, myLib.h, myLib.cc
+myLib.h只提供了簽名、實現都在myLib.cc中
+我把myLib.cc替換成myLib2.cc 使他符合myLib.h的簽名 再編譯一份 即可
+
+在c#中 如何實現類似的功能?
+
+##
+
+
+#
+[2024-12-11T19:32:14.469+08:00_W50-3]
+
+avalonia运行在web端上时怎么调用js的alert函数?
+
+##
+
+Avalonia 在 WebAssembly (WASM) 环境下运行时，调用 JavaScript 的 `alert()` 函数需要使用 JavaScript 交互功能。  Avalonia 本身并不直接提供 `alert()` 的封装，你需要借助 .NET 的 JavaScript 交互机制。  具体方法取决于你使用的 Avalonia 版本和 .NET 版本。
+
+
+**方法一：使用 `IJSRuntime` (适用于使用 Blazor 集成的 Avalonia 应用)**
+
+如果你的 Avalonia Web 应用是通过 Blazor 集成部署的，那么你可以注入 `IJSRuntime` 服务来调用 JavaScript 代码。
+
+```csharp
+using Microsoft.JSInterop;
+
+public class MyViewModel : ViewModelBase
+{
+    private readonly IJSRuntime _jsRuntime;
+
+    public MyViewModel(IJSRuntime jsRuntime)
+    {
+        _jsRuntime = jsRuntime;
+    }
+
+    public async Task ShowAlertAsync(string message)
+    {
+        await _jsRuntime.InvokeVoidAsync("alert", message);
+    }
+}
+```
+
+在你的 Avalonia 视图模型中注入 `IJSRuntime`，然后使用 `InvokeVoidAsync` 方法异步调用 JavaScript 的 `alert` 函数。  `alert` 是 JavaScript 函数名。
+
+
+**方法二：使用 .NET 7+ 的原生 JavaScript 交互 (推荐)**
+
+.NET 7 及更高版本提供了更直接的 JavaScript 交互方式，无需依赖 Blazor。  你可以使用 `JSImport` 属性直接导入 JavaScript 函数。  这种方法更简洁高效，并且不依赖于 Blazor。
+
+首先，你需要在你的 Avalonia 项目中添加一个 JavaScript 文件 (例如 `myInterop.js`)，其中包含 `alert` 函数 (或者其他你需要的 JavaScript 函数):
+
+```javascript
+// myInterop.js
+export function alert(message) {
+  window.alert(message);
+}
+```
+
+然后，在你的 C# 代码中使用 `JSImport` 属性导入这个函数：
+
+```csharp
+using System.Threading.Tasks;
+
+public class MyViewModel : ViewModelBase
+{
+    [JSImport("myInterop.js", "alert")]
+    public static partial Task Alert(string message);
+
+    public async Task ShowAlertAsync(string message)
+    {
+        await Alert(message);
+    }
+}
+```
+
+`JSImport` 属性指定了 JavaScript 文件路径和函数名。  `partial` 关键字表示这个方法的实现由 JavaScript 提供。  调用 `Alert` 方法即可触发 JavaScript 的 `alert` 函数。
+
+
+**重要提示:**
+
+* **项目配置:**  确保你的 Avalonia 项目正确配置了 WASM 部署。
+* **JavaScript 文件:**  确保你的 JavaScript 文件正确包含在你的项目中，并且路径正确。
+* **错误处理:**  在实际应用中，你应该添加错误处理机制来处理 JavaScript 调用可能出现的异常。
+* **Avalonia 版本:**  确保你的 Avalonia 版本支持 WASM 和你选择的 JavaScript 交互方法。  较旧的版本可能需要不同的方法。
+
+
+方法二 (使用 `.NET 7+` 原生 JavaScript 交互) 是推荐的方法，因为它更简洁、更高效，并且不依赖于 Blazor。  如果你的项目使用的是 .NET 7 或更高版本，强烈建议使用这种方法。  否则，你需要使用 `IJSRuntime` 方法。  记住根据你的项目实际情况选择合适的方法。
+
+
+
+#
+[2024-12-11T19:46:11.240+08:00_W50-3]
+Unhandled exception. System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
+ ---> System.DllNotFoundException: Unable to load DLL 'libSkiaSharp' or one of its dependencies: 找不到指定的模块。
+   at System.Runtime.InteropServices.NativeLibrary.LoadLibErrorTracker.Throw(String) + 0x50
+   at Internal.Runtime.CompilerHelpers.InteropHelpers.FixupModuleCell(InteropHelpers.ModuleFixupCell*) + 0x10e
+   at Internal.Runtime.CompilerHelpers.InteropHelpers.ResolvePInvokeSlow(InteropHelpers.MethodFixupCell*) + 0x2f
+   at SkiaSharp.SkiaApi.sk_colortype_get_default_8888() + 0x24
+   at SkiaSharp.SKImageInfo..cctor() + 0x1c
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0xba
+   --- End of inner exception stack trace ---
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0x13c
+   at System.Runtime.CompilerServices.ClassConstructorRunner.CheckStaticClassConstructionReturnNonGCStaticBase(StaticClassConstructionContext*, IntPtr) + 0xd
+   at Avalonia.Skia.SkiaPlatform.Initialize(SkiaOptions) + 0x161
+   at Avalonia.AppBuilder.SetupUnsafe() + 0x3b
+   at Avalonia.ClassicDesktopStyleApplicationLifetimeExtensions.StartWithClassicDesktopLifetime(AppBuilder, String[], Action`1) + 0x2f
+   at ngaq.Desktop.Program.Main(String[] args) + 0x1b
+
+windows avalonia aot编译后报错 如上 怎么回事
+
 

@@ -13,6 +13,7 @@ public partial class LoginView : UserControl {
 
 	private void InitializeComponent() {
 		AvaloniaXamlLoader.Load(this);
+		this.DataContext = new LoginViewModel();//t
 	}
 
 
@@ -22,27 +23,14 @@ public partial class LoginView : UserControl {
 	}
 
 	private void Button_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
-		// if (TextBoxA != null && TextBoxB != null) {
-		// 	TextBoxB.Text = TextBoxA.Text;
-		// }不效
-		try{
-			G.log("start");
-			G.log(TextBoxA==null); //True
-			G.log(TextBoxA?.Text??""); //""
-			G.log(123);
 
-			if(this.DataContext is LoginViewModel viewModel){
-				G.log(viewModel.TextBoxAText);
-			}else{
-				G.log("no viewmodel");
-			}
+		if(! (this.DataContext is LoginViewModel) ){
+			return;
 		}
-		catch (System.Exception ex){
-			System.Console.WriteLine(ex);
-		}
-
-		//string userText = viewModel.TextBoxAText;
-
+		var v = (LoginViewModel)this.DataContext;
+		G.log(v.TextBoxAText);
+		G.log(v.TextBoxBText);
+		v.TextBoxBText = v.TextBoxAText;
 	}
 
 
