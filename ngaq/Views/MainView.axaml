@@ -9,6 +9,7 @@
 	x:DataType="vm:MainViewModel"
 	x:Class="ngaq.Views.MainView"
 	xmlns:ngaqView="clr-namespace:ngaq.Views"
+	xmlns:ngaqViewWord="clr-namespace:ngaq.Views.Word"
 >
 
 
@@ -18,7 +19,9 @@
 	</Design.DataContext>
 	<Grid>
 		<!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
-		<ngaqView:LoginView/>
+		<!-- <ngaqView:LoginView/> -->
+		<!-- <ngaqView:Word.WordInfoView/> -->
+		<ngaqViewWord:WordInfoView/>
 	</Grid>
 
 </UserControl>

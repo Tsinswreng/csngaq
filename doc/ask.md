@@ -1318,3 +1318,450 @@ Unhandled exception. System.TypeInitializationException: A type initializer thre
 windows avalonia aot编译后报错 如上 怎么回事
 
 
+#
+[2024-12-13T21:47:51.751+08:00_W50-5]
+
+```xml
+<Window xmlns="https://github.com/avaloniaui"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="using:MySample"
+ x:Class="MySample.Views.MainWindow">
+ <local:Student FirstName="Jane" LastName="Deer"/>
+</Window>
+```
+
+解释代码 avalonia的
+
+##
+
+xmlns:local="using:MySample": This is a crucial line. It defines a custom XML namespace called local which maps to the MySample namespace in your C# code. This allows you to use custom controls (like Student in this case) defined within your MySample project directly in your XAML. The using: prefix indicates that this namespace is within your current project or assembly.
+
+`<local:Student FirstName="Jane" LastName="Deer"/>`: This is the core of the example. It creates an instance of a custom control named Student (defined in your MySample namespace). The FirstName and LastName attributes are properties of the Student control, setting their values to "Jane" and "Deer" respectively. This implies that the Student class likely has properties named FirstName and LastName which are set by these attributes. This is a simple example of data binding in Avalonia.
+
+
+#
+[2024-12-13T22:00:35.687+08:00_W50-5]
+
+`mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"`解释
+
+##
+
+这段代码是 XAML 中用于设计时数据的标记，通常用于 WPF 或 AvaloniaUI 等框架。让我们逐部分解释：
+
+* **`mc:Ignorable="d"`:**  这行声明了 `mc` 命名空间，并指定了 `d` 前缀的属性在运行时会被忽略。  `mc` 代表 `http://schemas.openxmlformats.org/markup-compatibility/2006`，这是一个用于标记兼容性的命名空间。  `d` 通常代表设计时属性，来自 `http://schemas.microsoft.com/expression/blend/2008`  (或类似的用于设计工具的命名空间)。
+
+    这意味着任何以 `d:` 开头的属性，例如 `d:DesignWidth` 和 `d:DesignHeight`，只会在设计器中生效，而不会影响应用程序的运行时行为。  这对于在设计时设置一些辅助属性非常有用，例如设置设计时的大小、背景颜色等，而不会影响实际运行时的外观和行为。
+
+* **`d:DesignWidth="800"`:**  这个属性设置了控件在设计器中的宽度为 800。  只有在 Visual Studio 或 Blend 等设计器中打开 XAML 文件时，这个属性才会生效。  运行时，这个属性会被忽略，控件的实际宽度将由其他属性或布局决定。
+
+* **`d:DesignHeight="450"`:**  类似地，这个属性设置了控件在设计器中的高度为 450。  同样，它只在设计器中生效，运行时会被忽略。
+
+
+**总结:**
+
+这些属性允许你在设计时为你的 UI 元素设置一些特殊属性，以便更好地在设计器中预览和调整 UI，而不会影响应用程序的运行时行为。  它们是设计时辅助属性，用于提升开发体验，在编译后的应用程序中不会产生任何影响。  这使得设计过程更加方便，因为你可以设置一些在运行时不需要的属性，例如设计时背景颜色或尺寸，以方便视觉设计和调试。
+
+#
+[2024-12-13T22:14:07.010+08:00_W50-5]
+
+```cs
+var template = new FuncDataTemplate<Student>((value, namescope) =>
+ new TextBlock
+ {
+ [!TextBlock.TextProperty] = new Binding("FirstName"),
+ });
+```
+
+解釋
+
+##
+
+这段代码在 AvaloniaUI 中使用 `FuncDataTemplate` 创建了一个数据模板。让我们逐步解释：
+
+* **`var template = ...`:**  声明了一个名为 `template` 的变量，其类型是一个 `FuncDataTemplate<Student>`。  `FuncDataTemplate` 是 AvaloniaUI 提供的一个类，它允许你使用一个函数来定义数据模板。  `<Student>` 指定了这个模板适用于 `Student` 类型的对象。
+
+* **`new FuncDataTemplate<Student>((value, namescope) => ...)`:**  创建一个新的 `FuncDataTemplate<Student>` 实例。  构造函数接受一个委托作为参数，这个委托是一个函数，它接收两个参数：
+    * **`value`:**  要显示的 `Student` 对象。
+    * **`namescope`:**  命名范围，用于查找资源和数据绑定上下文。
+
+* **`new TextBlock { ... }`:**  委托函数的返回值是一个新的 `TextBlock` 对象。  这个 `TextBlock` 将用于显示 `Student` 对象的数据。
+
+* **`[!TextBlock.TextProperty] = new Binding("FirstName")`:**  这是 AvaloniaUI 的属性绑定语法。  `[!TextBlock.TextProperty]`  表示设置 `TextBlock` 的 `Text` 属性。  `new Binding("FirstName")`  创建一个新的 `Binding` 对象，它绑定到 `Student` 对象的 `FirstName` 属性。  这意味着 `TextBlock` 的文本内容将显示 `Student` 对象的 `FirstName` 属性的值。  `!` 符号表示这是一个附加属性绑定。
+
+
+**总结:**
+
+这段代码创建了一个数据模板，该模板将 `Student` 对象的 `FirstName` 属性显示在一个 `TextBlock` 中。  它使用了 `FuncDataTemplate`，这是一种更灵活的方式来创建数据模板，特别是当模板的结构比较简单时。  与 XAML 定义的数据模板相比，这种方式更简洁，并且可以更好地与代码集成。  `FuncDataTemplate`  适合在代码中动态创建数据模板，而 XAML 定义的数据模板更适合在设计时进行可视化编辑和管理。  `[!TextBlock.TextProperty]` 的使用是 AvaloniaUI 特有的属性绑定方式，它与 XAML 中的 `{Binding FirstName}` 语法等效，但更适合在代码中使用。
+
+
+`[!TextBlock.TextProperty] = new Binding("FirstName")`  不是标准的 C# 语法。
+
+在 WPF (Windows Presentation Foundation) 中，你使用 `BindingOperations.SetBinding` 方法来将属性绑定到数据源。  `[!TextBlock.TextProperty]`  这种写法并非 C# 的一部分，它看起来像是某种简写或特定于某个框架的语法，可能在某些代码生成工具或特定上下文中出现。
+
+正确的 C# 语法如下：
+
+```csharp
+BindingOperations.SetBinding(myTextBlock, TextBlock.TextProperty, new Binding("FirstName"));
+```
+
+其中：
+
+* `myTextBlock`:  这是你的 `TextBlock` 对象的实例。  你需要先在你的代码中创建它 (例如，通过 `FindName` 方法从 XAML 中获取，或者直接在代码中实例化)。
+* `TextBlock.TextProperty`:  这是 `TextBlock` 控件的 `Text` 属性的依赖属性标识符。  这告诉 `SetBinding` 方法要绑定哪个属性。
+* `new Binding("FirstName")`:  这是一个新的 `Binding` 对象，它指定了数据绑定路径为 "FirstName"。  这表示要绑定到数据源中的 `FirstName` 属性。
+
+
+**完整的示例：**
+
+假设你有一个名为 `person` 的对象，它具有 `FirstName` 属性，并且你有一个名为 `myTextBlock` 的 `TextBlock` 对象：
+
+```csharp
+// 假设你已经创建了 person 对象，并且它有 FirstName 属性
+var person = new Person { FirstName = "John" };
+
+// 假设你已经从 XAML 中获取了 myTextBlock 对象，或者在代码中创建了它
+TextBlock myTextBlock = (TextBlock)this.FindName("myTextBlock"); // 从 XAML 获取
+
+// 创建绑定
+Binding binding = new Binding("FirstName");
+binding.Source = person; // 设置数据源
+
+// 应用绑定
+BindingOperations.SetBinding(myTextBlock, TextBlock.TextProperty, binding);
+```
+
+这个代码片段首先创建一个 `Binding` 对象，指定数据绑定路径为 "FirstName" 并设置数据源为 `person` 对象。然后，它使用 `BindingOperations.SetBinding` 方法将这个绑定应用到 `myTextBlock` 的 `Text` 属性。
+
+
+记住，你需要引用 `System.Windows.Data` 命名空间才能使用 `Binding` 和 `BindingOperations` 类。  确保你的项目包含必要的 WPF 引用。
+
+
+
+#
+[2024-12-13T22:23:55.658+08:00_W50-5]
+
+avalonia:
+
+```cs
+var template = new FuncDataTemplate<Student>((value, namescope) =>
+ new TextBlock
+ {
+ [!TextBlock.TextProperty] = new Binding("FirstName"),
+ });
+```
+
+有与`[!TextBlock.TextProperty] = new Binding("FirstName"),`等价的 其他写法吗
+
+##
+
+Yes, there are several equivalent ways to write `[!TextBlock.TextProperty] = new Binding("FirstName")` in AvaloniaUI to bind the `Text` property of a `TextBlock` to the `FirstName` property of a `Student` object within a `FuncDataTemplate`.  Here are a few alternatives:
+
+**1. Using XAML within the `FuncDataTemplate`:**
+
+This is generally the preferred and most readable approach. Instead of creating the `TextBlock` programmatically, define it in XAML and use data binding directly within the XAML.  This leverages Avalonia's built-in data binding engine, making it more efficient and easier to maintain.
+
+```csharp
+var template = new FuncDataTemplate<Student>(student =>
+{
+    return (TextBlock)AvaloniaXamlLoader.Load(
+        "<TextBlock Text=\"{Binding FirstName}\" />"
+    );
+});
+```
+
+This code uses `AvaloniaXamlLoader.Load` to parse the XAML string and create the `TextBlock`. The XAML directly specifies the data binding using `{Binding FirstName}`.
+
+
+**2.  Using `SetBinding`:**
+
+You can use the `SetBinding` method on the `TextBlock` to achieve the same result. This is a more programmatic approach, but less concise than the XAML method.
+
+```csharp
+var template = new FuncDataTemplate<Student>((student, nameScope) =>
+{
+    var textBlock = new TextBlock();
+    textBlock.SetBinding(TextBlock.TextProperty, new Binding("FirstName"));
+    return textBlock;
+});
+```
+
+This creates a `TextBlock`, and then explicitly sets the binding using `SetBinding`.
+
+
+**3. Using a shorter lambda expression (less readable):**
+
+While functional, this approach sacrifices readability for brevity.
+
+```csharp
+var template = new FuncDataTemplate<Student>((student, nameScope) => new TextBlock { [TextBlock.TextProperty] = new Binding("FirstName") });
+```
+
+This is essentially the same as your original code, but written more compactly using the indexer syntax.  However, the XAML approach is generally recommended for better readability and maintainability.
+
+
+**Choosing the Best Approach:**
+
+For most cases, using **XAML within the `FuncDataTemplate` (method 1)** is the best approach. It's cleaner, more readable, and leverages Avalonia's built-in XAML parsing and data binding capabilities.  The programmatic approaches (methods 2 and 3) are useful in more complex scenarios where you need more control over the creation process or when you can't easily use XAML.  Avoid method 3 unless brevity is paramount, as it sacrifices readability.  Method 2 offers a good balance between control and readability.
+
+
+
+#
+[2024-12-15T11:59:26.110+08:00_W50-7]
+
+avalonia
+```xml
+<Grid
+	RowDefinitions="Auto, *, Auto"
+	x:Name="Root"
+>
+```
+解釋
+
+##
+
+这段 XAML 代码定义了一个 Avalonia 的 Grid 控件,其中包含以下属性和设置:
+
+1. `RowDefinitions="Auto, *, Auto"`:
+   - 定义了 Grid 中的三行行高。
+   - `Auto` 表示根据内容自动调整行高。
+   - `*` 表示剩余空间按比例分配给该行。
+   - 因此这里定义了三行:第一行和第三行高度自动调整,第二行占据剩余空间。
+
+2. `x:Name="Root"`:
+   - 为这个 Grid 控件设置了一个名称 "Root"。
+   - 这样可以在代码中通过这个名称引用和操作这个 Grid 控件。
+
+总的来说,这个 Grid 控件定义了一个具有三行的布局,第一行和第三行高度根据内容自动调整,而第二行占据剩余可用空间。这种布局常用于创建包含头部、主体和底部的界面结构。
+
+通过给 Grid 控件设置 `x:Name="Root"`, 我们可以在代码中引用和操作这个 Grid 控件,例如设置属性、添加子控件等。这有助于实现动态的界面布局和交互。
+
+
+#
+[2024-12-15T14:47:02.291+08:00_W50-7]
+
+ScrollViewer是甚麼
+
+##
+
+ScrollViewer 是 Avalonia 中的一个重要控件,它用于提供滚动功能。以下是 ScrollViewer 的主要特点和作用:
+
+1. 滚动内容:
+   - ScrollViewer 可以滚动其内部的内容,当内容超出可视区域时会自动显示滚动条。[1](https://docs.avaloniaui.net/docs/reference/controls/scrollviewer)
+
+2. 滚动方向:
+   - ScrollViewer 支持水平滚动、垂直滚动或者同时支持水平和垂直滚动。[1](https://docs.avaloniaui.net/docs/reference/controls/scrollviewer)
+
+3. 滚动链接:
+   - 如果 ScrollViewer 内部还有其他可滚动的控件(如 ListView、TextBox 等),ScrollViewer 可以通过 `ScrollViewer.IsScrollChainingEnabled` 属性控制是否将滚动事件传递给内部控件。[1](https://docs.avaloniaui.net/docs/reference/controls/scrollviewer)
+
+4. 自动隐藏滚动条:
+   - ScrollViewer 可以通过 `AllowAutoHide` 属性控制是否在没有滚动操作时自动隐藏滚动条。[1](https://docs.avaloniaui.net/docs/reference/controls/scrollviewer)
+
+5. 内容大小自适应:
+   - ScrollViewer 会根据其内部内容的大小自动调整自身的大小。[2](https://docs.avaloniaui.net/docs/0.10.x/controls/scrollviewer)
+
+总的来说, ScrollViewer 是 Avalonia 中非常重要的一个控件,它提供了丰富的滚动功能,可以帮助开发者轻松实现具有滚动效果的 UI 界面。开发者可以根据具体需求灵活配置 ScrollViewer 的各种属性,以满足不同的滚动场景。
+
+
+#
+[2024-12-15T14:47:44.178+08:00_W50-7]
+
+```xml
+<ItemsControl ItemsSource="{Binding ToDoItems}">
+```
+
+解釋
+
+##
+
+ItemsControl 是 Avalonia 中的一个基础控件,它用于显示一个集合中的多个项目。以下是 ItemsControl 的主要特点和作用:
+
+1. 数据绑定:
+   - ItemsControl 可以将其 `ItemsSource` 属性绑定到一个集合类型的数据源,如 `ObservableCollection<T>`。[1](https://docs.avaloniaui.net/docs/guides/data-binding/how-to-bind-to-a-collection)
+
+2. 项目模板:
+   - ItemsControl 允许开发者通过 `ItemTemplate` 属性定义每个项目的显示样式。这通常使用 DataTemplate 来实现。[2](https://docs.avaloniaui.net/docs/templates/data-templates)
+
+3. 项目布局:
+   - ItemsControl 可以通过 `ItemsPanel` 属性指定用于布局项目的面板控件,如 StackPanel、WrapPanel 或 Grid。[3](https://docs.avaloniaui.net/docs/concepts/custom-itemspanel)
+
+4. 选择和交互:
+   - ItemsControl 支持项目的选择和交互操作,可以通过 `SelectedItem` 属性获取当前选中的项目。[4](https://docs.avaloniaui.net/docs/reference/controls/itemscontrol)
+
+5. 虚拟化:
+   - ItemsControl 支持虚拟化,可以有效地处理大量数据项,提高性能。[5](https://docs.avaloniaui.net/docs/concepts/virtualization)
+
+总的来说, ItemsControl 是 Avalonia 中非常重要的一个控件,它为开发者提供了一种简单而又强大的方式来显示和交互集合数据。开发者可以通过设置 `ItemsSource`、`ItemTemplate` 和 `ItemsPanel` 等属性,自定义 ItemsControl 的外观和行为,满足各种复杂的 UI 需求。
+
+这段 XAML 代码定义了一个 Avalonia 的 ItemsControl 控件,其中包含以下属性和设置:
+
+1. `ItemsSource="{Binding ToDoItems}"`:
+   - 这个属性将 ItemsControl 的数据源绑定到了 ViewModel 中名为 `ToDoItems` 的属性。
+   - `ToDoItems` 属性通常是一个集合类型(如 `ObservableCollection<T>`)，用于存储要显示的项目数据。[1](https://docs.avaloniaui.net/docs/guides/data-binding/how-to-bind-to-a-collection)
+
+这个 XAML 代码片段表示:
+
+- 创建了一个 ItemsControl 控件。
+- 将该控件的数据源绑定到了 ViewModel 中的 `ToDoItems` 属性。
+- 当 `ToDoItems` 集合中的数据发生变化时(如添加、删除或修改项目)，ItemsControl 会自动更新界面以反映这些变化。
+
+ItemsControl 是 Avalonia 中用于显示集合数据的基础控件之一。它本身不提供任何特定的布局或显示样式,开发者可以通过设置 `ItemTemplate` 和 `ItemsPanel` 等属性来自定义项目的外观和布局。[2](https://docs.avaloniaui.net/docs/reference/controls/itemscontrol)
+
+总之,这段 XAML 代码创建了一个 ItemsControl 控件,并将其数据源绑定到了 ViewModel 中的 `ToDoItems` 集合属性。这是实现 MVVM 模式的常见用法之一。
+
+
+#
+[2024-12-15T14:49:45.659+08:00_W50-7]
+
+```xml
+<ItemsControl.ItemTemplate>
+```
+
+##
+
+
+
+`<ItemsControl.ItemTemplate>` 是 Avalonia 中 ItemsControl 控件的一个属性,它用于定义每个数据项在 ItemsControl 中的显示样式。
+
+以下是关于 `<ItemsControl.ItemTemplate>` 的一些重要信息:
+
+1. 数据模板:
+   - `<ItemsControl.ItemTemplate>` 的值通常是一个 `DataTemplate`，用于指定每个数据项的显示方式。[1](https://docs.avaloniaui.net/docs/templates/data-templates)
+
+2. 数据绑定:
+   - 在 `DataTemplate` 中，可以使用数据绑定语法来访问每个数据项的属性。[2](https://docs.avaloniaui.net/docs/guides/data-binding/how-to-bind-to-a-collection)
+
+3. 自定义布局:
+   - 除了定义每个项目的外观，`DataTemplate` 还可以包含自定义的布局控件，如 StackPanel、WrapPanel 或 Grid。[3](https://docs.avaloniaui.net/docs/concepts/custom-itemspanel)
+
+4. 交互和样式:
+   - `DataTemplate` 中的控件可以定义交互行为和样式，以实现更丰富的用户体验。[4](https://docs.avaloniaui.net/docs/templates/data-templates#styling-data-templates)
+
+下面是一个示例:
+
+```xml
+<ItemsControl ItemsSource="{Binding ToDoItems}">
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="Auto, *">
+                <CheckBox IsChecked="{Binding IsCompleted}" />
+                <TextBlock Grid.Column="1" Text="{Binding Title}" />
+            </Grid>
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>
+```
+
+在这个例子中，`<ItemsControl.ItemTemplate>` 定义了每个 `ToDoItem` 数据项的显示样式:一个 CheckBox 用于表示完成状态，一个 TextBlock 用于显示标题。这种自定义的 DataTemplate 可以让 ItemsControl 的外观和交互更加符合应用程序的需求。
+
+总之，`<ItemsControl.ItemTemplate>` 是 ItemsControl 的一个重要属性，它允许开发者自定义每个数据项的显示样式和布局。这是实现复杂 UI 界面的关键所在。
+
+
+
+#
+[2024-12-15T15:22:22.024+08:00_W50-7]
+
+```xml
+<Button
+	Grid.Column="1"
+	Command="{Binding #Root.((vm:MainViewModel)DataContext).RemoveItemCommand}"
+	CommandParameter="{Binding .}"
+>
+```
+
+解釋
+
+##
+
+这段 XAML 代码定义了一个按钮,并将其绑定到 MainViewModel 中的 RemoveItemCommand 命令。
+
+让我们一步步解释这段代码:
+
+1. `<Button>`: 这是一个 WPF 按钮元素。
+
+2. `Grid.Column="1"`: 这将按钮放置在网格布局的第二列。
+
+3. `Command="{Binding #Root.((vm:MainViewModel)DataContext).RemoveItemCommand}"`: 这里是按钮的命令绑定。
+
+   - `#Root`: 这是一个相对路径,指向当前 XAML 文件的根元素。
+   - `(vm:MainViewModel)DataContext`: 这里将数据上下文强制转换为 MainViewModel 类型。
+   - `RemoveItemCommand`: 这是 MainViewModel 中定义的一个命令。当按钮被点击时,这个命令将被执行。
+
+4. `CommandParameter="{Binding .}"`: 这将当前数据项绑定为命令的参数。在这种情况下,当按钮被点击时,当前数据项将作为参数传递给 RemoveItemCommand。
+
+总的来说,这段代码创建了一个按钮,当点击该按钮时,它将执行 MainViewModel 中定义的 RemoveItemCommand 命令,并将当前数据项作为参数传递给该命令。这种方式可以帮助你在 MVVM 模式下实现数据和命令的绑定。[1](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/how-to-bind-to-a-command?view=netdesktop-6.0)[2](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/how-to-use-the-commandparameter-property?view=netdesktop-6.0)
+
+
+
+
+#
+[2024-12-15T15:51:35.102+08:00_W50-7]
+
+```xml
+<Grid>
+	<ngaqView:LoginView/> <!-- ok -->
+	<!-- <ngaqView:Word.WordInfoView/> --> ??
+</Grid>
+```
+avalonia 已知ngaqView是一個命名空間別名、其下還有一個命名空間Word
+我怎麼引入子命名空間裏的View?
+
+##
+
+在 Avalonia XAML 中，您无法直接通过 `命名空间别名:父命名空间.子命名空间.控件名` 的方式来引用子命名空间中的控件。您需要为子命名空间单独声明一个命名空间别名。
+
+以下是如何在 Avalonia XAML 中引入子命名空间中 View 的方法：
+
+1. **为子命名空间声明别名:**
+
+   在您的 XAML 文件的根元素（例如 `Window` 或 `UserControl`）中，添加一个新的 `xmlns` 属性来声明子命名空间的别名。假设您的子命名空间是 `ngaqView.Word`，您可以这样声明：
+
+   ```xml
+   <Window xmlns="https://github.com/avaloniaui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:ngaqView="clr-namespace:NgaqView"
+           xmlns:ngaqWord="clr-namespace:NgaqView.Word;assembly=YourAssemblyName">
+
+       <Grid>
+           <ngaqView:LoginView/>
+           <ngaqWord:WordInfoView/>
+       </Grid>
+
+   </Window>
+   ```
+
+   *  将 `YourAssemblyName` 替换为您包含 `NgaqView.Word` 命名空间的程序集的名称。 如果 `NgaqView.Word`  和 `NgaqView` 在同一个程序集里，您可以移除 `;assembly=YourAssemblyName` 部分。
+   *  `ngaqWord` 是您为 `NgaqView.Word` 子命名空间选择的别名，您可以根据需要修改它。
+
+
+2. **使用 `using` 语法 (推荐):**
+
+   Avalonia 也支持类似 Xamarin Forms 的 `using:` 语法，它可以更方便地查找命名空间。使用这种方法，您不需要指定程序集名称，Avalonia 会自动搜索所有引用的程序集和 NuGet 包：
+
+   ```xml
+   <Window xmlns="https://github.com/avaloniaui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:ngaqView="using:NgaqView"
+           xmlns:ngaqWord="using:NgaqView.Word">
+
+       <Grid>
+           <ngaqView:LoginView/>
+           <ngaqWord:WordInfoView/>
+       </Grid>
+
+   </Window>
+   ```
+
+   这种方法更加简洁，并且减少了出错的可能性。[3](https://stackoverflow.com/questions/71419773/avalonia-is-unable-to-resolve-a-namespace)
+
+
+**关键点:**
+
+* 确保您的代码背后文件（例如 `MainWindow.axaml.cs`）中的类名和命名空间与 XAML 文件中的 `x:Class` 属性匹配。[5](https://docs.avaloniaui.net/docs/basics/user-interface/code-behind)
+* 确保您的项目已正确引用包含子命名空间的程序集。[4](https://github.com/AvaloniaUI/Avalonia/discussions/15260)
+*  不要忘记在根元素中声明 Avalonia 的命名空间 `xmlns="https://github.com/avaloniaui"`。[6](https://docs.avaloniaui.net/docs/0.10.x/guides/basics/introduction-to-xaml)[2](https://docs.avaloniaui.net/docs/basics/user-interface/introduction-to-xaml)
+
+
+通过以上步骤，您就可以在 Avalonia XAML 中成功引入并使用子命名空间中的 View 了。
+
+

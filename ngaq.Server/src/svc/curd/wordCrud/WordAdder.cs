@@ -89,7 +89,7 @@ public class WordAdder:
 		var newlyAddedPropIds = new List<i64>();//錄id芝詞ʹ屬性芝既存ʹ詞ˋ新得者
 		foreach(var wordToAdd in words){
 			var existedWord = await wordSeeker.SeekJoinedWordKVByTextEtBl(
-				wordToAdd.textWord.get_text()
+				wordToAdd.textWord.text_()
 				, wordToAdd.textWord.bl
 			);
 			if(existedWord == null){ //表中原無此詞則直ᵈ添

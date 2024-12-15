@@ -7,12 +7,12 @@ public partial class Tools{
  * @param keyOfMap 返ᵗ值ˋ作Map之鍵
  * @returns
  */
-	public static Dictionary<Key, List<Ele>> classify<Ele, Key>(
+	public static Dictionary<Key, IList<Ele>> classify<Ele, Key>(
 		IList<Ele> arr
 		,Func<Ele, Key>  keyOfMap
 	)where Key:notnull
 	{
-		var ans = new Dictionary<Key, List<Ele>>();
+		var ans = new Dictionary<Key, IList<Ele>>();
 		foreach(var e in arr){
 			var key = keyOfMap(e);
 			if(!ans.ContainsKey(key)){

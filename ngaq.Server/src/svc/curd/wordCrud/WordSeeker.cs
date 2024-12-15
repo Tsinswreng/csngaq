@@ -4,11 +4,15 @@ using model.consts;
 using ngaq.Core.model;
 using ngaq.Core.model.wordIF;
 using ngaq.model.consts;
+using ngaq.Server.svc.crud.wordCrud.IF;
 
 namespace ngaq.Server.svc.crud.wordCrud;
 
 
-public class WordSeeker: IDisposable {
+public class WordSeeker:
+	IDisposable
+	,I_SeekJoinedWordKVById
+{
 	public WordSeeker() {
 
 	}
