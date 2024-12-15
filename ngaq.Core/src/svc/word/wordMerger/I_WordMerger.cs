@@ -1,5 +1,7 @@
-// namespace ngaq.Core.svc.word.wordMerger;
+using ngaq.Core.model.wordIF;
 
-// // public interface I_WordMerger{
-// // 	unit mergeWord();
-// // }
+namespace ngaq.Core.svc.word.wordMerger;
+
+public interface I_mergeWord{
+	public unit mergeWord(I_JoinedWordKV word1, I_JoinedWordKV word2);
+}
