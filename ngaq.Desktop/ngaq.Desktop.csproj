@@ -34,5 +34,10 @@
 		<Compile Include="../ngaq.Core/GlobalUsing.cs" />
 	</ItemGroup>
 
+	<PropertyGroup>
+		<PublishTrimmed>false</PublishTrimmed>
+		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+	</PropertyGroup>
+
 
 </Project>

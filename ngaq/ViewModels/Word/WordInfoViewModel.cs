@@ -26,7 +26,7 @@ public partial class WordInfoViewModel : ViewModelBase {
 			,PropertyEnum.mean.ToString()
 		);
 		var meanProp = bl_props?.GetValueOrDefault(bl_mean);
-		Mean = meanProp?[0].kStr??"";
+		Mean = meanProp?[0].vStr??"";
 		return 0;
 	}
 

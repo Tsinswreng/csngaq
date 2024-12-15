@@ -8,24 +8,27 @@
 		x:DataType="vm:Word.WordInfoViewModel"
 		Loaded="LoginView_Loaded"
 >
-	<Grid>
-		<Grid.RowDefinitions>
+
+	<UserControl.Styles>
+		<Style Selector="Grid.WordInfo > TextBox">
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Margin" Value="0" />
+		</Style>
+
+		<Style Selector="Grid.WordInfo > TextBlock.WordText">
+			<Setter Property="FontSize" Value="32" />
+		</Style>
+	</UserControl.Styles>
+	<Grid Classes="WordInfo">
+		<!-- <Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Text="lang_id" Margin="10"/>
-		<TextBox x:Name="TextBoxA" Grid.Row="1" Margin="10" Text="{Binding Text}" />
+		</Grid.RowDefinitions> -->
+		<TextBlock Text="lang_id"/>
+		<TextBlock Text="{Binding Text}" Classes="WordText" />
+		<Border/>
+		<TextBlock Text="{Binding Mean}" />
 		<!-- <TextBox x:Name="TextBoxA" Grid.Row="1" Margin="10" Text="" /> -->
-		<TextBox
-			x:Name="TextBoxB"
-			Grid.Row="3"
-			Margin="10"
-			IsReadOnly="True"
-			Text="{Binding Text}"
-		/>
-		<Button Grid.Row="4" Content="复制文本" Click="Button_Click" Margin="10"/>
+		<Button Content="Button" Click="Button_Click"/>
 	</Grid>
 </UserControl>
