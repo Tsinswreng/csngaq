@@ -2014,3 +2014,117 @@ avalonia 在Style中補充代碼、使`<Grid Classes="WordInfo">`下的所有Tex
 		</Style>
 	</UserControl.Styles>
 ```
+
+
+
+#
+[2024-12-16T09:52:39.645+08:00_W51-1]
+
+
+I_JoinedWordKV中有三個成員 I_TextWord, IList<I_Property>, IList<I_Learn>
+
+不能直接操作I_JoinedWordKV對象、它不在DbSet中、必須逐個操作他的成員。
+
+efcore 使用事務刪除整個I_JoinedWordKV
+因還有其他操作要做、該事務的開啓和提交均由其他代碼控制、你不得重複開啓或提交事務。
+
+怎麼做?
+
+
+##
+
+根據您提供的情況,我建議您可以使用以下步驟來刪除 `I_JoinedWordKV` 對象:
+
+1. 獲取要刪除的 `I_JoinedWordKV` 對象:
+
+```csharp
+var joinedWordKV = context.Set<I_JoinedWordKV>()
+                         .Include(x => x.I_TextWord)
+                         .Include(x => x.I_Properties)
+                         .Include(x => x.I_Learns)
+                         .FirstOrDefault(x => /* your condition */);
+```
+
+2. 刪除 `I_JoinedWordKV` 對象及其相關聯的成員:
+
+```csharp
+if (joinedWordKV != null)
+{
+    // 刪除 I_TextWord
+    context.Remove(joinedWordKV.I_TextWord);
+
+    // 刪除 I_Properties
+    foreach (var property in joinedWordKV.I_Properties)
+    {
+        context.Remove(property);
+    }
+
+    // 刪除 I_Learns
+    foreach (var learn in joinedWordKV.I_Learns)
+    {
+        context.Remove(learn);
+    }
+
+    // 刪除 I_JoinedWordKV 本身
+    context.Remove(joinedWordKV);
+}
+```
+
+3. 在現有的事務中保存更改:
+
+```csharp
+context.SaveChanges();
+```
+
+這樣可以確保在不重複開啓或提交事務的情況下,刪除整個 `I_JoinedWordKV` 對象及其相關聯的成員。
+
+請注意,在實際操作中,您可能需要根據具體情況對代碼進行調整,例如添加錯誤處理、優化查詢等。
+
+[1](https://learn.microsoft.com/en-us/ef/core/saving/cascade-delete)
+[2](https://stackoverflow.com/questions/72822311/remove-an-specific-user-from-room-in-ef-core)
+[3](https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbcontext.remove?view=efcore-9.0)
+
+
+## ask
+
+SaveChanges後 事務未提交 此時修改會生效嗎?
+
+###
+
+根據 Entity Framework Core 的行為,在 `SaveChanges()` 方法被調用後,即使事務尚未提交,所做的修改也會生效。
+
+以下是更詳細的解釋:
+
+1. `SaveChanges()` 方法會自動開啟一個新的事務,並在所有更改成功保存到數據庫後提交該事務。[1]
+
+2. 即使在 `SaveChanges()` 方法返回後,事務仍未提交,但是所有的更改已經被保存到數據庫中了。[2]
+
+3. 這是因為 `SaveChanges()` 方法會先將所有的更改寫入數據庫,然後再提交事務。如果提交事務失敗,則會回滾所有的更改。[3]
+
+4. 因此,在 `SaveChanges()` 方法返回後,即使事務尚未提交,您所做的修改也會生效,並且可以在後續的操作中看到這些修改。
+
+所以,您可以安全地在 `SaveChanges()` 方法之後繼續進行其他的操作,而不需要擔心事務的提交問題。
+
+[1] https://learn.microsoft.com/en-us/ef/core/saving/basic#multiple-operations-in-a-single-savechanges
+[2] https://stackoverflow.com/questions/50112027/how-entity-framework-savechanges-works
+[3] https://entityframework-extensions.net/batch-savechanges
+
+
+
+
+#
+[2024-12-16T10:07:21.334+08:00_W51-1]
+
+efcore 開啓了事務後、在事務提交前、SaveChanges()會生效嗎?
+
+##
+
+根據搜索結果,在 EF Core 中使用事務時,SaveChanges() 方法的行為如下:
+
+1. 默認情況下，EF Core 會在每次調用 SaveChanges() 時自動創建一個事務。[1](https://learn.microsoft.com/en-us/ef/core/saving/transactions)
+
+2. 如果你手動開啟了一個事務，並在事務提交前調用 SaveChanges()，則 EF Core 會在該事務內執行所有的數據操作。[1](https://learn.microsoft.com/en-us/ef/core/saving/transactions)[2](https://www.milanjovanovic.tech/blog/working-with-transactions-in-ef-core)
+
+3. 這意味著在事務提交前調用 SaveChanges() 會將所有的更改暫時保存到數據庫中,但只有在事務提交成功後這些更改才會真正生效。如果事務被回滾,則這些更改也會被回滾。[1](https://learn.microsoft.com/en-us/ef/core/saving/transactions)[2](https://www.milanjovanovic.tech/blog/working-with-transactions-in-ef-core)
+
+總之,在手動管理事務的情況下，在事務提交前調用 SaveChanges() 是可以的,EF Core 會將更改保存在事務中。但只有在事務提交成功後,這些更改才會真正生效。

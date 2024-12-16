@@ -18,6 +18,7 @@ namespace ngaq.Server.svc.crud.wordCrud;
 public class WordRm:
 	IDisposable
 	,I_SetTx_DbCtx
+	,I_Rm<I_JoinedWordKV>
 {
 	public WordRm() {
 
@@ -27,24 +28,20 @@ public class WordRm:
 		Dispose();
 	}
 
-	WordSeeker wordSeeker = new ();
+	public WordSeeker wordSeeker = new ();
 
-	NgaqDbCtx dbCtx = new ();
+	public NgaqDbCtx dbCtx = new ();
 
 	public void Dispose() {
 
 	}
 
-	public async Task<unit> RmById(i64 id){
-		var joinedWordKV = await wordSeeker.SeekJoinedWordKVById(id);
-		if (joinedWordKV == null) {
-			return 0;
-		}
+
+	public async Task<unit> Rm(I_JoinedWordKV joinedWordKV){
 		dbCtx.WordKV.Remove((WordKV)joinedWordKV.textWord);
-		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.propertys);//?
-		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.learns);//?
-		//TODO saveChange? state=deleted?  _dbContext.Entry(entityToDelete).State = EntityState.Deleted;
-		throw new NotImplementedException();
+		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.propertys);
+		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.learns);
+		await dbCtx.SaveChangesAsync();
 		return 0;
 	}
 
