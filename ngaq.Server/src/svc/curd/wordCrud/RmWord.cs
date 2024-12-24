@@ -37,7 +37,7 @@ public class WordRm:
 	}
 
 
-	public async Task<unit> Rm(I_JoinedWordKV joinedWordKV){
+	public async Task<zero> Rm(I_JoinedWordKV joinedWordKV){
 		dbCtx.WordKV.Remove((WordKV)joinedWordKV.textWord);
 		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.propertys);
 		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.learns);
@@ -45,7 +45,7 @@ public class WordRm:
 		return 0;
 	}
 
-	public async Task<unit> SetTx(IDbContextTransaction transaction) {
+	public async Task<zero> SetTx(IDbContextTransaction transaction) {
 		await dbCtx.Database.UseTransactionAsync(transaction.GetDbTransaction());
 		return 0;
 	}

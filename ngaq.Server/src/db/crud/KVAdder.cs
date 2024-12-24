@@ -16,12 +16,12 @@ namespace ngaq.Server.db.crud;
 
 public class KVAdder:
 	IDisposable
-	, I_TxAdderAsync<I_KVIdBlCtUt, unit>
+	, I_TxAdderAsync<I_KVIdBlCtUt, zero>
 	,I_SetTx<IDbContextTransaction>
 	,I_GetLastId<i64?>
 {
 
-	protected unit _init_sql_add(){
+	protected zero _init_sql_add(){
 		sql_add =
 @$"INSERT INTO {tblName} (
 	{nameof(KV.bl)}
@@ -88,14 +88,14 @@ public class KVAdder:
 	protected NgaqDbCtx dbCtx = new();
 
 
-	public async Task<unit> SetTx(IDbContextTransaction tx){
+	public async Task<zero> SetTx(IDbContextTransaction tx){
 		_tx = tx;
 		_cmd_add.Transaction = _tx.GetDbTransaction();
 		_cmd_lastId.Transaction = _tx.GetDbTransaction();
 		return 0;
 	}
 
-	public async Task<unit> Begin(){
+	public async Task<zero> Begin(){
 		conn = dbCtx.Database.GetDbConnection();
 		await conn.OpenAsync();
 		_cmd_add = conn.CreateCommand();
@@ -143,7 +143,7 @@ public class KVAdder:
 		return v;
 	}
 
-	public async Task<unit> TxAddAsync(I_KVIdBlCtUt e){
+	public async Task<zero> TxAddAsync(I_KVIdBlCtUt e){
 		_cmd_add.Parameters[$"@{nameof(KV.bl)}"].Value = nc(e.bl);
 		_cmd_add.Parameters[$"@{nameof(KV.ct)}"].Value = nc(e.ct);
 		_cmd_add.Parameters[$"@{nameof(KV.ut)}"].Value = nc(e.ut);
@@ -162,7 +162,7 @@ public class KVAdder:
 		return 0;
 	}
 
-	public async Task<unit> Commit(){
+	public async Task<zero> Commit(){
 		if(_tx !=null){await _tx.CommitAsync();}
 		return 0;
 	}

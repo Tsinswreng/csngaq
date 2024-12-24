@@ -11,7 +11,7 @@ namespace ngaq.svc.wordParser;
 
 //靜態多態
 using word = byte;
-using WPS = WordParseState;
+using state_t = WordParseState;
 
 public class ParseErr : std.Exception{
 	public ParseErr(str msg):base(msg){
@@ -35,11 +35,11 @@ public class Pos : I_LineCol{
 }
 
 class Status{
-	public WPS state {get; set;} = WPS.Start;
+	public state_t state {get; set;} = state_t.Start;
 	public I_LineCol line_col {get; set;} = new Pos();
 	public u64 pos {get;set;} = 0;
 
-	public Stack<WPS> stack {get; set;} = new();
+	public Stack<state_t> stack {get; set;} = new();
 
 	public word curChar {get; set;} = default;
 
@@ -63,7 +63,7 @@ public class Tokens{
 
 public class WordParser{
 	I_getNextByte _getNextByte;
-	public i64 byteSize{get;set;}
+	public i64 byteSize{get;set;}//?
 	public WordParser(I_getNextByte getNextChar, i64 byteSize){
 		_getNextByte = getNextChar;
 		this.byteSize = byteSize;
@@ -76,7 +76,7 @@ public class WordParser{
 		}
 	}
 
-	public WPS state{
+	public state_t state{
 		get{
 			return _status.state;
 		}
@@ -116,7 +116,7 @@ public class WordParser{
 	// 	var curWordBlock = curDateBlock.words[curDateBlock.words.Count - 1];
 	// 	return curWordBlock;
 	// }
-	
+
 	public bool hasNext(){
 		return _getNextByte.hasNext();
 	}
@@ -154,8 +154,8 @@ public class WordParser{
 		// 	lineCol.col = 0;
 		// }
 		_status.curChar = ans;
-		
-		
+
+
 		return ans;
 	}
 
@@ -179,7 +179,7 @@ public class WordParser{
 		var c =  tryGetNextByte();
 		return c;
 	}
-	
+
 
 	//編寫期多態
 	public bool eq(str s1, str s2){
@@ -227,7 +227,7 @@ public class WordParser{
 		if(obj.delimiter == null || obj.delimiter.Length == 0){
 			error("Invalid delimiter");return 1;
 		}
-		_status.headOfWordDelimiter = (byte)obj.delimiter[0]; //TODO 
+		_status.headOfWordDelimiter = (byte)obj.delimiter[0]; //TODO
 		return 0;
 	}
 
@@ -235,20 +235,20 @@ public class WordParser{
 		IList<I_DateBlock> ans = new List<I_DateBlock>();
 		for(var i = 0;;i++){
 			switch(_status.state){
-				case WPS.Start:
+				case state_t.Start:
 					start(); // -> TopSpace
 				break;
-				case WPS.TopSpace:
+				case state_t.TopSpace:
 					topSpace(); // -> Metadata, DateBlock, End
 				break;
-				case WPS.Metadata:
+				case state_t.Metadata:
 					metadata(); // -> TopSpace
 				break;
-				case WPS.DateBlock:
+				case state_t.DateBlock:
 					var ua = readDateBlock(); // -> TopSpace
 					ans.Add(ua);
 				break;
-				case WPS.End:
+				case state_t.End:
 					return ans;
 				//break;
 			}
@@ -257,14 +257,14 @@ public class WordParser{
 	}
 
 	public i32 start(){
-		state = WPS.TopSpace;
+		state = state_t.TopSpace;
 		return 0;
 	}
 
 	public i32 topSpace(){
 		for(;;){
 			if(!hasNext()){
-				state = WPS.End;
+				state = state_t.End;
 				return 0;
 			}
 			var c =  tryGetNextByte();
@@ -272,11 +272,11 @@ public class WordParser{
 			if(isWhite(c)){
 				continue;
 			}else if( eq(c , '<') ){
-				state = WPS.Metadata;
+				state = state_t.Metadata;
 				//_status.stack.Push(WordParseState.Metadata);
 				break;
 			}else if( eq(c , '[') ){
-				state = WPS.DateBlock;
+				state = state_t.DateBlock;
 				//_status.stack.Push(WordParseState.DateBlock);
 				break;
 			}
@@ -305,27 +305,27 @@ public class WordParser{
 		var ans = new DateBlock();
 		for(;;){
 			switch(state){
-				case WPS.DateBlock: //入口
+				case state_t.DateBlock: //入口
 					//_status.state = WordParseState.DateBlock_date;
 					ans.date =  readDate();
-					state = WPS.DateBlock_TopSpace;
+					state = state_t.DateBlock_TopSpace;
 				break;
-				case WPS.DateBlock_TopSpace:
+				case state_t.DateBlock_TopSpace:
 					dateBlock_TopSpace(); // -> Prop, WordBlocks
 				break;
-				case WPS.Prop:
+				case state_t.Prop:
 					var prop = readProp();
 					ans.props.Add(prop);
-					state = WPS.DateBlock_TopSpace;
+					state = state_t.DateBlock_TopSpace;
 				break;
-				case WPS.WordBlocks:
+				case state_t.WordBlocks:
 					var wordBlocks = readWordBlocks(); // -> TopSpace
 					foreach(var w in wordBlocks){ans.words.Add(w);}
 				break;
-				case WPS.DateBlockEnd:
-					state = WPS.TopSpace;
+				case state_t.DateBlockEnd:
+					state = state_t.TopSpace;
 				break;
-				case WPS.TopSpace:
+				case state_t.TopSpace:
 					return ans;
 				//break;
 			}
@@ -393,20 +393,20 @@ public class WordParser{
 			if( eq(c , '[') ){
 				var c2 =  getNextByte();
 				if( eq(c2, '[') ){
-					state = WPS.Prop;
+					state = state_t.Prop;
 					return bufferToStrSegmentEtClr();
 				}else{
 					buffer.Add(c);
 					buffer.Add(c2);
 				}
 			}else if( eq(c , _status.headOfWordDelimiter) ){
-				state = WPS.HeadOfWordDelimiter;
-				_status.stack.Push(WPS.RestOfWordBlock);
+				state = state_t.HeadOfWordDelimiter;
+				_status.stack.Push(state_t.RestOfWordBlock);
 				return bufferToStrSegmentEtClr();
 			}else if( eq(c , '}')){
 				var c2 =  getNextByte();
 				if( eq(c2 , '}') ){
-					state = WPS.DateBlockEnd; // -> WordBlock_TopSpace -> DateBlockEnd
+					state = state_t.DateBlockEnd; // -> WordBlock_TopSpace -> DateBlockEnd
 					return bufferToStrSegmentEtClr();
 				}else{
 					buffer.Add(c);
@@ -448,7 +448,7 @@ public class WordParser{
 		return headOfWordDelimiter(toReturn);
 	}
 
-	public code headOfWordDelimiter(WPS stateToReturn){
+	public code headOfWordDelimiter(state_t stateToReturn){
 		buffer.Add(_status.curChar); // 加上 delimiter首字符
 		var delimiter = G.nn(_status.metadata?.delimiter);
 		for(var i = 1;i < delimiter.Length;i++){
@@ -460,7 +460,7 @@ public class WordParser{
 				return 0;
 			}
 		}
-		state = WPS.WordBlockEnd;
+		state = state_t.WordBlockEnd;
 		buffer.Clear();
 		return 0;
 	}
@@ -487,18 +487,18 @@ public class WordParser{
 				continue;
 			}
 			if( eq(c, _status.headOfWordDelimiter) ){
-				state = WPS.HeadOfWordDelimiter;
-				_status.stack.Push(WPS.WordBlock_TopSpace);
+				state = state_t.HeadOfWordDelimiter;
+				_status.stack.Push(state_t.WordBlock_TopSpace);
 				return 0;
 			}else if( eq(c, '}')){
 				var c2 =  getNextByte();
 				if(eq(c2, '}')){// }} end of date block
-					state = WPS.DateBlockEnd;
+					state = state_t.DateBlockEnd;
 					return 0;
 				}
 			}
 			else{
-				state = WPS.WordBlockFirstLine;
+				state = state_t.WordBlockFirstLine;
 				return 0;
 			}
 		}
@@ -509,7 +509,7 @@ public class WordParser{
 		for(;;){
 			var c =  getNextByte();
 			if( eq(c, '\n') ){
-				state = WPS.RestOfWordBlock;
+				state = state_t.RestOfWordBlock;
 				return bufferToStrSegmentEtClr();
 			}
 			buffer.Add(c);
@@ -522,13 +522,13 @@ public class WordParser{
 		for(;;){
 			//G.log(_status.pos, _status.line_col);
 			switch(state){
-				case WPS.WordBlocks: // 入口
-					state = WPS.WordBlock_TopSpace;
+				case state_t.WordBlocks: // 入口
+					state = state_t.WordBlock_TopSpace;
 				break;
-				case WPS.WordBlock_TopSpace:
+				case state_t.WordBlock_TopSpace:
 					wordBlock_TopSpace(); // -> DateBlockEnd, WordBlockFirstLine, headOfWordDelimiter
 				break;
-				case WPS.WordBlockFirstLine:
+				case state_t.WordBlockFirstLine:
 					var head =  parseWordBlockHead(); // -> RestOfWordBlock
 					if(head == null || head.text.Length == 0){
 						continue;
@@ -536,7 +536,7 @@ public class WordParser{
 					ua.head = head;
 				break;
 
-				case WPS.RestOfWordBlock:
+				case state_t.RestOfWordBlock:
 					//state->, HeadOfWordDelimiter, Prop, DateBlockEnd
 					var bodySeg = wordBlockBody();
 					ua.body.Add(bodySeg);
@@ -546,36 +546,36 @@ public class WordParser{
 				// 	 FirstLeftSquareBracketInWordBlockProp(); // -> Prop, RestOfWordBlock
 				// break;
 
-				case WPS.Prop:
+				case state_t.Prop:
 					// WordBlockProp(); // -> RestOfWordBlock
 					var prop = readProp();
 					ua.props.Add(prop);
-					state = WPS.RestOfWordBlock;
+					state = state_t.RestOfWordBlock;
 				break;
 
-				case WPS.HeadOfWordDelimiter:
+				case state_t.HeadOfWordDelimiter:
 					// state -> state = _status.stack.Pop(), WordBlockEnd
 					headOfWordDelimiter();
 				break;
 
-				case WPS.WordBlockEnd:
+				case state_t.WordBlockEnd:
 					if(ua.head != null && ua.head.text.Length > 0){
 						ans.Add(ua);
 						ua = new WordBlock();
 					}
-					state = WPS.WordBlock_TopSpace;
+					state = state_t.WordBlock_TopSpace;
 				break;
 
-				case WPS.DateBlockEnd: // 出口
+				case state_t.DateBlockEnd: // 出口
 					ans.Add(ua);
 					return ans;
 			}
 		}
-		
+
 	}
 
 
-/* 
+/*
 TODO 空wordBlock、及head中有不完整ʹ分隔符者
  */
 	// public I_WordBlock? ReadOneWordBlock(){
@@ -644,7 +644,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 			if( eq(c , '[') ){
 				var c2 =  getNextByte();
 				if(eq(c2 , '[')){
-					_status.state = WPS.Prop;
+					_status.state = state_t.Prop;
 					break;
 				}else{
 					error("Unexpected character");
@@ -653,7 +653,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 			}else if( eq(c , '{') ){
 				var c2 = getNextByte();
 				if(eq(c2 , '{')){
-					_status.state = WPS.WordBlocks;
+					_status.state = state_t.WordBlocks;
 					break;
 				}else{
 					error("Unexpected character");
@@ -697,7 +697,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 			}else{
 				buf.Add(c);
 			}
-			
+
 		}
 	}
 
@@ -813,7 +813,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 								//_status.metadataBuf = metadataContent;
 								parseMetadataBuffer(metadataContent);
 								//_status.stack.Pop();
-								_status.state = WPS.TopSpace;
+								_status.state = state_t.TopSpace;
 								return 0;
 								//break;
 							}
@@ -853,7 +853,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 	public bool isMetadataStart(IList<word> buf){
 		if(buf.Count == Tokens.s_metadataTag.Length){
 			var joined = bufToStr(buf);
-			
+
 			if( eq(joined , Tokens.s_metadataTag) ){
 				return true;
 			}
@@ -913,7 +913,7 @@ TODO 空wordBlock、及head中有不完整ʹ分隔符者
 }
 
 
-/* 
+/*
 var txtLength = 1000000;
 for(var i = 0; i < txtLength, i++){
 	string c =  GetNextChar(); //c是只有一個碼點的字符串。從文件讀取。

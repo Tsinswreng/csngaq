@@ -11,11 +11,13 @@ namespace ngaq.ViewModels.Word;
 public partial class WordInfoViewModel : ViewModelBase {
 
 
+
+
 	public WordInfoViewModel(){
 
 	}
 
-	public unit init(){
+	public zero init(){
 		Text = joinedWordKV?.textWord?.text_()??"";
 		bl_props = Tools.classify(
 			joinedWordKV?.propertys??[]
@@ -30,7 +32,7 @@ public partial class WordInfoViewModel : ViewModelBase {
 		return 0;
 	}
 
-	public unit upd_joinedWordKV(I_JoinedWordKV joinedWordKV){
+	public zero upd_joinedWordKV(I_JoinedWordKV joinedWordKV){
 		this.joinedWordKV = joinedWordKV;
 		init();
 		return 0;

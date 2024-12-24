@@ -14,7 +14,7 @@ namespace ngaq.Server.svc.crud.wordCrud;
 
 
 public class WordAdder:
-	I_TxAdderAsync<IList<I_JoinedWordKV>, unit>
+	I_TxAdderAsync<IList<I_JoinedWordKV>, zero>
 	, IDisposable
 	,I_SetTx_DbCtx
 {
@@ -38,7 +38,7 @@ public class WordAdder:
 	protected DiffWord _wordDiff = new ();
 
 
-	public Task<unit> Begin() {
+	public Task<zero> Begin() {
 		return _kvAdder.Begin();
 	}
 
@@ -82,7 +82,7 @@ public class WordAdder:
 	 * 用于 從txt詞表中取(無Learnˉ屬性 之 諸JoinedWordᵘ)後再添厥入庫
 	 * 成功則自動添一Learn(belong=add)
 	 */
-	public async Task<unit> TxAddAsync(IList<I_JoinedWordKV> words) {
+	public async Task<zero> TxAddAsync(IList<I_JoinedWordKV> words) {
 		var wordSeeker = new WordSeeker();
 
 		var initAddedWordIds = new List<i64>();//錄id芝詞芝初添者(曩未嘗被添者)
@@ -126,7 +126,7 @@ public class WordAdder:
 		return 0;
 	}
 
-	public async Task<unit> SetTx(IDbContextTransaction transaction) {
+	public async Task<zero> SetTx(IDbContextTransaction transaction) {
 		_tx = transaction;
 		await _kvAdder.SetTx(transaction);
 		return 0;

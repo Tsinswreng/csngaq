@@ -45,7 +45,7 @@ public class WordMerger:
 	/// <param name="id1"></param>
 	/// <param name="id2"></param>
 	/// <returns></returns>
-	public async Task<unit> MergeWordEtRm(
+	public async Task<zero> MergeWordEtRm(
 		I_JoinedWordKV word1
 		,I_JoinedWordKV word2
 	){
@@ -60,7 +60,7 @@ public class WordMerger:
 		return 0;
 	}
 
-	public async Task<unit> SetTx(IDbContextTransaction transaction) {
+	public async Task<zero> SetTx(IDbContextTransaction transaction) {
 		await dbCtx.Database.UseTransactionAsync(transaction.GetDbTransaction());
 		return 0;
 	}

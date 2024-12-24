@@ -20,15 +20,29 @@
 			<Setter Property="FontSize" Value="32" />
 		</Style>
 	</UserControl.Styles>
-	<Grid Classes="WordInfo">
-		<!-- <Grid.RowDefinitions>
+	<!-- <Grid Classes="WordInfo">
+		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions> -->
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
 		<TextBlock Text="lang_id"/>
 		<TextBlock Text="{Binding Text}" Classes="WordText" />
 		<Border/>
 		<TextBlock Text="{Binding Mean}" />
-		<!-- <TextBox x:Name="TextBoxA" Grid.Row="1" Margin="10" Text="" /> -->
 		<Button Content="Button" Click="Button_Click"/>
-	</Grid>
+	</Grid> -->
+	<RelativePanel>
+		<TextBlock Text="lang_id"/>
+		<TextBlock Text="{Binding Text}" Classes="WordText" />
+		<Border/>
+		<TextBlock Text="{Binding Mean}" />
+		<Button Content="Button" Click="Button_Click"/>
+	</RelativePanel>
+
+
+
+
 </UserControl>

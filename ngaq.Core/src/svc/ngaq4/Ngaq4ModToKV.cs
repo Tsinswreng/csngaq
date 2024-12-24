@@ -7,7 +7,7 @@ using model.consts;
 namespace ngaq.Core.svc.ngaq4;
 public class Ngaq4ModToWordKV{
 
-	public unit assignIdCtMt(I_IdBlCtUt target, IdBlCtMt4 idBlCtMt){
+	public zero assignIdCtMt(I_IdBlCtUt target, IdBlCtMt4 idBlCtMt){
 		target.id = idBlCtMt.id;
 		target.ct = idBlCtMt.ct;
 		target.ut = idBlCtMt.mt;

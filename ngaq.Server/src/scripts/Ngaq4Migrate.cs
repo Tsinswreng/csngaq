@@ -10,7 +10,7 @@ public class Ngaq4Migrate{
 	using ngaq.Server.scripts;
 	new Ngaq4Migrate().run();
 	 */
-	public async Task<unit> Run(){
+	public async Task<zero> Run(){
 		var dbConnStr = "Data Source=E:/_code/ngaq/db/userDb/user-1.sqlite";
 		var ngaq4Db = new GetNgaq4Words(dbConnStr);
 		var converter = new Ngaq4ModToWordKV();

@@ -31,12 +31,12 @@ public class WordUpdater:
 
 	public NgaqDbCtx dbCtx{get;set;} = new();
 
-	public async Task<unit> SetTx(IDbContextTransaction transaction) {
+	public async Task<zero> SetTx(IDbContextTransaction transaction) {
 		await dbCtx.Database.UseTransactionAsync(transaction.GetDbTransaction());
 		return 0;
 	}
 
-	public async Task<unit> Upd(I_JoinedWordKV word){
+	public async Task<zero> Upd(I_JoinedWordKV word){
 		dbCtx.Update(word.textWord);
 		dbCtx.UpdateRange(word.propertys);
 		dbCtx.UpdateRange(word.learns);

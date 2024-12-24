@@ -26,7 +26,7 @@ public static class WidKVExt{
 	/// <param name="o"></param>
 	/// <param name="value"></param>
 	/// <returns></returns>
-	public static unit wid_(this I_widKV o, i64 value){
+	public static zero wid_(this I_widKV o, i64 value){
 		o.setKI64(value);
 		o.kDesc = KDesc.fKey.ToString();
 		return 0;
@@ -39,7 +39,7 @@ public static class LearnKVExt{
 		return o.vStr??"";
 	}
 
-	public static unit set_learnRes(this I_LearnKV o, str value){
+	public static zero set_learnRes(this I_LearnKV o, str value){
 		//o.vStr = value;
 		o.setVStr(value);
 		return 0;

@@ -1,9 +1,9 @@
 namespace tools.IF;
 public interface I_Transaction{
-	Task<unit> Begin();
-	Task<unit> Commit();
+	Task<zero> Begin();
+	Task<zero> Commit();
 }
 
 public interface I_SetTx<T>{
-	Task<unit> SetTx(T transaction);
+	Task<zero> SetTx(T transaction);
 }
