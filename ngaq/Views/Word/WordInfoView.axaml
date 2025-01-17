@@ -34,15 +34,13 @@
 		<TextBlock Text="{Binding Mean}" />
 		<Button Content="Button" Click="Button_Click"/>
 	</Grid> -->
-	<RelativePanel>
+
+	<StackPanel Orientation="Vertical">
 		<TextBlock Text="lang_id"/>
+		
 		<TextBlock Text="{Binding Text}" Classes="WordText" />
 		<Border/>
 		<TextBlock Text="{Binding Mean}" />
 		<Button Content="Button" Click="Button_Click"/>
-	</RelativePanel>
-
-
-
-
+	</StackPanel>
 </UserControl>

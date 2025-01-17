@@ -8,11 +8,9 @@ using tools;
 
 namespace ngaq.ViewModels.Word;
 
-public partial class WordInfoViewModel : ViewModelBase {
-
-
-
-
+public partial class WordInfoViewModel :
+	ViewModelBase
+{
 	public WordInfoViewModel(){
 
 	}

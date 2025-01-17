@@ -2347,7 +2347,7 @@ AutoGrid 会自动根据子元素的添加顺序,将它们依次放置在 Grid �
     <Child2 />
 </StackPanel>
 ```
-
+✅
 `StackPanel` 會將子元素垂直或水平堆疊排列。這種方法也非常簡單,不需要手動管理子元素的位置。[1](https://docs.avaloniaui.net/docs/controls/stack-panel)
 
 這些都是一些可以考慮的替代方案,您可以根據具體需求選擇最合適的方式。無論選擇哪種方法,都可以避免手動管理 `Grid.Row` 屬性。
