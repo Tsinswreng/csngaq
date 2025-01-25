@@ -7,8 +7,8 @@ namespace db;
 
 public class NgaqDbCtx : DbContext
 {
-	public DbSet<WordKV> WordKV { get; set; }
-	public DbSet<_KV> _KV{get;set;}
+	public DbSet<WordKV> WordKV { get; set; } = null!;
+	public DbSet<_KV> _KV{get;set;} = null!;
 
 	protected code _configKV<T>(ModelBuilder mb) where T : class, I_KV {
 
@@ -46,6 +46,7 @@ public class NgaqDbCtx : DbContext
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
 		// 在這裡配置您的數據庫連接字符串
 		var dir = G.getBaseDir()+"/db";
+		//TODO 使同exe之目錄
 		var path = dir+"/csngaq.sqlite";
 		std.IO.Directory.CreateDirectory(dir); // TODO不效
 		optionsBuilder.UseSqlite($"Data Source={path}");
@@ -60,5 +61,5 @@ public class NgaqDbCtx : DbContext
 //dotnet ef database update
 
 //dotnet ef migrations add _20241206230213_csngaq_init
-
+//dotnet ef migrations add _20250125175056_AddCol_status
 

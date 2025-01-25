@@ -23,7 +23,6 @@ namespace ngaq.Server.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("bl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<long>("ct")
@@ -45,6 +44,9 @@ namespace ngaq.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("STR");
+
+                    b.Property<string>("status")
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("ut")
                         .ValueGeneratedOnAdd()
@@ -93,7 +95,6 @@ namespace ngaq.Server.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("bl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<long>("ct")
@@ -115,6 +116,9 @@ namespace ngaq.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("STR");
+
+                    b.Property<string>("status")
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("ut")
                         .ValueGeneratedOnAdd()

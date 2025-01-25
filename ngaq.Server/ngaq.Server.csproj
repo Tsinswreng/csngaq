@@ -21,7 +21,12 @@
 
 	<ItemGroup>
 		<ProjectReference Include="../ngaq.Core/ngaq.Core.csproj" />
-		<Compile Include="../ngaq.Core/GlobalUsing.cs" />
 	</ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="../CsShared/CsShared.csproj" />
+	<Compile Include="../CsShared/GlobalUsing.cs" />
+	<Compile Include="../CsShared/GlobalSuppression.cs" />
+  </ItemGroup>
 
 </Project>

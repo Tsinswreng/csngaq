@@ -12,7 +12,8 @@
 
   <ItemGroup>
 	<ProjectReference Include="../CsShared/CsShared.csproj" />
-	<Compile Include="../CsShared/CsShared/GlobalUsing.cs" />
+	<Compile Include="../CsShared/GlobalUsing.cs" />
+	<Compile Include="../CsShared/GlobalSuppression.cs" />
   </ItemGroup>
 
 
