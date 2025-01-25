@@ -9,7 +9,7 @@ public static class TextWordKVExt{
 	}
 
 	public static str lang_(this I_TextWordKV o){
-		var (prefix,lang) = BlPrefix.split(o.bl);
+		var (prefix,lang) = BlPrefix.split(o.bl??"");
 		return lang;
 	}
 }

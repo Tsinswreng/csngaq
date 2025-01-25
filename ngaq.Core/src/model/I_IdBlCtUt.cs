@@ -21,6 +21,9 @@ namespace ngaq.Core.model;
 
 //It is just difficult at the beginning
 
-public interface I_IdBlCtUt {
+public interface I_RowBaseInfo
+	:Shr.Model.IF.I_id<i64>
+	,Shr.Model.IF.I_RowBaseInfo
+{
 
 }

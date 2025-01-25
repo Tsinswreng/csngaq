@@ -3,34 +3,29 @@ using model.consts;
 
 namespace ngaq.Core.model;
 
-public static class KVExt
-{
+public static class KVExt {
 
-    public static zero setKStr(this I_KV kv, str kStr)
-    {
-        kv.kStr = kStr;
-        kv.kType = KVType.STR.ToString();
-        return 0;
-    }
+	public static zero setKStr(this I_KV kv, str kStr) {
+		kv.kStr = kStr;
+		kv.kType = KVType.STR.ToString();
+		return 0;
+	}
 
-    public static zero setKI64(this I_KV kv, i64 kI64)
-    {
-        kv.kI64 = kI64;
-        kv.kType = KVType.I64.ToString();
-        return 0;
-    }
+	public static zero setKI64(this I_KV kv, i64 kI64) {
+		kv.kI64 = kI64;
+		kv.kType = KVType.I64.ToString();
+		return 0;
+	}
 
-    public static zero setVStr(this I_KV kv, str vStr)
-    {
-        kv.vStr = vStr;
-        kv.vType = KVType.STR.ToString();
-        return 0;
-    }
+	public static zero setVStr(this I_KV kv, str vStr) {
+		kv.vStr = vStr;
+		kv.vType = KVType.STR.ToString();
+		return 0;
+	}
 
-    public static zero setVI64(this I_KV kv, i64 vI64)
-    {
-        kv.vI64 = vI64;
-        kv.vType = KVType.I64.ToString();
-        return 0;
-    }
+	public static zero setVI64(this I_KV kv, i64 vI64) {
+		kv.vI64 = vI64;
+		kv.vType = KVType.I64.ToString();
+		return 0;
+	}
 }

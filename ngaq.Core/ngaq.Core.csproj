@@ -9,6 +9,11 @@
   <!-- <ItemGroup>
   	<Compile Include="G.cs" />
   </ItemGroup> -->
-  
+
+  <ItemGroup>
+	<ProjectReference Include="../CsShared/CsShared.csproj" />
+	<Compile Include="../CsShared/CsShared/GlobalUsing.cs" />
+  </ItemGroup>
+
 
 </Project>

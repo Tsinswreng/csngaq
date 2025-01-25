@@ -10,13 +10,14 @@ using Id_t = str;
 how to export type ?
  */
 
-public class IdBlCtUt : I_IdBlCtUt {
+public class RowBaseInfo : I_RowBaseInfo {
 	[Key]
 
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	public i64 id { get; set; }
 
-	public str bl { get; set; }
+	public str? status{get;set;}
+	public str? bl { get; set; }
 	//註解不可被子類繼承
 	[DefaultValue("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))")]
 	public i64 ct { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();

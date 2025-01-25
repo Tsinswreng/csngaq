@@ -16,7 +16,7 @@ namespace ngaq.Server.db.crud;
 
 public class KVAdder:
 	IDisposable
-	, I_TxAdderAsync<I_KVIdBlCtUt, zero>
+	, I_TxAdderAsync<I_KVRow, zero>
 	,I_SetTx<IDbContextTransaction>
 	,I_GetLastId<i64?>
 {
@@ -143,7 +143,7 @@ public class KVAdder:
 		return v;
 	}
 
-	public async Task<zero> TxAddAsync(I_KVIdBlCtUt e){
+	public async Task<zero> TxAddAsync(I_KVRow e){
 		_cmd_add.Parameters[$"@{nameof(KV.bl)}"].Value = nc(e.bl);
 		_cmd_add.Parameters[$"@{nameof(KV.ct)}"].Value = nc(e.ct);
 		_cmd_add.Parameters[$"@{nameof(KV.ut)}"].Value = nc(e.ut);

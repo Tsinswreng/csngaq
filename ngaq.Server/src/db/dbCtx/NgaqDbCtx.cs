@@ -21,7 +21,7 @@ public class NgaqDbCtx : DbContext
 		return 0;
 	}
 
-	protected code _configIdBlCtUt<T>(ModelBuilder mb) where T : class, I_IdBlCtUt {
+	protected code _configIdBlCtUt<T>(ModelBuilder mb) where T : class, I_RowBaseInfo {
 		mb.Entity<T>().HasKey(e=>e.id);
 		mb.Entity<T>().Property(e=>e.id).ValueGeneratedOnAdd();
 		mb.Entity<T>().HasIndex(e => e.bl);
