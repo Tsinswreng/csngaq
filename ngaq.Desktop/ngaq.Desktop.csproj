@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ngaq\ngaq.csproj" />
+		<ProjectReference Include="../ngaq.UI/ngaq.UI.csproj" />
 		<Compile Include="../CsShared/GlobalUsing.cs" />
 		<Compile Include="../CsShared/GlobalSuppression.cs" />
 	</ItemGroup>

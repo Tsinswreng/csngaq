@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shared", "shared\shared.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsShared", "CsShared\CsShared.csproj", "{3BAF6F7D-EB57-4993-BDCB-994D73186514}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ngaq.UI", "ngaq.UI\ngaq.UI.csproj", "{9FF8D2DD-4D76-485C-8346-F7DE3907DED6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +56,9 @@ Global
 		{3BAF6F7D-EB57-4993-BDCB-994D73186514}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BAF6F7D-EB57-4993-BDCB-994D73186514}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BAF6F7D-EB57-4993-BDCB-994D73186514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF8D2DD-4D76-485C-8346-F7DE3907DED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF8D2DD-4D76-485C-8346-F7DE3907DED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF8D2DD-4D76-485C-8346-F7DE3907DED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF8D2DD-4D76-485C-8346-F7DE3907DED6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
