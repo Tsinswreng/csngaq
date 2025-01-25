@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ngaq.Browser", "ngaq.Browse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ngaq.Server", "ngaq.Server\ngaq.Server.csproj", "{BF0D1000-EF60-4F58-82C3-5EE0C7686C1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shared", "shared\shared.csproj", "{3198B5AC-084A-4BDF-B76F-2B587FB90C58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{BF0D1000-EF60-4F58-82C3-5EE0C7686C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF0D1000-EF60-4F58-82C3-5EE0C7686C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF0D1000-EF60-4F58-82C3-5EE0C7686C1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3198B5AC-084A-4BDF-B76F-2B587FB90C58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3198B5AC-084A-4BDF-B76F-2B587FB90C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3198B5AC-084A-4BDF-B76F-2B587FB90C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3198B5AC-084A-4BDF-B76F-2B587FB90C58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

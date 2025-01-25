@@ -2,7 +2,6 @@ using model.consts;
 using ngaq.Core.model.consts;
 using ngaq.Core.model.wordIF;
 using ngaq.model.consts;
-
 namespace ngaq.Core.model.sample;
 
 public class JoinedWordSample{
@@ -17,7 +16,7 @@ public class JoinedWordSample{
 	}
 	public I_TextWordKV textWord { get; set; } = (I_TextWordKV)new WordKV(){
 		id = 0
-		,kStr = "test"
+		,kStr = "audacious"
 		,ct = 1734252180850
 		,ut = 1734252193206
 		,bl = BlPrefix.join(
@@ -36,7 +35,13 @@ public class JoinedWordSample{
 			BlPrefix.Property
 			,PropertyEnum.mean.ToString()
 		)
-		,vStr = "測試"
+		,vStr =
+"""
+美: [ɔˈdeɪʃəs]
+英: [ɔːˈdeɪʃəs]
+adj.	敢于冒險的；大膽的
+网絡	魯莽的；大膽創新的；音樂播放器
+"""
 	};
 
 	public I_LearnKV learn {get;set;} = (I_LearnKV)new WordKV(){

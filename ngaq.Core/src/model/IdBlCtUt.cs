@@ -6,23 +6,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ngaq.Core.model;
 
 using Id_t = str;
-/* 
+/*
 how to export type ?
  */
 
-public class IdBlCtUt : I_IdBlCtUt
-{
-    [Key]
+public class IdBlCtUt : I_IdBlCtUt {
+	[Key]
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public i64 id { get; set; }
+	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+	public i64 id { get; set; }
 
-    public str bl { get; set; }
-    //註解不可被子類繼承
-    [DefaultValue("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))")]
-    public i64 ct { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-    [DefaultValue("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))")]
-    public i64 ut { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+	public str bl { get; set; }
+	//註解不可被子類繼承
+	[DefaultValue("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))")]
+	public i64 ct { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+	[DefaultValue("(strftime('%s', 'now') || substr(strftime('%f', 'now'), 4))")]
+	public i64 ut { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 }
 
 //It is just difficult at the beginning
