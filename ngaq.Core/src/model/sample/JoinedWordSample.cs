@@ -57,10 +57,10 @@ adj.	敢于冒險的；大膽的
 		,vStr = LearnEnum.add.ToString()
 	};
 
-	public I_JoinedWordKV joinedWord{get;set;}
+	public I_FullWordKV joinedWord{get;set;}
 
 	public JoinedWordSample(){
-		joinedWord = new JoinedWord(){
+		joinedWord = new FullWord(){
 			textWord = this.textWord
 			,propertys = [this.property]
 			,learns = [this.learn]

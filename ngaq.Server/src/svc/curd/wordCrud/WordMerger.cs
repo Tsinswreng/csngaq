@@ -32,9 +32,9 @@ public class WordMerger:
 
 	public I_mergeWord wordMergerTool{get;set;} = WordMergerTool.getInst();
 
-	public I_Rm<I_JoinedWordKV> wordRm = new WordRm();
+	public I_Rm<I_FullWordKV> wordRm = new WordRm();
 
-	public I_Upd<I_JoinedWordKV> wordUpd = new WordUpdater();
+	public I_Upd<I_FullWordKV> wordUpd = new WordUpdater();
 
 
 	/// <summary>
@@ -46,8 +46,8 @@ public class WordMerger:
 	/// <param name="id2"></param>
 	/// <returns></returns>
 	public async Task<zero> MergeWordEtRm(
-		I_JoinedWordKV word1
-		,I_JoinedWordKV word2
+		I_FullWordKV word1
+		,I_FullWordKV word2
 	){
 		// var word1 = await wordSeeker.SeekJoinedWordKVById(id1);
 		// var word2 = await wordSeeker.SeekJoinedWordKVById(id2);

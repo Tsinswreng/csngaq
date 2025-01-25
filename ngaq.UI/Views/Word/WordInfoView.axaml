@@ -46,7 +46,7 @@
 		<Button Content="Button" Click="Button_Click"/>
 	</Grid> -->
 	<StackPanel Orientation="Vertical">
-		<TextBlock Text="english114514" Name="lang_id"/>
+		<TextBox Text="english114514" Name="lang_id"/>
 		<Separator Classes="Cls_Separator"/>
 		<TextBlock
 			Text="{Binding Text}" Classes="WordText"

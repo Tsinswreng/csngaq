@@ -13,7 +13,7 @@ public class WordMergerTool:
 		}
 		return inst;
 	}
-	public zero mergeWord(I_JoinedWordKV word1, I_JoinedWordKV word2){
+	public zero mergeWord(I_FullWordKV word1, I_FullWordKV word2){
 		if(word1.textWord.lang_() != word2.textWord.lang_()){
 			throw new ArgumentException("language not match");
 		}

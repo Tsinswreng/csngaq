@@ -30,7 +30,7 @@ public partial class WordInfoViewModel :
 		return 0;
 	}
 
-	public zero upd_joinedWordKV(I_JoinedWordKV joinedWordKV){
+	public zero upd_joinedWordKV(I_FullWordKV joinedWordKV){
 		this.joinedWordKV = joinedWordKV;
 		init();
 		return 0;
@@ -45,7 +45,7 @@ public partial class WordInfoViewModel :
 	private string _textBoxBText = "";
 
 
-	public I_JoinedWordKV? joinedWordKV{get;set;}
+	public I_FullWordKV? joinedWordKV{get;set;}
 
 	[ObservableProperty]
 	private str _text = "test114514";
