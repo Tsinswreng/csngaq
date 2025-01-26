@@ -3,8 +3,8 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		xmlns:vm="clr-namespace:ngaq.ViewModels"
-		x:Class="ngaq.Views.Word.WordInfoView"
+		xmlns:vm="clr-namespace:ngaq.UI.ViewModels"
+		x:Class="ngaq.UI.Views.Word.WordInfoView"
 		x:DataType="vm:Word.WordInfoViewModel"
 		Loaded="LoginView_Loaded"
 >
@@ -55,5 +55,6 @@
 		<Separator Classes="Cls_Separator"/>
 		<TextBlock Text="{Binding Mean}" />
 		<Button Content="Button" Click="Button_Click"/>
+		<!-- <TextBlock Text="{Binding testLowerCaseBinding2}"/> -->
 	</StackPanel>
 </UserControl>

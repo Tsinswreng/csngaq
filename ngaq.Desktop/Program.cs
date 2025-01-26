@@ -1,6 +1,6 @@
 ﻿using System;
 using Avalonia;
-
+using ngaq.UI;
 namespace ngaq.Desktop;
 
 sealed class Program {

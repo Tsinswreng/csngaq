@@ -1,7 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using ngaq.ViewModels;
+using ngaq.UI.ViewModels;
 
 namespace ngaq;
 

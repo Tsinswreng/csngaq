@@ -4,15 +4,21 @@ using ngaq.Core.model;
 using ngaq.Core.model.consts;
 using ngaq.Core.model.wordIF;
 using ngaq.model.consts;
+using ngaq.UI.ViewModels;
+using ngaq.UI.Views.Word;
 using tools;
 
-namespace ngaq.ViewModels.Word;
+namespace ngaq.UI.ViewModels.Word;
 
 public partial class WordInfoViewModel :
 	ViewModelBase
 {
 	public WordInfoViewModel(){
 
+	}
+
+	public WordInfoViewModel(I_FullWordKV word){
+		upd_word(word);
 	}
 
 	public zero init(){
@@ -30,20 +36,13 @@ public partial class WordInfoViewModel :
 		return 0;
 	}
 
-	public zero upd_joinedWordKV(I_FullWordKV joinedWordKV){
-		this.joinedWordKV = joinedWordKV;
+	public zero upd_word(I_FullWordKV word){
+		this.joinedWordKV = word;
 		init();
 		return 0;
 	}
 
 	public Dictionary<str, IList<I_PropertyKV>> bl_props{get;set;}
-
-	[ObservableProperty]
-	private string _textBoxAText = "114514 to Avalonia!";
-
-	[ObservableProperty]
-	private string _textBoxBText = "";
-
 
 	public I_FullWordKV? joinedWordKV{get;set;}
 
@@ -53,5 +52,10 @@ public partial class WordInfoViewModel :
 	[ObservableProperty]
 	private str _mean = "";
 
+
+	public str testLowerCaseBinding{get;set;} = "123";
+
+	[ObservableProperty]
+	public str testLowerCaseBinding2 = "123";
 
 }

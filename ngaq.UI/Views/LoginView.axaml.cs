@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Interactivity;
-using ngaq.ViewModels;
+using ngaq.UI.ViewModels;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 
-namespace ngaq.Views;
+namespace ngaq.UI.Views;
 
 public partial class LoginView : UserControl {
 	public LoginView() {

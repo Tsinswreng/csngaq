@@ -2,13 +2,13 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Interactivity;
-using ngaq.ViewModels;
+using ngaq.UI.ViewModels;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using ngaq.ViewModels.Word;
 using ngaq.Core.model.sample;
+using ngaq.UI.ViewModels.Word;
 
-namespace ngaq.Views.Word;
+namespace ngaq.UI.Views.Word;
 
 public partial class WordInfoView : UserControl {
 	public WordInfoView() {
@@ -23,16 +23,16 @@ public partial class WordInfoView : UserControl {
 
 
 
-	private void LoginView_Loaded(object sender, RoutedEventArgs e){
+	private void LoginView_Loaded(object sender, RoutedEventArgs e) {
 		G.log("LoginView_Loaded");
 	}
 
 	private void Button_Click(object sender, RoutedEventArgs e) {
-		if(! (this.DataContext is WordInfoViewModel) ){
+		if (!(this.DataContext is WordInfoViewModel)) {
 			return;
 		}
 		var v = (WordInfoViewModel)this.DataContext;
-		v.upd_joinedWordKV(
+		v.upd_word(
 			JoinedWordSample.getInst().joinedWord
 		);
 	}

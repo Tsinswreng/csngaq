@@ -4,10 +4,10 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
-using ngaq.ViewModels;
-using ngaq.Views;
+using ngaq.UI.ViewModels;
+using ngaq.UI.Views;
 
-namespace ngaq;
+namespace ngaq.UI;
 
 public partial class App : Application {
 	public override void Initialize() {
@@ -21,6 +21,9 @@ public partial class App : Application {
 			DisableAvaloniaDataAnnotationValidation();
 			desktop.MainWindow = new MainWindow {
 				DataContext = new MainViewModel()
+				,SizeToContent = Avalonia.Controls.SizeToContent.WidthAndHeight
+				,MinWidth=0
+				,MinHeight=0
 			};
 		} else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform) {
 			singleViewPlatform.MainView = new MainView {
