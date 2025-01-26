@@ -11,16 +11,16 @@ public class LearnsSample{
 		return inst;
 	}
 
-	public IList<I_LearnKV> samples{get;set;}
+	public IList<I_LearnKV> sample{get;set;}
 
 	public LearnsSample(){
-		samples = null!;
+		sample = null!;
 		_init();
 	}
 
 	protected zero _init(){
 
-		samples = new List<I_LearnKV>();
+		sample = new List<I_LearnKV>();
 
 		I_LearnKV l1 = new WordKV();
 		l1.wid_(  TextWordSample.getInst().sample.id  );
@@ -38,10 +38,10 @@ public class LearnsSample{
 		I_LearnKV l4 = new WordKV();
 		l4.wid_(  TextWordSample.getInst().sample.id  );
 		l4.learnResult_(LearnEnum.add.ToString());
-		samples.Add(l1);
-		samples.Add(l2);
-		samples.Add(l3);
-		samples.Add(l4);
+		sample.Add(l1);
+		sample.Add(l2);
+		sample.Add(l3);
+		sample.Add(l4);
 		return 0;
 	}
 
