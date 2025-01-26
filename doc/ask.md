@@ -60,6 +60,12 @@ BMP 只能表示 0x0000 到 0xFFFF 之间的字符，也就是 65,536 个字符�
 ##
 
 看avalonia文檔
+https://docs.avaloniaui.net/docs/0.10.x/tutorials/running-in-the-browser
+
+Install wasm-experimental and wasm-tools workload tools. See dotnet documentation.
+```bash
+dotnet workload install wasm-experimental wasm-tools
+```
 
 #
 [2024-12-05T15:25:48.970+08:00_W49-4]
@@ -3042,4 +3048,94 @@ Avalonia 提供了多種方式來描述和構建界面，除了使用 `.axaml` �
 [2025-01-26T12:26:42.380+08:00_W4-7]
 
 有沒有針對avalonia的axaml文件的lsp插件? 支持重命名符號, 查找用法的
+##
+
+
+#
+[2025-01-26T16:18:05.214+08:00_W4-7]
+avalonia有沒有 可以動態調大小的 文本輸入域? 類似html的textarea
+
+##
+
+根據你提供的錯誤信息，`ScrollBarVisibility` 屬性在 `TextBox` 控件上仍然無法解析。這可能是因為在 Avalonia 的某些版本中，`TextBox` 控件並不支持直接設置滾動條的可見性。
+
+### 解決方案
+
+在 Avalonia 中，如果需要實現可以滾動的文本輸入域，通常會使用 `ScrollViewer` 包裹 `TextBox`，這樣可以控制滾動條的顯示。以下是一個示例：
+
+```xml
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dynamic Resizable TextBox" Width="400" Height="300">
+    <StackPanel Margin="10">
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+            <TextBox AcceptsReturn="True"
+                     Height="100"
+                     MinHeight="50"
+                     MaxHeight="300"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Stretch"
+                     HorizontalAlignment="Stretch" />
+        </ScrollViewer>
+    </StackPanel>
+</Window>
+```
+
+### 主要屬性解釋
+
+- **ScrollViewer**: 用於包裹 `TextBox`，提供滾動功能。
+- **VerticalScrollBarVisibility 和 HorizontalScrollBarVisibility**: 設置為 `Auto` 以在內容超出可見範圍時自動顯示滾動條。
+
+### 總結
+
+將 `TextBox` 包裹在 `ScrollViewer` 中可以解決滾動條的顯示問題，並實現類似於 HTML `<textarea>` 的功能。這樣可以在內容超出可見範圍時自動顯示滾動條。請確保使用的 Avalonia 版本支持這些屬性，並檢查官方文檔以獲取最新的用法。
+
+
+
+#
+[2025-01-26T16:52:17.523+08:00_W4-7]
+能不能修改VScode 界面的字體? (不是中間寫代碼的地方(編輯器)的字體)
+##
+可以在 Visual Studio Code (VSCode) 中修改界面的字體，包括工具欄、側邊欄和其他 UI 元素的字體。這可以通過修改設定來實現。以下是具體的步驟：
+
+### 修改 VSCode 界面字體
+
+1. **打開設定**:
+   - 在 VSCode 中，點擊左下角的齒輪圖標，然後選擇「Settings」。
+   - 或者，你可以使用快捷鍵 `Ctrl + ,`（Windows/Linux）或 `Cmd + ,`（macOS）來打開設定。
+
+2. **搜索字體設定**:
+   - 在設定搜索框中輸入 `Font`，這樣可以快速找到與字體相關的設定。
+
+3. **修改界面字體**:
+   - 找到 `Editor: Font Family` 設定，這是編輯器的字體設定。
+   - 如果想要修改整個界面的字體，可以使用 `workbench.fontAliasing` 和 `workbench.fontFamily` 設定。這些設定可以在 `settings.json` 中手動添加或修改。
+
+4. **編輯 `settings.json`**:
+   - 點擊右上角的「Open Settings (JSON)」圖標，這樣可以直接編輯 `settings.json` 文件。
+   - 在 `settings.json` 中添加或修改以下設定：
+
+   ```json
+   {
+       "workbench.fontFamily": "你的字體名稱",
+       "workbench.fontAliasing": "default" // 或 "antialiased"、"none"
+   }
+   ```
+
+   將 `"你的字體名稱"` 替換為你想要使用的字體名稱。
+
+5. **重啟 VSCode**:
+   - 修改完成後，重啟 VSCode 以使更改生效。
+
+### 注意事項
+
+- 確保你所選擇的字體已經安裝在你的系統中，否則 VSCode 將無法正確顯示。
+- 不同的字體可能會影響界面的可讀性和美觀，建議選擇適合的字體。
+
+這樣，你就可以成功修改 VSCode 界面的字體了。
+
+#
+[2025-01-26T16:53:49.973+08:00_W4-7]
+vscode怎麼打開settings.json文件?
 ##

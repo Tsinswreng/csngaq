@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:vm="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
+		x:Class="ngaq.UI.Cmpnt.ScrollInput.ScrollInput"
+		x:DataType="vm:ScrollInputVm"
+>
+	<Design.DataContext>
+
+	</Design.DataContext>
+
+
+	<ScrollViewer VerticalScrollBarVisibility="Auto"
+					HorizontalScrollBarVisibility="Auto">
+		<TextBox AcceptsReturn="True"
+					Height="100"
+					MinHeight="50"
+					MaxHeight="300"
+					TextWrapping="Wrap"
+					VerticalAlignment="Stretch"
+					HorizontalAlignment="Stretch"
+					CornerRadius="0"
+					Text="123"
+		/>
+	</ScrollViewer>
+
+
+</UserControl>

@@ -10,7 +10,9 @@
     <PackageReference Include="Avalonia.Browser" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ngaq\ngaq.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="../ngaq.UI/ngaq.UI.csproj" />
+		<Compile Include="../CsShared/GlobalUsing.cs" />
+		<Compile Include="../CsShared/GlobalSuppression.cs" />
+	</ItemGroup>
 </Project>

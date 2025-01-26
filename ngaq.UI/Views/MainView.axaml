@@ -10,6 +10,7 @@
 	x:Class="ngaq.UI.Views.MainView"
 	xmlns:ngaqView="clr-namespace:ngaq.UI.Views"
 	xmlns:ngaqViewWord="clr-namespace:ngaq.UI.Views.Word"
+	xmlns:ngaqViewKV="clr-namespace:ngaq.UI.Views.KV"
 >
 
 
@@ -21,7 +22,7 @@
 		<!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
 		<!-- <ngaqView:LoginView/> -->
 		<!-- <ngaqView:Word.WordInfoView/> -->
-		<ngaqViewWord:WordInfoView/>
+		<ngaqViewKV:KvView/>
 	</Grid>
 
 </UserControl>
