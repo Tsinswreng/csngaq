@@ -2970,3 +2970,76 @@ public class MyViewModel : INotifyPropertyChanged
 ### 總結
 
 這樣，你就可以使用自定義的 `[ObservableProperty]` 屬性來生成以小寫字母開頭的屬性名。這需要一些額外的代碼來實現 Source Generator，但可以達到你想要的效果。
+
+#
+[2025-01-26T12:25:44.195+08:00_W4-7]
+
+avalonia 描述界面、除了用axaml外還能怎麼做?
+
+##
+在 Avalonia 中，除了使用 `.axaml` 文件來描述界面外，還可以使用以下幾種方式來構建 UI：
+
+### 1. C# 代碼
+
+你可以直接在 C# 代碼中創建和配置 UI 元素。這種方式通常用於動態生成界面或在某些情況下需要更高的靈活性時。
+
+```csharp
+using Avalonia.Controls;
+
+public class MyWindow : Window
+{
+    public MyWindow()
+    {
+        var button = new Button
+        {
+            Content = "Click Me"
+        };
+
+        button.Click += (sender, e) =>
+        {
+            // 按鈕點擊事件處理
+        };
+
+        Content = button; // 將按鈕設置為窗口的內容
+    }
+}
+```
+
+### 2. 使用 MVVM 模式
+
+在 MVVM 模式中，你可以將 UI 元素的綁定設置在 `.axaml` 文件中，而在 ViewModel 中處理邏輯。這樣可以將界面描述和業務邏輯分離。
+
+### 3. 使用 XAML
+
+Avalonia 支持使用 XAML 來描述界面，這與 WPF 和 UWP 中的 XAML 類似。你可以使用 XAML 文件來定義界面，然後在 C# 中進行綁定和事件處理。
+
+### 4. 使用自定義控件
+
+你可以創建自定義控件，並在這些控件中定義 UI。這樣可以重用 UI 組件並提高代碼的可維護性。
+
+```csharp
+public class MyCustomControl : UserControl
+{
+    public MyCustomControl()
+    {
+        var stackPanel = new StackPanel();
+        var textBlock = new TextBlock { Text = "Hello, Avalonia!" };
+        stackPanel.Children.Add(textBlock);
+        Content = stackPanel;
+    }
+}
+```
+
+### 5. 使用樣式和主題
+
+Avalonia 支持樣式和主題，你可以在樣式文件中定義 UI 元素的外觀，然後在 `.axaml` 或 C# 代碼中應用這些樣式。
+
+### 總結
+
+Avalonia 提供了多種方式來描述和構建界面，除了使用 `.axaml` 文件外，還可以使用 C# 代碼、MVVM 模式、XAML、自定義控件以及樣式和主題等方式。這些靈活的選擇使得開發者可以根據需求選擇最合適的方式來構建應用程序的 UI。
+
+#
+[2025-01-26T12:26:42.380+08:00_W4-7]
+
+有沒有針對avalonia的axaml文件的lsp插件? 支持重命名符號, 查找用法的
+##

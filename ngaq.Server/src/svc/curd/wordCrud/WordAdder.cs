@@ -59,8 +59,8 @@ public class WordAdder:
 		var learn = new WordKV(){
 			bl = BlPrefix.join(BlPrefix.Learn, "")
 		};
-		learn.setVStr(LearnEnum.add.ToString());
-		learn.setKI64(id);
+		learn.vStr_(LearnEnum.add.ToString());
+		learn.kI64_(id);
 		learn.kDesc = KDesc.fKey.ToString();
 		learn.ct = getUnixTimeMillis();
 		learn.ut = getUnixTimeMillis();
@@ -105,7 +105,7 @@ public class WordAdder:
 				var hasAddedProp = false;
 				foreach(var neoProp in propToAdd){
 					hasAddedProp = true;
-					neoProp.setKI64(oldWordId);
+					neoProp.kI64_(oldWordId);
 					neoProp.kDesc = KDesc.fKey.ToString();
 					await _kvAdder.TxAddAsync(neoProp);
 					var ua = await _kvAdder.GetLastId();

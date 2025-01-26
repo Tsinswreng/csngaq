@@ -15,17 +15,18 @@ public interface I_widKV: I_WordKV{
 }
 
 /// <summary>
-/// when bl is TextWord
+/// when bl is TextWord:<lang>
 /// </summary>
 public interface I_TextWordKV : I_WordKV {}
 
 /// <summary>
-/// when bl is Property
+/// when bl is Property:<mean|tag|...>
+/// kI64用于存外鍵。Property之類型ˋ存于bl中、如Property:mean、洏非在kStr中。
 /// </summary>
 public interface I_PropertyKV : I_WordKV, I_widKV {}
 
 /// <summary>
-/// when bl is Learn
+/// when bl is Learn:<null>
 /// </summary>
 
 public interface I_LearnKV : I_WordKV, I_widKV {}

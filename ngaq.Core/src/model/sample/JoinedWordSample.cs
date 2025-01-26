@@ -14,16 +14,17 @@ public class JoinedWordSample{
 		}
 		return inst;
 	}
-	public I_TextWordKV textWord { get; set; } = (I_TextWordKV)new WordKV(){
-		id = 0
-		,kStr = "audacious"
-		,ct = 1734252180850
-		,ut = 1734252193206
-		,bl = BlPrefix.join(
-			BlPrefix.TextWord
-			,"english"
-		)
-	};
+	public I_TextWordKV textWord { get; set; } = TextWordSample.getInst().sample;
+	// = (I_TextWordKV)new WordKV(){
+	// 	id = 0
+	// 	,kStr = "audacious"
+	// 	,ct = 1734252180850
+	// 	,ut = 1734252193206
+	// 	,bl = BlPrefix.join(
+	// 		BlPrefix.TextWord
+	// 		,"english"
+	// 	)
+	// };
 
 	public I_PropertyKV property { get; set; } = (I_PropertyKV)new WordKV(){
 		id = 0
