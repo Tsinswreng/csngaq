@@ -18,7 +18,7 @@ namespace ngaq.Server.svc.crud.wordCrud;
 public class WordRm:
 	IDisposable
 	,I_SetTx_DbCtx
-	,I_Rm<I_FullWordKV>
+	,I_Rm<I_FullWordKv>
 {
 	public WordRm() {
 
@@ -37,7 +37,7 @@ public class WordRm:
 	}
 
 
-	public async Task<zero> Rm(I_FullWordKV joinedWordKV){
+	public async Task<zero> Rm(I_FullWordKv joinedWordKV){
 		dbCtx.WordKV.Remove((WordKV)joinedWordKV.textWord);
 		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.propertys);
 		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.learns);

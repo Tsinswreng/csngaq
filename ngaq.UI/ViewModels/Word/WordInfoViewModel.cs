@@ -12,19 +12,76 @@ namespace ngaq.UI.ViewModels.Word;
 
 public partial class WordInfoViewModel :
 	ViewModelBase
+	,I_RowBaseInfo
 {
+
+	// public string kType { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public string? kStr { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public long? kI64 { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public string? kDesc { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public string vType { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public string? vDesc { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public string? vStr { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public long? vI64 { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public double? vF64 { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public long id { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public string? bl { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public string? status { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public long ct { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+	// public long ut { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+
+	#region impl
+
+	protected i64 _id;
+	public i64 id {
+		get => _id;
+		set => SetProperty(ref _id, value);
+	}
+
+	protected str? _bl;
+	public str? bl{
+		get => _bl;
+		set => SetProperty(ref _bl, value);
+	}
+
+	protected i64 _ct;
+	public i64 ct{
+		get => _ct;
+		set => SetProperty(ref _ct, value);
+	}
+
+	protected i64 _ut;
+	public i64 ut{
+		get => _ut;
+		set => SetProperty(ref _ut, value);
+	}
+
+	protected str? _status;
+	public str? status{
+		get => _status;
+		set => SetProperty(ref _status, value);
+	}
+
+
+	#endregion impl
+
+
 	public WordInfoViewModel(){
 
 	}
 
-	public WordInfoViewModel(I_FullWordKV word){
+	public WordInfoViewModel(I_FullWordKv word){
 		upd_word(word);
 	}
 
 	public zero init(){
-		Text = joinedWordKV?.textWord?.text_()??"";
+		if(fullWordKv == null){
+			return 0;
+		}
+		id = fullWordKv.textWord.id;
+		Text = fullWordKv?.textWord?.text_()??"";
 		bl_props = Tools.classify(
-			joinedWordKV?.propertys??[]
+			fullWordKv?.propertys??[]
 			,e=>e.bl
 		);
 		var bl_mean = BlPrefix.join(
@@ -36,15 +93,15 @@ public partial class WordInfoViewModel :
 		return 0;
 	}
 
-	public zero upd_word(I_FullWordKV word){
-		this.joinedWordKV = word;
+	public zero upd_word(I_FullWordKv word){
+		this.fullWordKv = word;
 		init();
 		return 0;
 	}
 
 	public Dictionary<str, IList<I_PropertyKV>> bl_props{get;set;}
 
-	public I_FullWordKV? joinedWordKV{get;set;}
+	public I_FullWordKv? fullWordKv{get;set;}
 
 	[ObservableProperty]
 	private str _text = "test114514";
@@ -54,6 +111,7 @@ public partial class WordInfoViewModel :
 
 
 	public str testLowerCaseBinding{get;set;} = "123";
+
 
 	[ObservableProperty]
 	public str testLowerCaseBinding2 = "123";

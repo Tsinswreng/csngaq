@@ -6,25 +6,35 @@
 		xmlns:vm="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
 		x:Class="ngaq.UI.Cmpnt.ScrollInput.ScrollInput"
 		x:DataType="vm:ScrollInputVm"
+		x:Name="RootName"
 >
 	<Design.DataContext>
 
 	</Design.DataContext>
 
 
-	<ScrollViewer VerticalScrollBarVisibility="Auto"
-					HorizontalScrollBarVisibility="Auto">
-		<TextBox AcceptsReturn="True"
-					Height="100"
-					MinHeight="50"
-					MaxHeight="300"
-					TextWrapping="Wrap"
-					VerticalAlignment="Stretch"
-					HorizontalAlignment="Stretch"
-					CornerRadius="0"
-					Text="123"
-		/>
-	</ScrollViewer>
+	<StackPanel Orientation="Horizontal">
+		<ScrollViewer VerticalScrollBarVisibility="Auto"
+						HorizontalScrollBarVisibility="Auto">
+			<TextBox AcceptsReturn="True"
+						Height="{Binding Height, ElementName=RootName}"
+						MinHeight="{Binding MinHeight, ElementName=RootName}"
+						MaxHeight="{Binding MaxHeight, ElementName=RootName}"
+						Width="{Binding Width, ElementName=RootName}"
+						MinWidth="{Binding MinWidth, ElementName=RootName}"
+						MaxWidth="{Binding MaxWidth, ElementName=RootName}"
+						Padding="{Binding Padding, ElementName=RootName}"
+						Margin="{Binding Margin, ElementName=RootName}"
+						TextWrapping="Wrap"
+						VerticalAlignment="Stretch"
+						HorizontalAlignment="Stretch"
+						CornerRadius="0"
+						Text="{Binding Text, ElementName=RootName}"
+						
+			/>
+		</ScrollViewer>
+	</StackPanel>
+
 
 
 </UserControl>

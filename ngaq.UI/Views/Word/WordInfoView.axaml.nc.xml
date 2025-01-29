@@ -4,6 +4,8 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		xmlns:vm="clr-namespace:ngaq.UI.ViewModels"
+		xmlns:KV="clr-namespace:ngaq.UI.Views.KV"
+		xmlns:ScrollInput="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
 		x:Class="ngaq.UI.Views.Word.WordInfoView"
 		x:DataType="vm:Word.WordInfoViewModel"
 		Loaded="LoginView_Loaded"
@@ -24,6 +26,7 @@
 
 		<Style Selector="Grid.WordInfo > TextBlock.WordText">
 			<Setter Property="FontSize" Value="32" />
+			<Setter Property="Padding" Value="0" />
 		</Style>
 
 		<Style Selector="Separator.Cls_Separator">
@@ -46,15 +49,19 @@
 		<Button Content="Button" Click="Button_Click"/>
 	</Grid> -->
 	<StackPanel Orientation="Vertical">
-		<TextBox Text="english114514" Name="lang_id"/>
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="id"/>
+			<ScrollInput:ScrollInput Text="{Binding id}"/>
+		</StackPanel>
 		<Separator Classes="Cls_Separator"/>
-		<TextBlock
+		<TextBox
 			Text="{Binding Text}" Classes="WordText"
 			FontSize="32"
+			Padding="0"
 		/>
 		<Separator Classes="Cls_Separator"/>
 		<TextBlock Text="{Binding Mean}" />
+
 		<Button Content="Button" Click="Button_Click"/>
-		<TextBlock Text="{Binding testLowerCaseBinding2}"/>
 	</StackPanel>
 </UserControl>

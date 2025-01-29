@@ -33,7 +33,7 @@ public partial class WordInfoView : UserControl {
 		}
 		var v = (WordInfoViewModel)this.DataContext;
 		v.upd_word(
-			JoinedWordSample.getInst().joinedWord
+			FullWordSample.getInst().sample
 		);
 	}
 

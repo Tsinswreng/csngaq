@@ -26,7 +26,7 @@ public class WordSeeker:
 
 	public NgaqDbCtx dbCtx{get;set;} = new();
 
-	public async Task< I_FullWordKV? > SeekJoinedWordKVById(i64 id){
+	public async Task< I_FullWordKv? > SeekJoinedWordKVById(i64 id){
 		var textWords = await dbCtx.WordKV.Where(
 			e=>e.id == id
 			&& e.bl.StartsWith(BlPrefix.TextWord)
@@ -64,7 +64,7 @@ public class WordSeeker:
 	/// <param name="text"></param>
 	/// <param name="bl"> 不含前綴 </param>
 	/// <returns></returns>
-	public async Task< I_FullWordKV? > SeekJoinedWordKVByTextEtBl(str text, str bl){
+	public async Task< I_FullWordKv? > SeekJoinedWordKVByTextEtBl(str text, str bl){
 		var fullBl = BlPrefix.join(BlPrefix.TextWord, bl);
 		var textWordIds = await dbCtx.WordKV.Where(e=>
 			e.kStr == text

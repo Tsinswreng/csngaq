@@ -4,6 +4,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		xmlns:vm="clr-namespace:ngaq.UI.ViewModels"
+		xmlns:ScrollInput="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
 		x:Class="ngaq.UI.Views.KV.KvView"
 		x:DataType="vm:KV.KvVM"
 >
@@ -14,38 +15,34 @@
 
 
  <StackPanel Margin="10">
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto">
-            <TextBox AcceptsReturn="True"
-                     Height="100"
-                     MinHeight="50"
-                     MaxHeight="300"
-                     TextWrapping="Wrap"
-                     VerticalAlignment="Stretch"
-                     HorizontalAlignment="Stretch"
-					 CornerRadius="0"
-					 Text="123"
-			/>
-        </ScrollViewer>
+	<!-- id, bl, ct, ut, status -->
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="id"/>
+		<ScrollInput:ScrollInput Text="{Binding id}"/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="bl"/>
+		<ScrollInput:ScrollInput Text="{Binding bl}"/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="ct"/>
+		<ScrollInput:ScrollInput Text="{Binding ct}"/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="ut"/>
+		<ScrollInput:ScrollInput Text="{Binding ut}"/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="status"/>
+		<ScrollInput:ScrollInput Text="{Binding status}"/>
+	</StackPanel>
 
 
-       <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto">
-            <TextBox AcceptsReturn="True"
-                     Height="100"
-                     MinHeight="10"
-                     MaxHeight="10"
-                     TextWrapping="Wrap"
-                     VerticalAlignment="Stretch"
-                     HorizontalAlignment="Stretch"
-					 CornerRadius="0"
-					 Text="456"
-			/>
-        </ScrollViewer>
-
-
-
-    </StackPanel>
+</StackPanel>
 
 
 </UserControl>

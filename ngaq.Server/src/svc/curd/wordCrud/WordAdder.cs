@@ -14,7 +14,7 @@ namespace ngaq.Server.svc.crud.wordCrud;
 
 
 public class WordAdder:
-	I_TxAdderAsync<IList<I_FullWordKV>, zero>
+	I_TxAdderAsync<IList<I_FullWordKv>, zero>
 	, IDisposable
 	,I_SetTx_DbCtx
 {
@@ -82,7 +82,7 @@ public class WordAdder:
 	 * 用于 從txt詞表中取(無Learnˉ屬性 之 諸JoinedWordᵘ)後再添厥入庫
 	 * 成功則自動添一Learn(belong=add)
 	 */
-	public async Task<zero> TxAddAsync(IList<I_FullWordKV> words) {
+	public async Task<zero> TxAddAsync(IList<I_FullWordKv> words) {
 		var wordSeeker = new WordSeeker();
 
 		var initAddedWordIds = new List<i64>();//錄id芝詞芝初添者(曩未嘗被添者)

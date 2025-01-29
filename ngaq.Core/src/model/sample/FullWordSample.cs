@@ -12,7 +12,7 @@ public class FullWordSample{
 		return inst;
 	}
 
-	public I_FullWordKV sample{get;set;}
+	public I_FullWordKv sample{get;set;}
 
 	public FullWordSample(){
 		sample = null!;

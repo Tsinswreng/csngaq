@@ -13,8 +13,8 @@ public class DiffWord{
 	 * @returns 未加過之prop
 	 */
 	public List<I_PropertyKV> diffProperty(
-		I_FullWordKV w1
-		,I_FullWordKV w2
+		I_FullWordKv w1
+		,I_FullWordKv w2
 	){
 		if(
 			w1.textWord.kStr != w2.textWord.kStr
