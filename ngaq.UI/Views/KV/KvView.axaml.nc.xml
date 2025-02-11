@@ -5,9 +5,14 @@
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		xmlns:vm="clr-namespace:ngaq.UI.ViewModels"
 		xmlns:ScrollInput="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
+		xmlns:convt="clr-namespace:ngaq.UI.Converter"
 		x:Class="ngaq.UI.Views.KV.KvView"
 		x:DataType="vm:KV.KvVM"
 >
+
+	<UserControl.Resources>
+		<convt:UnixMsConverter x:Key="UnixMsConverter"/>
+	</UserControl.Resources>
 
 	<Design.DataContext>
 
@@ -28,18 +33,90 @@
 
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="ct"/>
-		<ScrollInput:ScrollInput Text="{Binding ct, Mode=TwoWay}"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding ct, Mode=TwoWay, Converter={StaticResource UnixMsConverter}}"
+		/>
 	</StackPanel>
 
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="ut"/>
-		<ScrollInput:ScrollInput Text="{Binding ut, Mode=TwoWay}"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding ut, Mode=TwoWay, Converter={StaticResource UnixMsConverter}}"
+		/>
 	</StackPanel>
 
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="status"/>
-		<ScrollInput:ScrollInput Text="{Binding status, Mode=TwoWay}"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding status, Mode=TwoWay}"
+		/>
 	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="kType"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding kType, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="kDesc"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding kDesc, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="kI64"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding kI64, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="kStr"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding kStr, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="vType"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding vType, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="vDesc"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding vDesc, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="vStr"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding vStr, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="vI64"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding vI64, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock Text="vF64"/>
+		<ScrollInput:ScrollInput
+			Text="{Binding vF64, Mode=TwoWay}"
+		/>
+	</StackPanel>
+
+
 	<Button Click="InitWord_Click">Init word</Button>
 	<Button Click="printChangedModel_Click">Print word</Button>
 </StackPanel>

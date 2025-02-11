@@ -4577,3 +4577,67 @@ public class MyViewModel : I_ViewModel<MyModel>
 
 ### 总结
 以上步骤展示了如何在 Avalonia 中针对一个以 UNIX 毫秒时间戳格式存储的日期字段，创建双向绑定的 `TextBox`。转换器负责在 UI 和 ViewModel 之间转换日期与时间戳，因此当用户通过 `TextBox` 输入日期时，会自动更新 ViewModel 的数据。
+
+
+#
+[2025-02-11T13:06:12.585+08:00_W7-2]
+怎麼在axaml中調用自己已經寫好的Converter?
+
+##
+在 Avalonia 中，要在 AXML 中调用自定义的 Converter，通常需要按照以下步骤进行配置和使用：
+
+### 1. 定义 Converter
+首先，你需要有一个实现了 `IValueConverter` 接口的自定义 Converter。以下是一个简单的示例：
+
+```csharp
+using Avalonia.Data.Converters;
+using System;
+using System.Globalization;
+
+public class MyConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        // 转换逻辑
+        return value?.ToString().ToUpper(); // 示例：将字符串转换为大写
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+}
+```
+
+### 2. 在 AXML 中声明 Converter
+接下来，在 AXML 文件中声明该 Converter，通常是在 `<UserControl.Resources>` 或者 `<Window.Resources>` 中。例如：
+
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:YourNamespace">
+
+    <UserControl.Resources>
+        <local:MyConverter x:Key="myConverter" />
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock Text="{Binding YourProperty, Converter={StaticResource myConverter}}" />
+    </StackPanel>
+</UserControl>
+```
+
+### 3. 使用 Converter
+在上述示例中，我们在 `TextBlock` 的 `Text` 属性中使用了 `Converter={StaticResource myConverter}` 来调用之前定义的 Converter。
+
+### 解释
+- `xmlns:local="clr-namespace:YourNamespace"`：将 `YourNamespace` 替换为包含 `MyConverter` 类的实际命名空间。
+- `x:Key="myConverter"`：为 Converter 指定一个唯一的键，以便于在视图中引用。
+- `{StaticResource myConverter}`：在绑定表达式中使用此 Converter。
+
+### 注意事项
+- 确保 Converter 类是公共的，且命名空间正确。
+- 如果有多个资源需要使用，可以在同一个 `Resources` 中定义多个 Converter。
+- 确保你在 AVA 版本中支持类似的功能。
+
+通过这些步骤，你可以成功在 AXML 中调用自定义的 Converter，并将其应用于数据绑定中。
