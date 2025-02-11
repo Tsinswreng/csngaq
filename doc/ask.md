@@ -4641,3 +4641,22 @@ public class MyConverter : IValueConverter
 - 确保你在 AVA 版本中支持类似的功能。
 
 通过这些步骤，你可以成功在 AXML 中调用自定义的 Converter，并将其应用于数据绑定中。
+
+
+#
+[2025-02-11T14:07:55.487+08:00_W7-2]
+
+這是我的FullWord類
+```cs
+public struct FullWord: I_FullWordKv{
+	public I_WordKV textWord{get;set;}
+	public IList<I_WordKV> propertys{get;set;}
+	public IList<I_WordKV> learns{get;set;}
+}
+```
+I_WordKV是一個接口、爲了簡化問題、我們假設I_WordKV只有兩個屬性：kI64和vStr。
+我想在avalonia應用中 把fullword對象的信息全部展示在UI上。因爲FullWord中 所有成員都是I_WordKV(或其列表)類型。所以我己經寫好了KvView和KvViewModel(支持把I_WordKV轉成KvViewModel)、用于在UI顯示一個I_WordKV類
+
+現在我要在UI上顯示FullWord的全部內容、要求盡量避免重複代碼 怎麼做比較好?
+
+##

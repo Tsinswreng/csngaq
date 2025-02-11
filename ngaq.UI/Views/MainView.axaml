@@ -12,6 +12,7 @@
 	xmlns:ngaqViewWord="clr-namespace:ngaq.UI.Views.Word"
 	xmlns:ngaqViewKV="clr-namespace:ngaq.UI.Views.KV"
 	xmlns:ScrollInput="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
+	xmlns:FullWordKvView="clr-namespace:ngaq.UI.Views.FullWordKvView"
 >
 
 
@@ -23,9 +24,10 @@
 		<!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
 		<!-- <ngaqView:LoginView/> -->
 		<!-- <ngaqView:Word.WordInfoView/> -->
-		<ngaqViewKV:KvView/>
+		<!-- <ngaqViewKV:KvView/> -->
 		<!-- <ScrollInput:ScrollInput Text="123"/> -->
 		<!-- <ngaqViewWord:WordInfoView/> -->
+		<FullWordKvView:FullWordKvView/>
 	</Grid>
 
 </UserControl>

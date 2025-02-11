@@ -7,19 +7,19 @@ namespace ngaq.UI.ViewModels.KV;
 
 public partial class KvVM
 	:ViewModelBase
-	,I_ViewModel<I_WordKV>
+	,I_ViewModel<I_WordKv>
 	,I_RowBaseInfo
-	,I_WordKV
+	,I_WordKv
 {
-	public I_WordKV model{get;set;}
+	public I_WordKv model{get;set;}
 
 	public KvVM() {}
 
-	public KvVM(I_WordKV model) {
+	public KvVM(I_WordKv model) {
 		fromModel(model);
 	}
 
-	public zero fromModel(I_WordKV kv){
+	public zero fromModel(I_WordKv kv){
 		model = kv;
 		id = kv.id;
 		bl = kv.bl;
@@ -38,8 +38,8 @@ public partial class KvVM
 		return 0;
 	}
 
-	public I_WordKV toModel(){
-		I_WordKV kv = new WordKV();
+	public I_WordKv toModel(){
+		I_WordKv kv = new WordKV();
 		kv.id = id;
 		kv.bl = bl;
 		kv.status = status;
