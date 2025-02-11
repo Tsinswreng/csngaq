@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Avalonia;
+using Avalonia.Data;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
@@ -13,12 +14,15 @@ public partial class ScrollInput : UserControl{
 	}
 
 	public static readonly StyledProperty<str> TextProperty
-		= AvaloniaProperty.Register<ScrollInput, str>(nameof(Text));
+		= AvaloniaProperty.Register<ScrollInput, str>(nameof(Text), defaultBindingMode: BindingMode.TwoWay);
 
 	//[Content]
 	public str Text{
 		get{return GetValue(TextProperty);}
-		set{SetValue(TextProperty, value);}
+		set{
+			SetValue(TextProperty, value);
+			G.log(value);//t
+		;}
 	}
 
 	private void InitializeComponent(){

@@ -5,7 +5,7 @@ using ngaq.UI.ViewModels;
 using ngaq.UI.ViewModels.IF;
 namespace ngaq.UI.ViewModels.KV;
 
-public partial class KvVM
+public partial class KvVm
 	:ViewModelBase
 	,I_ViewModel<I_WordKv>
 	,I_RowBaseInfo
@@ -13,9 +13,9 @@ public partial class KvVM
 {
 	public I_WordKv model{get;set;}
 
-	public KvVM() {}
+	public KvVm() {}
 
-	public KvVM(I_WordKv model) {
+	public KvVm(I_WordKv model) {
 		fromModel(model);
 	}
 

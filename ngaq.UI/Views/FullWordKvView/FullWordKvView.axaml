@@ -5,7 +5,7 @@
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		xmlns:vm="clr-namespace:ngaq.UI.ViewModels"
 		x:Class="ngaq.UI.Views.FullWordKvView.FullWordKvView"
-		x:DataType="vm:FullWordKv.FullWordKv"
+		x:DataType="vm:FullWordKv.FullWordKvVm"
 		xmlns:KvView="clr-namespace:ngaq.UI.Views.KV"
 >
 	<Design.DataContext>
@@ -13,8 +13,25 @@
 	</Design.DataContext>
 
 	<StackPanel Orientation="Horizontal">
-		<KvView:KvView WordKv="{Binding textWord}"/>
-		<KvView:KvView />
-		<KvView:KvView />
+		<StackPanel Orientation="Vertical">
+			<TextBlock Text="textWord" />
+			<Button Content="print" Click="printChangedModel_Click"/>
+			<KvView:KvView
+				WordKv="{Binding textWord, Mode=TwoWay}"
+				Name="textWord"
+			/>
+		</StackPanel>
+
+		<StackPanel Orientation="Vertical">
+			<Button Content="print" Click="printChangedModel_Click2"/>
+			<TextBlock Text="propertys[0]" />
+			<KvView:KvView DataContext="{Binding textWordVm}"/>
+		</StackPanel>
+
+		<StackPanel Orientation="Vertical">
+			<TextBlock Text="learns[0]" />
+			<KvView:KvView />
+		</StackPanel>
+
 	</StackPanel>
 </UserControl>
