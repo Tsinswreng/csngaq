@@ -29,7 +29,10 @@
 						VerticalAlignment="Stretch"
 						HorizontalAlignment="Stretch"
 						CornerRadius="0"
-						Text="{Binding Text, ElementName=RootName}"
+						
+						
+						Text="{Binding Text, ElementName=RootName, Mode=TwoWay}"
+						
 						
 			/>
 		</ScrollViewer>

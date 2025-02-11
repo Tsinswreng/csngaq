@@ -18,30 +18,30 @@
 	<!-- id, bl, ct, ut, status -->
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="id"/>
-		<ScrollInput:ScrollInput Text="{Binding id}"/>
+		<ScrollInput:ScrollInput Text="{Binding id, Mode=TwoWay}"/>
 	</StackPanel>
 
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="bl"/>
-		<ScrollInput:ScrollInput Text="{Binding bl}"/>
+		<ScrollInput:ScrollInput Text="{Binding bl, Mode=TwoWay}"/>
 	</StackPanel>
 
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="ct"/>
-		<ScrollInput:ScrollInput Text="{Binding ct}"/>
+		<ScrollInput:ScrollInput Text="{Binding ct, Mode=TwoWay}"/>
 	</StackPanel>
 
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="ut"/>
-		<ScrollInput:ScrollInput Text="{Binding ut}"/>
+		<ScrollInput:ScrollInput Text="{Binding ut, Mode=TwoWay}"/>
 	</StackPanel>
 
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="status"/>
-		<ScrollInput:ScrollInput Text="{Binding status}"/>
+		<ScrollInput:ScrollInput Text="{Binding status, Mode=TwoWay}"/>
 	</StackPanel>
-
-
+	<Button Click="InitWord_Click">Init word</Button>
+	<Button Click="printChangedModel_Click">Print word</Button>
 </StackPanel>
 
 

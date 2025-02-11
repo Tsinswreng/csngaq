@@ -29,8 +29,11 @@
 						VerticalAlignment="Stretch"
 						HorizontalAlignment="Stretch"
 						CornerRadius="0"
-						Text="{Binding Text, ElementName=RootName}"
 						`Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"
+						`Text="{Binding Text}"
+						Text="{Binding Text, ElementName=RootName, Mode=TwoWay}"
+						`Text="{Binding Text, ElementName=RootName}"
+						`Text="123"
 			/>
 		</ScrollViewer>
 	</StackPanel>

@@ -60,8 +60,8 @@
 			Padding="0"
 		/>
 		<Separator Classes="Cls_Separator"/>
-		<TextBlock Text="{Binding Mean}" />
-
+		<TextBox Text="{Binding Mean}" />
 		<Button Content="Button" Click="Button_Click"/>
 	</StackPanel>
 </UserControl>
+

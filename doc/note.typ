@@ -236,4 +236,106 @@ public class NgaqDbCtx : DbContext
 ```
 
 
+= 自定義可傳參控件
+[2025-02-10T18:41:25.726+08:00_W7-1]
 
+`E:\_code\csngaq\ngaq.UI\Cmpnt\ScrollInput\ScrollInput.axaml.nc.xml`:
+
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:vm="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
+		x:Class="ngaq.UI.Cmpnt.ScrollInput.ScrollInput"
+		x:DataType="vm:ScrollInputVm"
+		x:Name="RootName"
+>
+	<Design.DataContext>
+
+	</Design.DataContext>
+
+
+	<StackPanel Orientation="Horizontal">
+		<ScrollViewer VerticalScrollBarVisibility="Auto"
+						HorizontalScrollBarVisibility="Auto">
+			<TextBox AcceptsReturn="True"
+						Height="{Binding Height, ElementName=RootName}"
+						MinHeight="{Binding MinHeight, ElementName=RootName}"
+						MaxHeight="{Binding MaxHeight, ElementName=RootName}"
+						Width="{Binding Width, ElementName=RootName}"
+						MinWidth="{Binding MinWidth, ElementName=RootName}"
+						MaxWidth="{Binding MaxWidth, ElementName=RootName}"
+						Padding="{Binding Padding, ElementName=RootName}"
+						Margin="{Binding Margin, ElementName=RootName}"
+						TextWrapping="Wrap"
+						VerticalAlignment="Stretch"
+						HorizontalAlignment="Stretch"
+						CornerRadius="0"
+						`Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" `報錯 找不到Text
+						`Text="{Binding Text}" `忘了
+						Text="{Binding Text, ElementName=RootName, Mode=TwoWay}"
+						`Text="{Binding Text, ElementName=RootName}" `變化ˋ能從代碼傳至UI、反㞢則未試
+						`Text="123" `只顯示123不變
+			/>
+		</ScrollViewer>
+	</StackPanel>
+</UserControl>
+```
+
+;
+
+`E:\_code\csngaq\ngaq.UI\Cmpnt\ScrollInput\ScrollInput.axaml.cs`:
+```cs
+using System.ComponentModel;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using Avalonia.Metadata;
+
+
+namespace ngaq.UI.Cmpnt.ScrollInput;
+//global using str = System.String;
+public partial class ScrollInput : UserControl{
+	public ScrollInput(){
+		InitializeComponent();
+	}
+
+	public static readonly StyledProperty<str> TextProperty
+		= AvaloniaProperty.Register<ScrollInput, str>(nameof(Text));
+
+	//[Content]
+	public str Text{
+		get{return GetValue(TextProperty);}
+		set{SetValue(TextProperty, value);}
+	}
+
+	private void InitializeComponent(){
+		AvaloniaXamlLoader.Load(this);
+	}
+
+}
+
+```
+
+;
+
+ʃˋ調用處:
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:vm="clr-namespace:ngaq.UI.ViewModels"
+		xmlns:ScrollInput="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
+		x:Class="ngaq.UI.Views.KV.KvView"
+		x:DataType="vm:KV.KvVM"
+>
+
+<ScrollInput:ScrollInput Text="{Binding ct, Mode=TwoWay}"/>
+`要寫Mode=TwoWay 、不寫則默認單向綁定。
+`此異於<TextBox Text="{Binding ct}">之默認潙Mode=TwoWay.
+</UserControl>
+```

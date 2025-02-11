@@ -1,16 +1,46 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using ngaq.Core.model;
 using ngaq.UI.ViewModels;
+using ngaq.UI.ViewModels.IF;
 namespace ngaq.UI.ViewModels.KV;
 
 public partial class KvVM
-	: ViewModelBase
-	, I_RowBaseInfo {
+	:ViewModelBase
+	,I_RowBaseInfo
+	,I_ViewModel<I_WordKV>
+{
 	// public long id { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
 	// public string? bl { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
 	// public string? status { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
 	// public long ct { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
 	// public long ut { get => throw new std.NotImplementedException(); set => throw new std.NotImplementedException(); }
+
+	public KvVM() {
+
+	}
+
+	public zero fromModel(I_WordKV kv){
+		id = kv.id;
+		bl = kv.bl;
+		status = kv.status;
+		ct = kv.ct;
+		ut = kv.ut;
+		//TODO ...
+		return 0;
+	}
+
+	public I_WordKV toModel(){
+		I_WordKV kv = new WordKV();
+		kv.id = id;
+		kv.bl = bl;
+		kv.status = status;
+		kv.ct = ct;
+		kv.ut = ut;
+		//TODO ...
+		return kv;
+	}
+
+
 
 	protected i64 _id;
 	public i64 id {

@@ -117,3 +117,36 @@ public partial class WordInfoViewModel :
 	public str testLowerCaseBinding2 = "123";
 
 }
+
+
+// interface I_NullableWeight{
+// 	public double? weight{get;set;}
+// }
+
+// interface I_NonNullWeight:I_NullableWeight{
+// 	public double weight{get;set;}
+// }
+
+
+// interface I_NullableWeight<T>{
+// 	public T weight{get;set;}
+// }
+
+// interface I_NonNullWeight:I_NullableWeight<double>{
+
+// }
+
+// class NullableC:I_NullableWeight<double?>{
+// 	public double? weight{get;set;}
+// }
+
+// class NonNullC:I_NonNullWeight{
+// 	public double weight{get;set;}
+// }
+
+// class Test{
+// 	void fn(){
+// 		I_NullableWeight<double?> nullableWeight = new NullableC();
+// 		nullableWeight = new NonNullC();
+// 	}
+// }

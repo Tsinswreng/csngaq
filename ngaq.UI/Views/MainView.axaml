@@ -23,9 +23,9 @@
 		<!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
 		<!-- <ngaqView:LoginView/> -->
 		<!-- <ngaqView:Word.WordInfoView/> -->
-		<!-- <ngaqViewKV:KvView/> -->
+		<ngaqViewKV:KvView/>
 		<!-- <ScrollInput:ScrollInput Text="123"/> -->
-		<ngaqViewWord:WordInfoView/>
+		<!-- <ngaqViewWord:WordInfoView/> -->
 	</Grid>
 
 </UserControl>
