@@ -14,6 +14,14 @@
 		<convt:UnixMsConverter x:Key="UnixMsConverter"/>
 	</UserControl.Resources>
 
+	<UserControl.Styles>
+		<Style Selector="StackPanel.HideIfEmpty">
+			
+		</Style>
+	</UserControl.Styles>
+
+
+
 	<Design.DataContext>
 
 	</Design.DataContext>
@@ -45,7 +53,7 @@
 		/>
 	</StackPanel>
 
-	<StackPanel Orientation="Horizontal">
+	<StackPanel Orientation="Horizontal" Classes="HideIfEmpty">
 		<TextBlock Text="status"/>
 		<ScrollInput:ScrollInput
 			Text="{Binding status, Mode=TwoWay}"
@@ -59,7 +67,7 @@
 		/>
 	</StackPanel>
 
-	<StackPanel Orientation="Horizontal">
+	<StackPanel Orientation="Horizontal" Classes="HideIfEmpty">
 		<TextBlock Text="kDesc"/>
 		<ScrollInput:ScrollInput
 			Text="{Binding kDesc, Mode=TwoWay}"
@@ -115,10 +123,6 @@
 			Text="{Binding vF64, Mode=TwoWay}"
 		/>
 	</StackPanel>
-
-
-	<Button Click="InitWord_Click">Init word</Button>
-	<Button Click="printChangedModel_Click">Print word</Button>
 </StackPanel>
 
 

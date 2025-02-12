@@ -9,11 +9,11 @@ public partial class FullWordKvView : UserControl{
 	public FullWordKvView(){
 		InitializeComponent();
 		this.DataContext = new FullWordKvVm();
-		if(DataContext is FullWordKvVm vm
-			&& textWord.DataContext is KvVm kvVm
-		){
-			kvVm.fromModel(vm.textWord);
-		}
+		// if(DataContext is FullWordKvVm vm
+		// 	&& textWord.DataContext is KvVm kvVm
+		// ){
+		// 	kvVm.fromModel(vm.textWord);
+		// }
 
 	}
 
@@ -21,7 +21,7 @@ public partial class FullWordKvView : UserControl{
 	private void printChangedModel_Click(object sender, RoutedEventArgs e){
 		if(!( this.DataContext is FullWordKvVm )){return;}
 		var dataCtx = (FullWordKvVm)this.DataContext;
-		G.logJson(dataCtx.textWord);
+		//G.logJson(dataCtx.textWord);
 	}
 
 	private void printChangedModel_Click2(object sender, RoutedEventArgs e){

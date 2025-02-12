@@ -15,23 +15,33 @@
 	<StackPanel Orientation="Horizontal">
 		<StackPanel Orientation="Vertical">
 			<TextBlock Text="textWord" />
-			<Button Content="print" Click="printChangedModel_Click"/>
 			<KvView:KvView
-				WordKv="{Binding textWord, Mode=TwoWay}"
+				
+				DataContext="{Binding textWordVm, Mode=TwoWay}"
 				Name="textWord"
 			/>
 		</StackPanel>
 
-		<StackPanel Orientation="Vertical">
-			<Button Content="print" Click="printChangedModel_Click2"/>
-			<TextBlock Text="propertys[0]" />
-			<KvView:KvView DataContext="{Binding textWordVm}"/>
-		</StackPanel>
 
-		<StackPanel Orientation="Vertical">
-			<TextBlock Text="learns[0]" />
-			<KvView:KvView />
-		</StackPanel>
+		<ScrollViewer>
+			<ItemsControl ItemsSource="{Binding propertyVms}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<KvView:KvView DataContext="{Binding}" />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+		<ScrollViewer>
+			<ItemsControl ItemsSource="{Binding learnVms}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<KvView:KvView DataContext="{Binding}" />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
 
 	</StackPanel>
 </UserControl>
