@@ -12,36 +12,99 @@
 
 	</Design.DataContext>
 
+	<UserControl.Styles>
+		<Style Selector="TextBlock.Cls_ColTitle">
+			<Setter Property="FontSize" Value="16" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+		</Style>
+		<Style Selector="Separator">
+			<Setter Property="Margin" Value="0" />
+			
+		</Style>
+	</UserControl.Styles>
+
 	<StackPanel Orientation="Horizontal">
-		<StackPanel Orientation="Vertical">
-			<TextBlock Text="textWord" />
-			<KvView:KvView
-				
-				DataContext="{Binding textWordVm, Mode=TwoWay}"
-				Name="textWord"
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<TextBlock
+				Grid.Row="0"
+				Classes="Cls_ColTitle"
+				Text="textWord"
 			/>
-		</StackPanel>
+			<Separator Grid.Row="1" />
+			<ScrollViewer Grid.Row="2">
+				<StackPanel Orientation="Vertical">
+					<KvView:KvView
+						
+						DataContext="{Binding textWordVm, Mode=TwoWay}"
+						Name="textWord"
+					/>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
 
 
-		<ScrollViewer>
-			<ItemsControl ItemsSource="{Binding propertyVms}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<KvView:KvView DataContext="{Binding}" />
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</ScrollViewer>
 
-		<ScrollViewer>
-			<ItemsControl ItemsSource="{Binding learnVms}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<KvView:KvView DataContext="{Binding}" />
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</ScrollViewer>
+
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<TextBlock
+				Grid.Row="0"
+				Classes="Cls_ColTitle"
+				Text="propertys"
+			/>
+			<Separator Grid.Row="1" />
+			<ScrollViewer
+				Grid.Row="2"
+			>
+				<ItemsControl ItemsSource="{Binding propertyVms}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<!-- avalonia 如何在此處顯示當前索引? 獲取索引的時間複雜度要求爲O(1) -->
+								<KvView:KvView DataContext="{Binding}" />
+								<Separator />
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
+		</Grid>
+
+
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<TextBlock
+				Grid.Row="0"
+				Classes="Cls_ColTitle"
+				Text="learns"
+			/>
+			<Separator Grid.Row="1" />
+			<ScrollViewer Grid.Row="2">
+				<ItemsControl ItemsSource="{Binding learnVms}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<KvView:KvView DataContext="{Binding}" />
+								<Separator />
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
+		</Grid>
 
 	</StackPanel>
 </UserControl>

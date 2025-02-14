@@ -21,9 +21,11 @@ public partial class App : Application {
 			DisableAvaloniaDataAnnotationValidation();
 			desktop.MainWindow = new MainWindow {
 				DataContext = new MainViewModel()
-				,SizeToContent = Avalonia.Controls.SizeToContent.WidthAndHeight
+				//,SizeToContent = Avalonia.Controls.SizeToContent.WidthAndHeight//據內容 自動調 窗口大小
 				,MinWidth=0
 				,MinHeight=0
+				,Width=1920/2
+				,Height=1080/2
 			};
 		} else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform) {
 			singleViewPlatform.MainView = new MainView {

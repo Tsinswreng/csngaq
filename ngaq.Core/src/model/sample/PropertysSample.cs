@@ -22,6 +22,7 @@ public class PropertysSample{
 		sample = new List<I_PropertyKV>();
 
 		I_PropertyKV mean1 = new WordKV();
+		mean1.id = 293;
 		mean1.wid_(  TextWordSample.getInst().sample.id  );
 		mean1.setStr(
 			PropertyEnum.mean.ToString(),
@@ -39,6 +40,7 @@ mean2
 
 
 		I_PropertyKV mean2 = new WordKV();
+		mean2.id = 482;
 		mean2.wid_(  TextWordSample.getInst().sample.id  );
 
 		mean2.setStr(
@@ -58,6 +60,8 @@ mean2
 
 
 		I_PropertyKV source = new WordKV();
+		source.id = 387;
+
 		source.wid_(  TextWordSample.getInst().sample.id  );
 		source.setStr(
 			PropertyEnum.source.ToString()
