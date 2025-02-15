@@ -12,6 +12,8 @@
 
 	</Design.DataContext>
 
+	
+
 
 	<StackPanel Orientation="Horizontal">
 		<ScrollViewer VerticalScrollBarVisibility="Auto"

@@ -5,7 +5,9 @@ using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ngaq.Core.model;
 using ngaq.Core.model.sample;
+using ngaq.Core.model.wordIF;
 using ngaq.UI.ViewModels;
+using ngaq.UI.ViewModels.IF;
 using ngaq.UI.ViewModels.KV;
 
 namespace ngaq.UI.ViewModels.FullWordKv;
@@ -15,7 +17,10 @@ public class Person{
 	public int Age{get;set;} = 0;
 }
 
-public partial class FullWordKvVm: ViewModelBase{
+public partial class FullWordKvVm
+	:ViewModelBase
+	,I_ViewModel<I_FullWordKv>
+{
 
 	//試 未成
 	// protected I_WordKv _textWord = FullWordSample.getInst().sample.textWord;
@@ -23,6 +28,30 @@ public partial class FullWordKvVm: ViewModelBase{
 	// 	get => _textWord;
 	// 	set => SetProperty(ref _textWord, value);
 	// }
+
+
+	protected I_FullWordKv? _model{get;set;}
+
+	#region impl
+
+	public zero fromModel(I_FullWordKv model) {
+		this._model = model;
+		propertyVms = [.. model.propertys.Select(e=>new KvVm(e)).ToList()];
+		learnVms = new (model.learns.Select(e=>new KvVm(e)).ToList());
+		return 0;
+	}
+
+	public I_FullWordKv toModel() {
+		if(_model == null){
+			_model = new FullWord();
+		}
+		_model.textWord = (I_TextWordKV)textWordVm.toModel();
+		_model.propertys = (IList<I_PropertyKV>)propertyVms.Select(e=>e.toModel()).ToList();
+		_model.learns = (IList<I_LearnKV>)learnVms.Select(e=>e.toModel()).ToList();
+		return _model;
+	}
+
+	#endregion
 
 	protected KvVm _textWordVm = new KvVm(FullWordSample.getInst().sample.textWord);
 	public KvVm textWordVm{
@@ -38,15 +67,25 @@ public partial class FullWordKvVm: ViewModelBase{
 		set => SetProperty(ref _propertyVms, value);
 	}
 
-
-	protected IList<KvVm> _learnVms
-		= FullWordSample.getInst().sample.learns.Select(e=>new KvVm(e)).ToList()
+	protected ObservableCollection<KvVm> _learnVms
+		= new(FullWordSample.getInst().sample.learns.Select(e=>new KvVm(e)).ToList())
 	;
-	public IList<KvVm> learnVms{
+	public ObservableCollection<KvVm> learnVms{
 		get => _learnVms;
 		set => SetProperty(ref _learnVms, value);
 	}
 
+
+	// protected IList<KvVm> _learnVms
+	// 	= FullWordSample.getInst().sample.learns.Select(e=>new KvVm(e)).ToList()
+	// ;
+
+	// public IList<KvVm> learnVms{
+	// 	get => _learnVms;
+	// 	set => SetProperty(ref _learnVms, value);
+	// }
+
+//test
 	protected ObservableCollection<Person> _persons = [
 		new Person{Name="Alice", Age=25},
 		new Person{Name="Bob", Age=30},
@@ -55,6 +94,7 @@ public partial class FullWordKvVm: ViewModelBase{
 		get => _persons;
 		set => SetProperty(ref _persons, value);
 	}
+
 
 }
 

@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ngaq.UI.ViewModels.FullWordKv;
@@ -22,63 +23,72 @@ public partial class FullWordKvView : UserControl{
 			return;
 		}
 		var ctx = (FullWordKvVm)DataContext!;
-		var root = z.FindControl<UserControl>("Root");{
+		var root = z.FindControl<UserControl>("Root");
+		z._renderList(ctx.propertyVms, "propertys");
+		z._renderList(ctx.learnVms, "learns");
+	}
 
-			var grid = new Grid(){
-				RowDefinitions= [
-					new RowDefinition{Height=GridLength.Auto}
-					,new RowDefinition{Height=GridLength.Auto}
-					,new RowDefinition{Height=new GridLength(1, GridUnitType.Star)}
-				]
+	protected zero _renderList(
+		ObservableCollection<KvVm> vms
+		,str titleText
+	){
+		var z = this;
+		var grid = new Grid(){
+			RowDefinitions= [
+				new RowDefinition{Height=GridLength.Auto}
+				,new RowDefinition{Height=GridLength.Auto}
+				,new RowDefinition{Height=new GridLength(1, GridUnitType.Star)}
+			]
+		};
+		{//grid:Grid
+			var title = new TextBlock(){
+				Text = titleText
 			};
-			{//grid:Grid
-				var title = new TextBlock(){
-					Text = "propertys"
-				};
-				title.Classes.Add("Cls_ColTitle");
-				Grid.SetRow(title, 0);
-				grid.Children.Add(title);
+			title.Classes.Add("Cls_ColTitle");
+			Grid.SetRow(title, 0);
+			grid.Children.Add(title);
 
-				var separator = new Separator();
-				Grid.SetRow(separator, 1);
-				grid.Children.Add(separator);
+			var separator = new Separator();
+			Grid.SetRow(separator, 1);
+			grid.Children.Add(separator);
 
-				var scrollViewer = new ScrollViewer();
-				Grid.SetRow(scrollViewer, 2);
-				grid.Children.Add(scrollViewer);
-				var container = new StackPanel();
-				scrollViewer.Content = container;
-				{//container:StackPanel
-					var len = ctx.propertyVms.Count;
-					for(var i = 0; i < len; i++){
-						var curVm = ctx.propertyVms[i];
-						var stackPanel = new StackPanel();
-						{//stackPanel:StackPanel
-							var indexBlock = new TextBlock{
-								Text=i.ToString()
-							};
-							stackPanel.Children.Add(indexBlock);
-							var kvView = new KvView(){
-								DataContext = curVm
-							};
-							stackPanel.Children.Add(kvView);
+			var scrollViewer = new ScrollViewer();
+			Grid.SetRow(scrollViewer, 2);
+			grid.Children.Add(scrollViewer);
+			var container = new StackPanel();
+			scrollViewer.Content = container;
+			{//container:StackPanel
+				var len = vms.Count;
+				var i = 0;
+				foreach(var curVm in vms){
+					var stackPanel = new StackPanel();
+					{//stackPanel:StackPanel
+						var indexBlock = new TextBlock{
+							Text=i.ToString()
+						};
+						stackPanel.Children.Add(indexBlock);
+						var kvView = new KvView(){
+							DataContext = curVm
+						};
+						stackPanel.Children.Add(kvView);
 
-							if(i != len - 1){
-								stackPanel.Children.Add(
-									new Separator()
-								);
-							}
-						}//~stackPanel:StackPanel
-						container.Children.Add(stackPanel);
-					}
+						if(i != len - 1){
+							stackPanel.Children.Add(
+								new Separator()
+							);
+						}
+					}//~stackPanel:StackPanel
+					container.Children.Add(stackPanel);
+					i++;
+				}//~foreach
 
-				}//~container:StackPanel
+			}//~container:StackPanel
 
-				if(Content is Panel p){//Panel之子類纔能用.Children.Add
-					p.Children.Add(grid);
-				}
-			}//~grid:Grid
-		}
+			if(Content is Panel p){//Panel之子類纔能用.Children.Add
+				p.Children.Add(grid);
+			}
+		}//~grid:Grid
+		return 0;
 	}
 
 
