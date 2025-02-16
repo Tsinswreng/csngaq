@@ -3,6 +3,8 @@ using ngaq.UI.ViewModels;
 
 namespace ngaq.UI.Template.ViewModels;
 
-public partial class TemplateVM: ViewModelBase{
+public partial class TemplateVM
+	:ViewModelBase
+{
 
 }

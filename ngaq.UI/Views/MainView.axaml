@@ -13,6 +13,7 @@
 	xmlns:ngaqViewKV="clr-namespace:ngaq.UI.Views.KV"
 	xmlns:ScrollInput="clr-namespace:ngaq.UI.Cmpnt.ScrollInput"
 	xmlns:FullWordKvView="clr-namespace:ngaq.UI.Views.FullWordKvView"
+	xmlns:WordCrud="clr-namespace:ngaq.UI.Views.WordCrud"
 >
 
 
@@ -27,7 +28,8 @@
 		<!-- <ngaqViewKV:KvView/> -->
 		<!-- <ScrollInput:ScrollInput Text="123"/> -->
 		<!-- <ngaqViewWord:WordInfoView/> -->
-		<FullWordKvView:FullWordKvView/>
+		<!-- <FullWordKvView:FullWordKvView/> -->
+		<WordCrud:WordCrudView/>
 	</Grid>
 
 </UserControl>

@@ -36,8 +36,12 @@ public partial class FullWordKvVm
 
 	public zero fromModel(I_FullWordKv model) {
 		this._model = model;
+		G.log("fromModel");//t
+		//textWordVm.fromModel(model.textWord);
+		textWordVm = new KvVm(model.textWord);
 		propertyVms = [.. model.propertys.Select(e=>new KvVm(e)).ToList()];
 		learnVms = new (model.learns.Select(e=>new KvVm(e)).ToList());
+		G.log(propertyVms.Count);//t
 		return 0;
 	}
 
@@ -53,23 +57,23 @@ public partial class FullWordKvVm
 
 	#endregion
 
-	protected KvVm _textWordVm = new KvVm(FullWordSample.getInst().sample.textWord);
+	//protected KvVm _textWordVm = new KvVm(FullWordSample.getInst().sample.textWord);
+	protected KvVm _textWordVm = new KvVm();
 	public KvVm textWordVm{
 		get => _textWordVm;
 		set => SetProperty(ref _textWordVm, value);
 	}
 
-	protected ObservableCollection<KvVm> _propertyVms
-		= new(FullWordSample.getInst().sample.propertys.Select(e=>new KvVm(e)).ToList())
-	;
+	protected ObservableCollection<KvVm> _propertyVms = new();
+		//= new(FullWordSample.getInst().sample.propertys.Select(e=>new KvVm(e)).ToList());
+
 	public ObservableCollection<KvVm> propertyVms{
 		get => _propertyVms;
 		set => SetProperty(ref _propertyVms, value);
 	}
 
-	protected ObservableCollection<KvVm> _learnVms
-		= new(FullWordSample.getInst().sample.learns.Select(e=>new KvVm(e)).ToList())
-	;
+	protected ObservableCollection<KvVm> _learnVms = new();
+		//= new(FullWordSample.getInst().sample.learns.Select(e=>new KvVm(e)).ToList());
 	public ObservableCollection<KvVm> learnVms{
 		get => _learnVms;
 		set => SetProperty(ref _learnVms, value);
