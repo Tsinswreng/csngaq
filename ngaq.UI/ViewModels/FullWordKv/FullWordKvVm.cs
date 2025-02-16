@@ -36,12 +36,10 @@ public partial class FullWordKvVm
 
 	public zero fromModel(I_FullWordKv model) {
 		this._model = model;
-		G.log("fromModel");//t
 		//textWordVm.fromModel(model.textWord);
 		textWordVm = new KvVm(model.textWord);
 		propertyVms = [.. model.propertys.Select(e=>new KvVm(e)).ToList()];
 		learnVms = new (model.learns.Select(e=>new KvVm(e)).ToList());
-		G.log(propertyVms.Count);//t
 		return 0;
 	}
 
@@ -69,8 +67,11 @@ public partial class FullWordKvVm
 
 	public ObservableCollection<KvVm> propertyVms{
 		get => _propertyVms;
-		set => SetProperty(ref _propertyVms, value);
+		set{
+			SetProperty(ref _propertyVms, value);
+		}
 	}
+	public u64 index_propertyVms{get;set;}=0;
 
 	protected ObservableCollection<KvVm> _learnVms = new();
 		//= new(FullWordSample.getInst().sample.learns.Select(e=>new KvVm(e)).ToList());

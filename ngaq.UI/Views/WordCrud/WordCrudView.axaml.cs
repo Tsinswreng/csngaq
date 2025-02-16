@@ -1,7 +1,9 @@
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Layout;
 using ngaq.Core.model.sample;
+using ngaq.UI.ViewModels.FullWordKv;
 using ngaq.UI.ViewModels.WordCrud;
 
 namespace ngaq.UI.Views.WordCrud;
@@ -48,12 +50,33 @@ public partial class WordCrudView : UserControl{
 					Content="尋找"
 				};
 				searchButton.Click += (sender, e) => {
+					ctx.fullWordKvVm = new FullWordKvVm();
 					ctx.fullWordKvVm?.fromModel(
 						FullWordSample.getInst().sample
 					);
 				};
 				stackPanelVert.Children.Add(searchButton);
-				
+				//
+				var clearButton = new Button(){
+					Content="清除"
+				};
+				clearButton.Click += (sender, e) => {
+					ctx.fullWordKvVm = new FullWordKvVm();
+				};
+				stackPanelVert.Children.Add(clearButton);
+				//
+				var printButton = new Button(){
+					Content="print"
+				};
+				printButton.Click += (sender, e) => {
+					G.log("print");
+					foreach(var kv in ctx.fullWordKvVm.propertyVms){
+						G.logJson(kv.toModel());
+					}
+				};
+				stackPanelVert.Children.Add(printButton);
+
+
 			}}//~stackPanelVert:StackPanel
 			stackPanelHori.Children.Add(stackPanelVert);
 			//
