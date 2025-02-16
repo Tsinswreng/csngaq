@@ -1,5 +1,5 @@
 using ngaq.Server.db.ngaq4;
-using ngaq.Core.svc.ngaq4;
+using ngaq.Core.Svc.ngaq4;
 using ngaq.Server.db.crud;
 using ngaq.Core.model.ngaq4;
 using ngaq.Core.model;

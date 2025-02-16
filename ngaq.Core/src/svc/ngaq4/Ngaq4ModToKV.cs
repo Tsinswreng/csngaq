@@ -4,7 +4,7 @@ using ngaq.Core.model;
 using model;
 using ngaq.model.consts;
 using model.consts;
-namespace ngaq.Core.svc.ngaq4;
+namespace ngaq.Core.Svc.ngaq4;
 public class Ngaq4ModToWordKV{
 
 	public zero assignIdCtMt(I_RowBaseInfo target, IdBlCtMt4 idBlCtMt){

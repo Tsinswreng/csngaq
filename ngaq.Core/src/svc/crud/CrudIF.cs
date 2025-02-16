@@ -1,4 +1,4 @@
-namespace ngaq.Core.svc.crud;
+namespace ngaq.Core.Svc.Crud;
 
 public interface I_Add<T>{
 	Task<zero> Add(T entity);

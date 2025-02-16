@@ -5805,3 +5805,8 @@ var myView = new MyView();
 textWordVm是ViewModel的屬性名稱 已經定義好了
 怎麼給myView實現上面xml的綁定? 用純c#代碼
 ##
+
+
+#
+[2025-02-16T17:55:53.282+08:00_W7-7]
+avalonia中、無狀態的東西放在axaml.cs、有狀態的東西放在ViewModel 對嗎

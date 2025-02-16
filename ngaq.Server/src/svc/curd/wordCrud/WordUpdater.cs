@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Storage;
 using model.consts;
 using ngaq.Core.model;
 using ngaq.Core.model.wordIF;
-using ngaq.Core.svc.crud;
+using ngaq.Core.Svc.Crud;
 using ngaq.model.consts;
 using ngaq.Server.Db.Crud.IF;
-using ngaq.Server.svc.crud.wordCrud.IF;
+using ngaq.Server.Svc.Crud.WordCrud.IF;
 
-namespace ngaq.Server.svc.crud.wordCrud;
+namespace ngaq.Server.Svc.Crud.WordCrud;
 
 
 public class WordUpdater:

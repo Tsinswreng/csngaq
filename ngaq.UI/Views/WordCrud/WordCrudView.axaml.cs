@@ -15,9 +15,13 @@ public partial class WordCrudView : UserControl{
 		_render();
 	}
 
+	public WordCrudVm? ctx{
+		get{return DataContext as WordCrudVm;}
+	}
+
 	protected zero _render(){
 		var z = this;
-		var ctx = z.DataContext as WordCrudVm;
+		//var ctx = z.DataContext as WordCrudVm;
 		if(ctx == null){
 			return 0;
 		}

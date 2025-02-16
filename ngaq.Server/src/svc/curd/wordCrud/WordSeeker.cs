@@ -4,9 +4,9 @@ using model.consts;
 using ngaq.Core.model;
 using ngaq.Core.model.wordIF;
 using ngaq.model.consts;
-using ngaq.Server.svc.crud.wordCrud.IF;
+using ngaq.Server.Svc.Crud.WordCrud.IF;
 
-namespace ngaq.Server.svc.crud.wordCrud;
+namespace ngaq.Server.Svc.Crud.WordCrud;
 
 
 public class WordSeeker:

@@ -2,7 +2,7 @@ using ngaq.Core.model;
 using ngaq.Core.model.wordIF;
 using tools;
 
-namespace ngaq.Core.svc;
+namespace ngaq.Core.Svc;
 
 public class DiffWord{
 	/**

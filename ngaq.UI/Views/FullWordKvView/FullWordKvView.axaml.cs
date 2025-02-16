@@ -112,12 +112,3 @@ public partial class FullWordKvView : UserControl{
 	}
 
 }
-/*
-avalonia
-我希望做列表渲染時顯示當前元素的索引。
-列表源是和ViewModel綁定的。當ViewModel的列表改變時、視圖上的列表也跟着變。
-但是這裏遇到了一個問題: _renderList函數只在視圖初始化時執行一次。
-後續當列表改變時、只會執行FuncDataTemplate中的回調、index變量不會從0開始。所以索引會越來越大。
-怎麼解決這個問題?
-要求獲取索引的時間複雜度爲O(1)、因此你不準用IndexOf之類的做法。
- */

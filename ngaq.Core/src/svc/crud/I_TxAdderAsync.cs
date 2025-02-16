@@ -1,5 +1,5 @@
 using tools.IF;
-namespace ngaq.Core.svc.crud;
+namespace ngaq.Core.Svc.Crud;
 
 
 public interface I_TxAdderAsync<Arg, Rtn> :I_Transaction{

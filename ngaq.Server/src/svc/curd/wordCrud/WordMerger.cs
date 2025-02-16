@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Storage;
 using model.consts;
 using ngaq.Core.model;
 using ngaq.Core.model.wordIF;
-using ngaq.Core.svc.crud;
-using ngaq.Core.svc.word.wordMerger;
+using ngaq.Core.Svc.Crud;
+using ngaq.Core.Svc.word.wordMerger;
 using ngaq.model.consts;
 using ngaq.Server.Db.Crud.IF;
-using ngaq.Server.svc.crud.wordCrud;
-using ngaq.Server.svc.crud.wordCrud.IF;
+using ngaq.Server.Svc.Crud.WordCrud;
+using ngaq.Server.Svc.Crud.WordCrud.IF;
 
 public class WordMerger:
 	IDisposable

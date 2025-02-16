@@ -1,5 +1,5 @@
 using ngaq.Core.model;
-using ngaq.Core.svc.crud;
+using ngaq.Core.Svc.Crud;
 using ngaq.Server.db.crud;
 using ngaq.model.consts;
 using ngaq.Core.model.wordIF;
@@ -8,11 +8,11 @@ using ngaq.Server.Db.Crud.IF;
 using Microsoft.EntityFrameworkCore.Storage;
 using ngaq.Core.model.consts;
 using model.consts;
-using ngaq.Core.svc;
+using ngaq.Core.Svc;
 using db;
 using Microsoft.EntityFrameworkCore;
 
-namespace ngaq.Server.svc.crud.wordCrud;
+namespace ngaq.Server.Svc.Crud.WordCrud;
 
 
 public class WordRm:
