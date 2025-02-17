@@ -1,4 +1,4 @@
-using ngaq.Core.model.wordIF;
+using ngaq.Core.Model.wordIF;
 
 namespace ngaq.Core.Svc.Crud.WordCrud.IF;
 

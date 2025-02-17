@@ -1,7 +1,7 @@
-using ngaq.Core.model.consts;
+using ngaq.Core.Model.consts;
 using ngaq.model.consts;
 
-namespace ngaq.Core.model.sample;
+namespace ngaq.Core.Model.sample;
 
 public class LearnsSample{
 	public static LearnsSample? inst = null;

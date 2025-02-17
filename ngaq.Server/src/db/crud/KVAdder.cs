@@ -1,6 +1,6 @@
 using ngaq.Server.db.ngaq4;
 using ngaq.Core.Svc.ngaq4;
-using ngaq.Core.model;
+using ngaq.Core.Model;
 using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Storage;
 using db;

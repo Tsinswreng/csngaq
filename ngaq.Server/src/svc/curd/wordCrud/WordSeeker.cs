@@ -2,10 +2,11 @@
 using db;
 using Microsoft.EntityFrameworkCore;
 using model.consts;
-using ngaq.Core.model;
-using ngaq.Core.model.wordIF;
+using ngaq.Core.Model;
+using ngaq.Core.Model.wordIF;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.model.consts;
+using Shr.Exception;
 
 namespace ngaq.Server.Svc.Crud.WordCrud;
 
@@ -40,16 +41,19 @@ public class WordSeeker:
 
 		var textWords = await dbCtx.WordKV.Where(
 			e=>e.id == id
-			//&& (e.bl??"").StartsWith(BlPrefix.TextWord)
+			//&& (e.bl??"").StartsWith(BlPrefix.TextWord) //今架構 textWord與他物 共存于一表中 則不需此
 		).ToListAsync();
 
 		if(textWords.Count == 0){
 			return null;
 		}
 		if(textWords.Count > 1){
-			throw new Exception("id: "+id+"\nMultiple text words found for the same id.");
+			throw new FatalLogicError("id: "+id+"\nMultiple text words found for the same id.");
 		}
 		var textWord = textWords[0];
+		// if(textWord.bl.StartsWith(BlPrefix.TextWord) == false){
+
+		// }
 
 		IList<I_LearnKv> learns = await dbCtx.WordKV.Where(e=>
 			e.kI64 == textWord.id

@@ -1,6 +1,6 @@
-using ngaq.Core.model.consts;
+using ngaq.Core.Model.consts;
 
-namespace ngaq.Core.model.sample;
+namespace ngaq.Core.Model.sample;
 
 public class PropertysSample{
 	public static PropertysSample? inst = null;

@@ -1,4 +1,4 @@
-namespace ngaq.Core.model.ngaq4;
+namespace ngaq.Core.Model.ngaq4;
 
 public class Property4 : IdBlCtMt4{
 	public i64 wid{get;set;}

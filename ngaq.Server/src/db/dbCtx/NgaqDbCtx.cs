@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using ngaq.Core.model;
+using ngaq.Core.Model;
 using model.consts;
 
 namespace db;

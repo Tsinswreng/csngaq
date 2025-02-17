@@ -1,7 +1,7 @@
 using model.consts;
 using ngaq.model.consts;
 
-namespace ngaq.Core.model;
+namespace ngaq.Core.Model;
 
 public static class TextWordKvExt{
 	public static str text_(this I_TextWordKV z){

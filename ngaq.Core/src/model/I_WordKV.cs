@@ -1,6 +1,6 @@
 using model;
 
-namespace ngaq.Core.model;
+namespace ngaq.Core.Model;
 
 public interface I_WordKv : I_KVRow {
 

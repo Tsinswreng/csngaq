@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ngaq.Core.model;
+namespace ngaq.Core.Model;
 
 using Id_t = str;
 /*

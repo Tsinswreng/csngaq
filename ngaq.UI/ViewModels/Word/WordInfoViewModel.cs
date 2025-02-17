@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ngaq.Core.model;
-using ngaq.Core.model.consts;
-using ngaq.Core.model.wordIF;
+using ngaq.Core.Model;
+using ngaq.Core.Model.consts;
+using ngaq.Core.Model.wordIF;
 using ngaq.model.consts;
 using ngaq.UI.ViewModels;
 using ngaq.UI.Views.Word;

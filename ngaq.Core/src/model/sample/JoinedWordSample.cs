@@ -1,8 +1,8 @@
 using model.consts;
-using ngaq.Core.model.consts;
-using ngaq.Core.model.wordIF;
+using ngaq.Core.Model.consts;
+using ngaq.Core.Model.wordIF;
 using ngaq.model.consts;
-namespace ngaq.Core.model.sample;
+namespace ngaq.Core.Model.sample;
 
 public class JoinedWordSample{
 

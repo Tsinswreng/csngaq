@@ -31,11 +31,13 @@ public partial class WordCrudVm
 
 	public async Task<zero> seekFullWordKvByIdAsync(){
 		try{
-			//
-			G.log(wordSeeker==null);
-			G.log(wordSeeker);
-			var ans = await wordSeeker.SeekFullWordKVByIdAsy(116998);
-			G.logJson(ans);
+			var inputIdNum = i64.Parse(searchId);
+			var ans = await wordSeeker.SeekFullWordKVByIdAsy(inputIdNum);
+			if(ans == null){
+				//TODO
+				return 0;
+			}
+			fullWordKvVm.fromModel(ans);
 		}
 		catch (System.Exception e){
 			G.log(e);

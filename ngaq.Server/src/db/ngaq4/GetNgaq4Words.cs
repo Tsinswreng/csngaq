@@ -3,8 +3,8 @@ sqlite select * from textWord 返回對象作爲csharp TextWord對象
  */
 
 using System.Data.SQLite;
-using ngaq.Core.model;
-using ngaq.Core.model.ngaq4;
+using ngaq.Core.Model;
+using ngaq.Core.Model.ngaq4;
 using Dapper;
 namespace ngaq.Server.db.ngaq4;
 

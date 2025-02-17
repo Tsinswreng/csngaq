@@ -1,5 +1,5 @@
-using ngaq.Core.model;
-using ngaq.Core.model.wordIF;
+using ngaq.Core.Model;
+using ngaq.Core.Model.wordIF;
 
 namespace ngaq.Core.Svc.word.wordMerger;
 

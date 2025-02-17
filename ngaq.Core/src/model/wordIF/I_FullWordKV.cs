@@ -1,4 +1,4 @@
-namespace ngaq.Core.model.wordIF;
+namespace ngaq.Core.Model.wordIF;
 
 public interface I_FullWordKv{
 	public I_TextWordKV textWord{get;set;}

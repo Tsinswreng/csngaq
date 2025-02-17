@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using model;
 using model.consts;
 
-namespace ngaq.Core.model;
+namespace ngaq.Core.Model;
 
 public class KV : RowBaseInfo, I_KVRow {
 	/** TEXT, INT */

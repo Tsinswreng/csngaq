@@ -1,7 +1,7 @@
 ///KVExt 类提供了扩展方法，用于设置实现 I_KV 接口的对象的键值对的字符串和64位整数类型。
 using model.consts;
 
-namespace ngaq.Core.model;
+namespace ngaq.Core.Model;
 
 public static class KVExt {
 
@@ -28,4 +28,6 @@ public static class KVExt {
 		kv.vType = KVType.I64.ToString();
 		return 0;
 	}
+
+
 }

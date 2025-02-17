@@ -5,7 +5,7 @@ using Avalonia.Interactivity;
 using ngaq.UI.ViewModels;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using ngaq.Core.model.sample;
+using ngaq.Core.Model.sample;
 using ngaq.UI.ViewModels.Word;
 
 namespace ngaq.UI.Views.Word;

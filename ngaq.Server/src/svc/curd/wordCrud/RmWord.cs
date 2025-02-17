@@ -1,12 +1,12 @@
-using ngaq.Core.model;
+using ngaq.Core.Model;
 using ngaq.Core.Svc.Crud;
 using ngaq.Server.db.crud;
 using ngaq.model.consts;
-using ngaq.Core.model.wordIF;
+using ngaq.Core.Model.wordIF;
 using tools.IF;
 using ngaq.Server.Db.Crud.IF;
 using Microsoft.EntityFrameworkCore.Storage;
-using ngaq.Core.model.consts;
+using ngaq.Core.Model.consts;
 using model.consts;
 using ngaq.Core.Svc;
 using db;

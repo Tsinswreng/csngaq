@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using ngaq.Core.model;
-using ngaq.Core.model.sample;
+using ngaq.Core.Model;
+using ngaq.Core.Model.sample;
 using ngaq.UI.ViewModels.KV;
 
 namespace ngaq.UI.Views.KV;

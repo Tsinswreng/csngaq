@@ -1,6 +1,6 @@
 ///舊版單詞對象轉換為新版Key-Value格式
-using ngaq.Core.model.ngaq4;
-using ngaq.Core.model;
+using ngaq.Core.Model.ngaq4;
+using ngaq.Core.Model;
 using model;
 using ngaq.model.consts;
 using model.consts;
