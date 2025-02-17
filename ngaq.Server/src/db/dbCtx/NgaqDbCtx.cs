@@ -48,7 +48,7 @@ public class NgaqDbCtx : DbContext
 		var dir = G.getBaseDir()+"/../db";
 		//TODO 使同exe之目錄
 		var path = dir+"/csngaq.sqlite";
-		G.log(path);//t
+		//G.log(path);//t
 		std.IO.Directory.CreateDirectory(dir); // TODO不效
 		optionsBuilder.UseSqlite($"Data Source={path}");
 	}

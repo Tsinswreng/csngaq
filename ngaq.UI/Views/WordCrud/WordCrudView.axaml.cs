@@ -11,7 +11,7 @@ namespace ngaq.UI.Views.WordCrud;
 
 public partial class WordCrudView : UserControl{
 	public WordCrudView(){
-		InitializeComponent();
+		//InitializeComponent();
 		//this.DataContext = new WordCrudVm();
 		this.DataContext = App.ServiceProvider.GetRequiredService<WordCrudVm>();
 		_render();
@@ -27,10 +27,10 @@ public partial class WordCrudView : UserControl{
 		if(ctx == null){
 			return 0;
 		}
-		var root = z.FindControl<UserControl>("Root");
-		if(root == null){
-			throw new System.Exception("Root control not found.");
-		}
+		// var root = z.FindControl<UserControl>("Root");
+		// if(root == null){
+		// 	throw new System.Exception("Root control not found.");
+		// }
 		var stackPanelHori = new StackPanel(){
 			Orientation=Orientation.Horizontal
 		};
@@ -102,7 +102,7 @@ public partial class WordCrudView : UserControl{
 			stackPanelHori.Children.Add(fullWordKvView);
 
 		}}//~stackPanel:StackPanel
-		root.Content = stackPanelHori;
+		this.Content = stackPanelHori;
 		return 0;
 	}
 }
