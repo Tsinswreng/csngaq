@@ -28,13 +28,13 @@ public class WordMerger:
 	}
 
 	public NgaqDbCtx dbCtx{get;set;} = new();
-	public I_SeekJoinedWordKVById wordSeeker{get;set;}//TODO
+	public I_SeekFullWordKVByIdAsy wordSeeker{get;set;}//TODO
 
 	public I_mergeWord wordMergerTool{get;set;} = WordMergerTool.getInst();
 
-	public I_Rm<I_FullWordKv> wordRm = new WordRm();
+	public I_RmAsy<I_FullWordKv> wordRm = new WordRm();
 
-	public I_Upd<I_FullWordKv> wordUpd = new WordUpdater();
+	public I_UpdAsy<I_FullWordKv> wordUpd = new WordUpdater();
 
 
 	/// <summary>
@@ -55,8 +55,8 @@ public class WordMerger:
 		// 	return 0;
 		// }
 		wordMergerTool.mergeWord(word1, word2);
-		await wordUpd.Upd(word1);
-		await wordRm.Rm(word2);
+		await wordUpd.UpdAsy(word1);
+		await wordRm.RmAsy(word2);
 		return 0;
 	}
 

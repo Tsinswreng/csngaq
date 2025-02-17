@@ -5810,3 +5810,93 @@ textWordVm是ViewModel的屬性名稱 已經定義好了
 #
 [2025-02-16T17:55:53.282+08:00_W7-7]
 avalonia中、無狀態的東西放在axaml.cs、有狀態的東西放在ViewModel 對嗎
+
+
+#
+[2025-02-16T18:34:50.072+08:00_W7-7]
+我有一個前後端分離的跨平臺Avalonia項目。
+項目結構:
+ngaq.Core: 放通用代碼
+ngaq.UI: 放通用UI代碼
+ngaq.Server: 放後端代碼 涉及數據庫操作等
+ngaq.Desktop: 放桌面端代碼
+ngaq.Browser: 放瀏覽器端代碼
+
+當生成目標爲桌面端時、前端可以直接通函數調用訪問後端API。
+當生成目標爲瀏覽器端時、前端可以通過網絡請求調用後端API。
+
+我的想法是把API抽象成統一的接口、然後根據平臺用不同的實現。
+但具體怎麼操作? 或者有別有別的做法?
+
+##
+
+
+
+#
+[2025-02-16T21:18:29.655+08:00_W7-7]
+c# MS extensions的 依賴注入 只能從構造函數注入嗎?
+##
+在 C# 中使用 Microsoft 擴充套件 (MS Extensions) 進行依賴注入時,您可以透過以下幾種方式注入依賴:
+
+1. **建構函式注入 (Constructor Injection)**: 這是最常見的注入方式,您可以在類別的建構函式中宣告所需的依賴項目。這樣可以確保類別在建立時就有所需的依賴項目。
+
+2. **屬性注入 (Property Injection)**: 您也可以透過類別的公開屬性來注入依賴項目。這種方式可以讓類別在建立後再設定依賴項目。
+
+3. **方法注入 (Method Injection)**: 您可以在類別的公開方法中宣告所需的依賴項目。這種方式可以讓您在需要使用依賴項目時再注入。
+
+4. **介面注入 (Interface Injection)**: 您可以定義一個介面,並在類別中實作該介面。然後在容器中註冊該介面的實作,容器就會在建立類別時自動注入該實作。
+
+總之,在使用 MS Extensions 進行依賴注入時,您不僅可以使用建構函式注入,也可以使用其他方式來注入依賴項目。選擇哪種方式取決於您的需求和設計模式。
+
+
+#
+[2025-02-17T10:14:27.744+08:00_W8-1]
+```cs
+enum Week{
+	Monday
+}
+
+class A{
+	void a(){
+		var w = Week.Monday.ToString();
+		var w2 = nameof(Week.Monday);
+	}
+}
+```
+哪種更好
+## ds
+>嗯，用户的问题是关于在C#代码中，使用`Week.Monday.ToString()`和`nameof(Week.Monday)`两种方法哪种更好。我需要结合我搜索到的资料来分析这两种方法的优缺点，然后给出建议。
+>
+>首先看证据。提到在C#中，使用类的ToString方法可以覆盖，提供更友好的输出，而枚举可能需要额外的工作比如特性标记来返回描述性字符串。例如，在C#中，如果枚举使用EnumDescription特性，可以返回“星期一”，否则ToString()返回枚举名称如Monday。而如果使用类代替枚举，可以直接重写ToString方法来返回需要的字符串。这说明如果枚举没有自定义ToString，直接调用ToString()得到的是枚举成员的名称字符串，而nameof运算符直接获取成员的名称，不会经过ToString的重写。
+>
+>讨论了Java中name()和toString()的区别，其中name()返回枚举常量的声明名称，而toString()可以被重写以返回更友好的名称。例如，当重写toString()后，name()返回MONDAY，而toString()返回Monday。这说明在Java中，如果希望得到更友好的名称，可以重写toString()，否则name()和默认的toString()结果可能相同。但用户的问题是关于C#的，不过类似的逻辑可能适用。
+>
+>和提到在C#中，枚举的ToString()方法返回枚举常量的名称字符串，而nameof运算符返回变量或成员的名称。例如，DayOfWeek.Thursday.ToString()返回“Thursday”，而nameof(Week.Monday)返回“Monday”。这里需要注意的是，nameof的参数是类型成员，因此nameof(Week.Monday)直接返回字符串“Monday”，而ToString()依赖于枚举的实现。如果枚举未重写ToString()，则两者结果相同，但如果有自定义ToString()，结果可能不同。
+>
+>和提到C#中枚举的ToString()方法以及Enum类的其他方法，如GetName，可以用来获取名称。但nameof在编译时确定，而ToString()在运行时解析，可能有性能差异。此外，建议在某些情况下使用类代替枚举，以便更好地控制ToString()的输出，但需要权衡效率和需求。
+>
+>总结：在C#中，Week.Monday.ToString()会返回枚举值的字符串表示，如果枚举没有重写ToString()，则默认返回成员名称，即"Monday"。而nameof(Week.Monday)在编译时直接获取成员名称字符串，结果也是"Monday"。两者的结果在默认情况下相同，但ToString()可以被重写以返回不同的值，而nameof不受影响。因此，如果希望始终获取成员名称，使用nameof更可靠且高效，因为编译时确定，不需要运行时解析。而如果需要依赖可能的自定义ToString()实现，如返回本地化或其他格式，则用ToString()。但根据的建议，如果枚举未重写ToString()，并且需要确保名称的准确性，nameof更优。
+>
+
+在C#中，`nameof(Week.Monday)`比`Week.Monday.ToString()`更推荐使用，原因如下：
+
+1. **编译时确定性与性能**
+   `nameof`是编译时操作，直接提取成员名称字符串，不涉及运行时解析。而`ToString()`需要在运行时动态生成字符串，可能存在性能开销。
+
+2. **避免重写方法的干扰**
+   如果枚举类型重写了`ToString()`方法（例如返回本地化名称或自定义格式），`ToString()`的结果可能与成员名称不一致。例如，若`Week.Monday`的`ToString()`被重写为返回“星期一”，则与`nameof`的结果“Monday”不同。若需严格获取枚举成员的原始名称，应使用`nameof`。
+
+3. **代码可维护性**
+   `nameof`直接引用成员名称，当枚举成员名称修改时，编译器会提示错误，减少重构风险。而`ToString()`的字符串输出与成员名称是隐式关联的，修改成员名称后需手动检查所有相关代码。
+
+**适用场景对比**：
+- 若需**固定输出成员名称**（如日志记录、序列化等），优先用`nameof`。
+- 若需要**自定义显示文本**（如本地化或格式化），应重写`ToString()`并调用它。
+
+综上，在问题中的代码场景下，`nameof(Week.Monday)`是更可靠且高效的选择。
+
+
+#
+[2025-02-17T10:24:05.211+08:00_W8-1]
+c# 依賴注入 使I_SeekFullWordKVByIdAsy接口對應的實現類是WordSeeker 怎麼寫
+##

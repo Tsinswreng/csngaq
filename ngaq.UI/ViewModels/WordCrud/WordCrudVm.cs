@@ -20,7 +20,7 @@ public partial class WordCrudVm
 		set => SetProperty(ref _fullWordKvVm, value);
 	}
 
-
+	
 
 
 

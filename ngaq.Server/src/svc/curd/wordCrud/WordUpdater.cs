@@ -16,7 +16,7 @@ namespace ngaq.Server.Svc.Crud.WordCrud;
 public class WordUpdater:
 	IDisposable
 	,I_SetTx_DbCtx
-	,I_Upd<I_FullWordKv>
+	,I_UpdAsy<I_FullWordKv>
 {
 	public WordUpdater() {
 
@@ -36,7 +36,7 @@ public class WordUpdater:
 		return 0;
 	}
 
-	public async Task<zero> Upd(I_FullWordKv word){
+	public async Task<zero> UpdAsy(I_FullWordKv word){
 		dbCtx.Update(word.textWord);
 		dbCtx.UpdateRange(word.propertys);
 		dbCtx.UpdateRange(word.learns);

@@ -11,7 +11,7 @@ namespace ngaq.Server.Svc.Crud.WordCrud;
 
 public class WordSeeker:
 	IDisposable
-	,I_SeekJoinedWordKVById
+	,I_SeekFullWordKVByIdAsy
 {
 	public WordSeeker() {
 
@@ -26,10 +26,10 @@ public class WordSeeker:
 
 	public NgaqDbCtx dbCtx{get;set;} = new();
 
-	public async Task< I_FullWordKv? > SeekJoinedWordKVById(i64 id){
+	public async Task< I_FullWordKv? > SeekFullWordKVByIdAsy(i64 id){
 		var textWords = await dbCtx.WordKV.Where(
 			e=>e.id == id
-			&& e.bl.StartsWith(BlPrefix.TextWord)
+			&& (e.bl??"").StartsWith(BlPrefix.TextWord)
 		).ToListAsync();
 		if(textWords.Count == 0){
 			return null;
@@ -40,13 +40,13 @@ public class WordSeeker:
 		var textWord = textWords[0];
 		var learns = await dbCtx.WordKV.Where(e=>
 			e.kI64 == textWord.id
-			&& e.bl.StartsWith(BlPrefix.Learn)
+			&& (e.bl??"").StartsWith(BlPrefix.Learn)
 			&& e.kDesc == KDesc.fKey.ToString()
 		).ToListAsync();
 
 		var propertys = await dbCtx.WordKV.Where(e=>
 			e.kI64 == textWord.id
-			&& e.bl.StartsWith(BlPrefix.Property)
+			&& (e.bl??"").StartsWith(BlPrefix.Property)
 			&& e.kDesc == KDesc.fKey.ToString()
 		).ToListAsync();
 
@@ -82,7 +82,7 @@ public class WordSeeker:
 			);
 		}
 		var textWordId = textWordIds[0];
-		var ans = await SeekJoinedWordKVById(textWordId);
+		var ans = await SeekFullWordKVByIdAsy(textWordId);
 		return ans;
 	}
 }

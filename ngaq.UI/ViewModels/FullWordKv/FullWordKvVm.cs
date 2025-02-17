@@ -17,6 +17,10 @@ public class Person{
 	public int Age{get;set;} = 0;
 }
 
+
+
+
+
 public partial class FullWordKvVm
 	:ViewModelBase
 	,I_ViewModel<I_FullWordKv>

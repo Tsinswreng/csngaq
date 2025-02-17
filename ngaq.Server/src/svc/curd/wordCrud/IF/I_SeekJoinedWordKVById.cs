@@ -2,6 +2,6 @@ using ngaq.Core.model.wordIF;
 
 namespace ngaq.Server.Svc.Crud.WordCrud.IF;
 
-public interface I_SeekJoinedWordKVById {
-	Task< I_FullWordKv? > SeekJoinedWordKVById(i64 id);
+public interface I_SeekFullWordKVByIdAsy {
+	Task< I_FullWordKv? > SeekFullWordKVByIdAsy(i64 id);
 }
