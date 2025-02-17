@@ -7,9 +7,11 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using ngaq.Core.Model.sample;
 using ngaq.UI.ViewModels.Word;
+using System;
 
 namespace ngaq.UI.Views.Word;
 
+[Obsolete]
 public partial class WordInfoView : UserControl {
 	public WordInfoView() {
 		InitializeComponent();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ngaq.Core.Model;
@@ -9,7 +10,7 @@ using ngaq.UI.Views.Word;
 using tools;
 
 namespace ngaq.UI.ViewModels.Word;
-
+[Obsolete]
 public partial class WordInfoViewModel :
 	ViewModelBase
 	,I_RowBaseInfo
