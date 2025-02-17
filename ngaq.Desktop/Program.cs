@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Microsoft.Extensions.DependencyInjection;
 using ngaq.UI;
 namespace ngaq.Desktop;
 
@@ -9,6 +10,8 @@ sealed class Program {
 	// yet and stuff might break.
 	[STAThread]
 	public static void Main(string[] args){
+		var services = new ServiceCollection();
+		new Setup().ConfigureServices(services);
 		BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
 	}
 

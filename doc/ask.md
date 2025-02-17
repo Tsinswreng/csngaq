@@ -6046,3 +6046,27 @@ public class SomeClass
 - **未启用 CPM**：未集中管理包版本，导致每个子项目需单独安装依赖。
 
 通过上述步骤，你可以将依赖信息集中到根目录的 `Directory.Packages.props`，并确保所有项目正确引用包。
+
+
+
+#
+[2025-02-17T11:09:54.183+08:00_W8-1]
+我有一個前後端分離的跨平臺Avalonia項目。
+項目結構:
+ngaq.Core: 放通用代碼
+ngaq.UI: 放通用UI代碼
+ngaq.Server: 放後端代碼 涉及數據庫操作等
+ngaq.Desktop: 放桌面端代碼
+ngaq.Browser: 放瀏覽器端代碼
+
+當生成目標爲桌面端時、前端可以直接通函數調用訪問後端API。
+當生成目標爲瀏覽器端時、前端可以通過網絡請求調用後端API。
+
+我的想法是把API抽象成統一的接口、然後根據平臺用不同的實現。
+比如ngaq.Desktop直接走函數調用來調用ngaq.Server的API。
+配置依賴注入 需要直接在前端項目的csproj中用ProjectReference來引來ngaq.Server嗎?
+
+##
+
+#
+[2025-02-17T11:09:49.839+08:00_W8-1]

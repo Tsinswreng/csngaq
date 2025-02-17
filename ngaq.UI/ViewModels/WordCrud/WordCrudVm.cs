@@ -7,6 +7,11 @@ public partial class WordCrudVm
 	:ViewModelBase
 {
 
+	public WordCrudVm(){}
+	public WordCrudVm(){
+
+	}
+
 
 	protected str _searchId="init";
 	public str searchId{
@@ -20,7 +25,7 @@ public partial class WordCrudVm
 		set => SetProperty(ref _fullWordKvVm, value);
 	}
 
-	
+
 
 
 

@@ -3,8 +3,8 @@ using db;
 using model.consts;
 using ngaq.Core.model;
 using ngaq.Core.model.wordIF;
+using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.model.consts;
-using ngaq.Server.Svc.Crud.WordCrud.IF;
 
 namespace ngaq.Server.Svc.Crud.WordCrud;
 
