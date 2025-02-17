@@ -11,7 +11,7 @@ public class PropertysSample{
 		return inst;
 	}
 
-	public IList<I_PropertyKV> sample{get;set;}
+	public IList<I_PropertyKv> sample{get;set;}
 
 	public PropertysSample(){
 		sample = null!;
@@ -19,9 +19,9 @@ public class PropertysSample{
 	}
 
 	protected zero _init(){
-		sample = new List<I_PropertyKV>();
+		sample = new List<I_PropertyKv>();
 
-		I_PropertyKV mean1 = new WordKV();
+		I_PropertyKv mean1 = new WordKv();
 		mean1.id = 293;
 		mean1.wid_(  TextWordSample.getInst().sample.id  );
 		mean1.setStr(
@@ -39,7 +39,7 @@ mean2
 		sample.Add(mean1);
 
 
-		I_PropertyKV mean2 = new WordKV();
+		I_PropertyKv mean2 = new WordKv();
 		mean2.id = 482;
 		mean2.wid_(  TextWordSample.getInst().sample.id  );
 
@@ -59,7 +59,7 @@ mean2
 
 
 
-		I_PropertyKV source = new WordKV();
+		I_PropertyKv source = new WordKv();
 		source.id = 387;
 
 		source.wid_(  TextWordSample.getInst().sample.id  );

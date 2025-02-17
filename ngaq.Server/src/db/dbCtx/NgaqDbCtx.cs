@@ -7,7 +7,7 @@ namespace db;
 
 public class NgaqDbCtx : DbContext
 {
-	public DbSet<WordKV> WordKV { get; set; } = null!;
+	public DbSet<WordKv> WordKV { get; set; } = null!;
 	public DbSet<_KV> _KV{get;set;} = null!;
 
 	protected code _configKV<T>(ModelBuilder mb) where T : class, I_KV {
@@ -34,9 +34,9 @@ public class NgaqDbCtx : DbContext
 
 	protected override void OnModelCreating(ModelBuilder mb){
 		base.OnModelCreating(mb);
-		mb.Entity<WordKV>().ToTable(nameof(WordKV)); //public class WordKV : KV{}、mb.Entity<WordKV>().ToTable(nameof(WordKV));不可、子類無物
-		_configIdBlCtUt<WordKV>(mb);
-		_configKV<WordKV>(mb);
+		mb.Entity<WordKv>().ToTable(nameof(WordKV)); //public class WordKV : KV{}、mb.Entity<WordKV>().ToTable(nameof(WordKV));不可、子類無物
+		_configIdBlCtUt<WordKv>(mb);
+		_configKV<WordKv>(mb);
 
 		mb.Entity<_KV>().ToTable(nameof(_KV));
 		_configIdBlCtUt<_KV>(mb);
@@ -45,9 +45,10 @@ public class NgaqDbCtx : DbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
 		// 在這裡配置您的數據庫連接字符串
-		var dir = G.getBaseDir()+"/db";
+		var dir = G.getBaseDir()+"/../db";
 		//TODO 使同exe之目錄
 		var path = dir+"/csngaq.sqlite";
+		G.log(path);//t
 		std.IO.Directory.CreateDirectory(dir); // TODO不效
 		optionsBuilder.UseSqlite($"Data Source={path}");
 	}

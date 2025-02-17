@@ -460,3 +460,4 @@ trash/
 
 *-shm
 *-wal
+*.sqlite

@@ -19,7 +19,7 @@ public class TextWordSample{
 	}
 
 	protected zero _init(){
- 		sample= new WordKV(){
+ 		sample= new WordKv(){
 			id = 1
 			//,bl = "english"
 			,ct = 1707866373693

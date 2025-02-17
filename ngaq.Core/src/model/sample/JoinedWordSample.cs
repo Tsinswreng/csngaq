@@ -26,7 +26,7 @@ public class JoinedWordSample{
 	// 	)
 	// };
 
-	public I_PropertyKV property { get; set; } = (I_PropertyKV)new WordKV(){
+	public I_PropertyKv property { get; set; } = (I_PropertyKv)new WordKv(){
 		id = 0
 		,kI64 = 0
 		,kDesc = KDesc.fKey.ToString()
@@ -45,7 +45,7 @@ adj.	敢于冒險的；大膽的
 """
 	};
 
-	public I_LearnKV learn {get;set;} = (I_LearnKV)new WordKV(){
+	public I_LearnKv learn {get;set;} = (I_LearnKv)new WordKv(){
 		id = 0
 		,kI64 = 0
 		,kDesc = KDesc.fKey.ToString()

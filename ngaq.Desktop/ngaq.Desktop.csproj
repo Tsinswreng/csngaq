@@ -8,7 +8,7 @@
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 
 <!-- test -->
-		<PublishAot>true</PublishAot>
+		<!-- <PublishAot>true</PublishAot> -->
 		<PublishSingleFile>true</PublishSingleFile>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<!-- dotnet publish -c Release -r win-x64 -->

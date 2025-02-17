@@ -12,7 +12,7 @@ public class DiffWord{
 	 * @param w2 已有者
 	 * @returns 未加過之prop
 	 */
-	public List<I_PropertyKV> diffProperty(
+	public List<I_PropertyKv> diffProperty(
 		I_FullWordKv w1
 		,I_FullWordKv w2
 	){
@@ -29,7 +29,7 @@ public class DiffWord{
 			,w2.propertys
 			,(e)=>e.ut
 		);
-		List<I_PropertyKV> ans = [];
+		List<I_PropertyKv> ans = [];
 		foreach(var kvp in diff){
 			ans.AddRange(kvp.Value);
 		}

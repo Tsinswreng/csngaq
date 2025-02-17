@@ -49,11 +49,11 @@ public static class WidKVExt{
 
 
 public static class LearnKvExt{
-	public static str learnResult_(this I_LearnKV o){
+	public static str learnResult_(this I_LearnKv o){
 		return o.vStr??"";
 	}
 
-	public static zero learnResult_(this I_LearnKV o, str value){
+	public static zero learnResult_(this I_LearnKv o, str value){
 		//o.vStr = value;
 		o.vStr_(value);
 		return 0;
@@ -62,7 +62,7 @@ public static class LearnKvExt{
 
 
 public static class PropertyKvExt{
-	public static zero setStr(this I_PropertyKV z, str bl, str val){
+	public static zero setStr(this I_PropertyKv z, str bl, str val){
 		z.bl = BlPrefix.join(BlPrefix.Property,bl);
 		z.vStr_(val);
 		return 0;

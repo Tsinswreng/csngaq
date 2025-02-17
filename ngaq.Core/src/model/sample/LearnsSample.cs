@@ -12,7 +12,7 @@ public class LearnsSample{
 		return inst;
 	}
 
-	public IList<I_LearnKV> sample{get;set;}
+	public IList<I_LearnKv> sample{get;set;}
 
 	public LearnsSample(){
 		sample = null!;
@@ -21,28 +21,28 @@ public class LearnsSample{
 
 	protected zero _init(){
 
-		sample = new List<I_LearnKV>();
+		sample = new List<I_LearnKv>();
 
-		I_LearnKV l1 = new WordKV();
+		I_LearnKv l1 = new WordKv();
 		l1.id = 419;
 		l1.bl = BlPrefix.join(BlPrefix.Learn, "");
 		l1.wid_(  TextWordSample.getInst().sample.id  );
 		l1.learnResult_(LearnEnum.add.ToString());
 
-		I_LearnKV l2 = new WordKV();
+		I_LearnKv l2 = new WordKv();
 		l2.id = 826;
 		l2.bl = BlPrefix.join(BlPrefix.Learn, "");
 		l2.wid_(  TextWordSample.getInst().sample.id  );
 		l2.learnResult_(LearnEnum.fgt.ToString());
 
-		I_LearnKV l3 = new WordKV();
+		I_LearnKv l3 = new WordKv();
 		l3.id = 428;
 		l3.bl = BlPrefix.join(BlPrefix.Learn, "");
 		l3.wid_(  TextWordSample.getInst().sample.id  );
 		l3.learnResult_(LearnEnum.rmb.ToString());
 
 
-		I_LearnKV l4 = new WordKV();
+		I_LearnKv l4 = new WordKv();
 		l4.id = 468;
 		l4.bl = BlPrefix.join(BlPrefix.Learn, "");
 		l4.wid_(  TextWordSample.getInst().sample.id  );

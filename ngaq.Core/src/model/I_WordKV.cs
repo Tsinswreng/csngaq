@@ -23,10 +23,10 @@ public interface I_TextWordKV : I_WordKv {}
 /// when bl is Property:<mean|tag|...>
 /// kI64用于存外鍵。Property之類型ˋ存于bl中、如Property:mean、洏非在kStr中。
 /// </summary>
-public interface I_PropertyKV : I_WordKv, I_widKV {}
+public interface I_PropertyKv : I_WordKv, I_widKV {}
 
 /// <summary>
 /// when bl is Learn:<null>
 /// </summary>
 
-public interface I_LearnKV : I_WordKv, I_widKV {}
+public interface I_LearnKv : I_WordKv, I_widKV {}

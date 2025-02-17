@@ -52,8 +52,8 @@ public partial class FullWordKvVm
 			_model = new FullWord();
 		}
 		_model.textWord = (I_TextWordKV)textWordVm.toModel();
-		_model.propertys = (IList<I_PropertyKV>)propertyVms.Select(e=>e.toModel()).ToList();
-		_model.learns = (IList<I_LearnKV>)learnVms.Select(e=>e.toModel()).ToList();
+		_model.propertys = (IList<I_PropertyKv>)propertyVms.Select(e=>e.toModel()).ToList();
+		_model.learns = (IList<I_LearnKv>)learnVms.Select(e=>e.toModel()).ToList();
 		return _model;
 	}
 

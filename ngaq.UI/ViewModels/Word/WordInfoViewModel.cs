@@ -99,7 +99,7 @@ public partial class WordInfoViewModel :
 		return 0;
 	}
 
-	public Dictionary<str, IList<I_PropertyKV>> bl_props{get;set;}
+	public Dictionary<str, IList<I_PropertyKv>> bl_props{get;set;}
 
 	public I_FullWordKv? fullWordKv{get;set;}
 

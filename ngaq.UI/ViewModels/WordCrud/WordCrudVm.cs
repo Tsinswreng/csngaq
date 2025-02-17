@@ -32,12 +32,10 @@ public partial class WordCrudVm
 	public async Task<zero> seekFullWordKvByIdAsync(){
 		try{
 			//
-			G.log(1);
 			G.log(wordSeeker==null);
 			G.log(wordSeeker);
-			// var ans = await wordSeeker.SeekFullWordKVByIdAsy(1);
-			// G.log(ans.ToString());
-			//G.logJson(ans);
+			var ans = await wordSeeker.SeekFullWordKVByIdAsy(116998);
+			G.logJson(ans);
 		}
 		catch (System.Exception e){
 			G.log(e);
@@ -45,8 +43,4 @@ public partial class WordCrudVm
 		}
 		return 0;
 	}
-
-
-
-
 }

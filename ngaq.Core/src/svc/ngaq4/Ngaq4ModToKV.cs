@@ -15,7 +15,7 @@ public class Ngaq4ModToWordKV{
 	}
 
 	public I_KVRow convertTextWord(TextWord4 o){
-		I_KVRow kv = new WordKV();
+		I_KVRow kv = new WordKv();
 		assignIdCtMt(kv, o);
 		kv.kStr = o.text;
 		kv.bl = BlPrefix.join(BlPrefix.TextWord, o.belong);
@@ -23,7 +23,7 @@ public class Ngaq4ModToWordKV{
 	}
 
 	public I_KVRow convertProperty(Property4 o){
-		I_KVRow kv = new WordKV();
+		I_KVRow kv = new WordKv();
 		assignIdCtMt(kv, o);
 		kv.vStr_(o.text);
 		kv.bl = BlPrefix.join(BlPrefix.Property, o.belong);
@@ -33,7 +33,7 @@ public class Ngaq4ModToWordKV{
 	}
 
 	public I_KVRow convertLearn(Learn4 o){
-		I_KVRow kv = new WordKV();
+		I_KVRow kv = new WordKv();
 		assignIdCtMt(kv, o);
 		kv.bl = BlPrefix.join(BlPrefix.Learn, "");
 		kv.vStr_(o.belong);

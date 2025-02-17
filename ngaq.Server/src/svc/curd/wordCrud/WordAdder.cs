@@ -55,8 +55,8 @@ public class WordAdder:
 	/// </summary>
 	/// <param name="id"></param>
 	/// <returns></returns>
-	protected I_LearnKV mkLearnKV_add(i64 id){
-		var learn = new WordKV(){
+	protected I_LearnKv mkLearnKV_add(i64 id){
+		var learn = new WordKv(){
 			bl = BlPrefix.join(BlPrefix.Learn, "")
 		};
 		learn.vStr_(LearnEnum.add.ToString());
@@ -64,7 +64,7 @@ public class WordAdder:
 		learn.kDesc = KDesc.fKey.ToString();
 		learn.ct = getUnixTimeMillis();
 		learn.ut = getUnixTimeMillis();
-		return (I_LearnKV)learn;
+		return (I_LearnKv)learn;
 	}
 
 /// <summary>

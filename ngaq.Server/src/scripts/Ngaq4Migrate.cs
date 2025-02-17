@@ -18,7 +18,7 @@ public class Ngaq4Migrate{
 		// 	G.logJson(word);
 		// }
 		var joinedWord = ngaq4Db.GetAllJoinedWords();
-		using(var kvAdder = new KVAdder(nameof(WordKV))){
+		using(var kvAdder = new KVAdder(nameof(WordKv))){
 			await kvAdder.Begin();
 
 			for(var i = 0; i < joinedWord.Count; i++){

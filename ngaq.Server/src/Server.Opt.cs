@@ -11,5 +11,5 @@ public class Opt{
 		}
 		return _inst;
 	}
-	public str tblName_WordKV {get; set;} = nameof(WordKV);
+	public str tblName_WordKV {get; set;} = nameof(WordKv);
 }

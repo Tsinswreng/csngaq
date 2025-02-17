@@ -1,5 +1,6 @@
-using System.Data.Entity;
+//using System.Data.Entity;
 using db;
+using Microsoft.EntityFrameworkCore;
 using model.consts;
 using ngaq.Core.model;
 using ngaq.Core.model.wordIF;
@@ -27,10 +28,21 @@ public class WordSeeker:
 	public NgaqDbCtx dbCtx{get;set;} = new();
 
 	public async Task< I_FullWordKv? > SeekFullWordKVByIdAsy(i64 id){
+		// var all = await dbCtx.WordKV.ToListAsync();//+
+		// for(u64 i = 0; i < (u64)all.Count; i++){
+		// 	var e = all[(int)i];
+		// 	G.log(e.id);
+		// 	if(e.id == id){
+		// 		G.logJson(e);
+		// 		break;
+		// 	}
+		// }
+
 		var textWords = await dbCtx.WordKV.Where(
 			e=>e.id == id
-			&& (e.bl??"").StartsWith(BlPrefix.TextWord)
+			//&& (e.bl??"").StartsWith(BlPrefix.TextWord)
 		).ToListAsync();
+
 		if(textWords.Count == 0){
 			return null;
 		}
@@ -38,22 +50,25 @@ public class WordSeeker:
 			throw new Exception("id: "+id+"\nMultiple text words found for the same id.");
 		}
 		var textWord = textWords[0];
-		var learns = await dbCtx.WordKV.Where(e=>
+
+		IList<I_LearnKv> learns = await dbCtx.WordKV.Where(e=>
 			e.kI64 == textWord.id
 			&& (e.bl??"").StartsWith(BlPrefix.Learn)
 			&& e.kDesc == KDesc.fKey.ToString()
-		).ToListAsync();
+		).Cast<I_LearnKv>()
+		.ToListAsync();
 
-		var propertys = await dbCtx.WordKV.Where(e=>
+		IList<I_PropertyKv> propertys = await dbCtx.WordKV.Where(e=>
 			e.kI64 == textWord.id
 			&& (e.bl??"").StartsWith(BlPrefix.Property)
 			&& e.kDesc == KDesc.fKey.ToString()
-		).ToListAsync();
+		).Cast<I_PropertyKv>()
+		.ToListAsync();
 
 		var ans = new FullWord(){
 			textWord = (I_TextWordKV)textWord
-			,learns = (IList<I_LearnKV>)learns
-			,propertys = (IList<I_PropertyKV>)propertys
+			,learns = (IList<I_LearnKv>)learns
+			,propertys = (IList<I_PropertyKv>)propertys
 		};
 		return ans;
 	}

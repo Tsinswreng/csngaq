@@ -38,9 +38,9 @@ public class WordRm:
 
 
 	public async Task<zero> RmAsy(I_FullWordKv joinedWordKV){
-		dbCtx.WordKV.Remove((WordKV)joinedWordKV.textWord);
-		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.propertys);
-		dbCtx.WordKV.RemoveRange((IList<WordKV>)joinedWordKV.learns);
+		dbCtx.WordKV.Remove((WordKv)joinedWordKV.textWord);
+		dbCtx.WordKV.RemoveRange((IList<WordKv>)joinedWordKV.propertys);
+		dbCtx.WordKV.RemoveRange((IList<WordKv>)joinedWordKV.learns);
 		await dbCtx.SaveChangesAsync();
 		return 0;
 	}

@@ -6067,13 +6067,11 @@ App.axaml.cs只在ngaq.UI中有
 ngaq.Desktop和ngaq.Browser引用了ngaq.UI
 ngaq.Desktop還引用了ngaq.Server
 
-
 當生成目標爲桌面端時、前端可以直接通函數調用訪問後端API。
 當生成目標爲瀏覽器端時、前端可以通過網絡請求調用後端API。
 
 我的想法是把API抽象成統一的接口、然後根據平臺用不同的實現。
 比如ngaq.Desktop直接走函數調用來調用ngaq.Server的API。
-
 
 I_SeekFullWordKVByIdAsy在命名空間ngaq.Core.Svc.Crud.WordCrud.IF
 WordSeeker在namespace ngaq.Server.Svc.Crud.WordCrud、實現了I_SeekFullWordKVByIdAsy接口
@@ -6405,3 +6403,10 @@ public partial class WordCrudView : UserControl{
 }
 
 ```
+
+
+
+#
+[2025-02-17T15:00:53.851+08:00_W8-1]
+c# Child是Father的子類、怎麼把`List<Child>`轉成`IList<Father>`? 要求盡量高效
+##

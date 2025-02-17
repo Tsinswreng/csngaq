@@ -39,7 +39,7 @@ public partial class KvVm
 	}
 
 	public I_WordKv toModel(){
-		I_WordKv kv = new WordKV();
+		I_WordKv kv = new WordKv();
 		kv.id = id;
 		kv.bl = bl;
 		kv.status = status;
