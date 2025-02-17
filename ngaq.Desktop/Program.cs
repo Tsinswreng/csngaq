@@ -1,7 +1,10 @@
 ﻿using System;
 using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
+using ngaq.Core.Svc.Crud.WordCrud.IF;
+using ngaq.Server.Svc.Crud.WordCrud;
 using ngaq.UI;
+using ngaq.UI.ViewModels.WordCrud;
 namespace ngaq.Desktop;
 
 sealed class Program {
@@ -11,8 +14,14 @@ sealed class Program {
 	[STAThread]
 	public static void Main(string[] args){
 		var services = new ServiceCollection();
-		new Setup().ConfigureServices(services);
-		BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+		//new Setup().ConfigureServices(services);
+		services.AddSingleton<I_SeekFullWordKVByIdAsy, WordSeeker>();
+		services.AddTransient<WordCrudVm>();
+		var servicesProvider = services.BuildServiceProvider();
+
+		BuildAvaloniaApp()
+			.AfterSetup(e=>App.ConfigureServices(servicesProvider))
+			.StartWithClassicDesktopLifetime(args);
 	}
 
 	// Avalonia configuration, don't remove; also used by visual designer.

@@ -6,15 +6,28 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using ngaq.UI.ViewModels;
 using ngaq.UI.Views;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace ngaq.UI;
 
 public partial class App : Application {
+
+
+	public static IServiceProvider ServiceProvider { get; private set; } = null!;
+	public static void ConfigureServices(IServiceProvider serviceProvider){
+		ServiceProvider = serviceProvider;
+	}
+
 	public override void Initialize() {
 		AvaloniaXamlLoader.Load(this);
 	}
 
 	public override void OnFrameworkInitializationCompleted() {
+		if (ServiceProvider == null){
+			throw new InvalidOperationException("ServiceProvider 未初始化！");
+		}
+
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
 			// Avoid duplicate validations from both Avalonia and the CommunityToolkit.
 			// More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins

@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.UI.ViewModels.FullWordKv;
 
 namespace ngaq.UI.ViewModels.WordCrud;
@@ -8,9 +10,11 @@ public partial class WordCrudVm
 {
 
 	public WordCrudVm(){}
-	public WordCrudVm(){
-
+	public WordCrudVm(I_SeekFullWordKVByIdAsy wordSeeker){
+		this.wordSeeker = wordSeeker;
 	}
+
+	public I_SeekFullWordKVByIdAsy wordSeeker{get;set;} = null!;
 
 
 	protected str _searchId="init";
@@ -25,6 +29,22 @@ public partial class WordCrudVm
 		set => SetProperty(ref _fullWordKvVm, value);
 	}
 
+	public async Task<zero> seekFullWordKvByIdAsync(){
+		try{
+			//
+			G.log(1);
+			G.log(wordSeeker==null);
+			G.log(wordSeeker);
+			// var ans = await wordSeeker.SeekFullWordKVByIdAsy(1);
+			// G.log(ans.ToString());
+			//G.logJson(ans);
+		}
+		catch (System.Exception e){
+			G.log(e);
+			throw;
+		}
+		return 0;
+	}
 
 
 
