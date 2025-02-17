@@ -17,7 +17,7 @@ public partial class WordCrudVm
 	public I_SeekFullWordKVByIdAsy wordSeeker{get;set;} = null!;
 
 
-	protected str _searchId="init";
+	protected str _searchId="";
 	public str searchId{
 		get => _searchId;
 		set => SetProperty(ref _searchId, value);
@@ -40,9 +40,11 @@ public partial class WordCrudVm
 			fullWordKvVm.fromModel(ans);
 		}
 		catch (System.Exception e){
-			G.log(e);
+			G.log(e);//TODO
 			throw;
 		}
 		return 0;
+
 	}
 }
+

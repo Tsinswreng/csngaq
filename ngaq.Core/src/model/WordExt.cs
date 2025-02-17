@@ -3,6 +3,16 @@ using ngaq.model.consts;
 
 namespace ngaq.Core.Model;
 
+
+public static class WordKvExt{
+	public static bool blStartsWith(this I_WordKv z, str bl){
+		if(z.bl == null){
+			return false;
+		}
+		return z.bl.StartsWith(bl);
+	}
+}
+
 public static class TextWordKvExt{
 	public static str text_(this I_TextWordKV z){
 		return z.kStr??"";

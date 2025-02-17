@@ -6,7 +6,7 @@ using ngaq.Core.Model;
 using ngaq.Core.Model.wordIF;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.model.consts;
-using Shr.Exception;
+using Shr.Exceptions;
 
 namespace ngaq.Server.Svc.Crud.WordCrud;
 
@@ -29,16 +29,6 @@ public class WordSeeker:
 	public NgaqDbCtx dbCtx{get;set;} = new();
 
 	public async Task< I_FullWordKv? > SeekFullWordKVByIdAsy(i64 id){
-		// var all = await dbCtx.WordKV.ToListAsync();//+
-		// for(u64 i = 0; i < (u64)all.Count; i++){
-		// 	var e = all[(int)i];
-		// 	G.log(e.id);
-		// 	if(e.id == id){
-		// 		G.logJson(e);
-		// 		break;
-		// 	}
-		// }
-
 		var textWords = await dbCtx.WordKV.Where(
 			e=>e.id == id
 			//&& (e.bl??"").StartsWith(BlPrefix.TextWord) //今架構 textWord與他物 共存于一表中 則不需此
@@ -51,9 +41,9 @@ public class WordSeeker:
 			throw new FatalLogicError("id: "+id+"\nMultiple text words found for the same id.");
 		}
 		var textWord = textWords[0];
-		// if(textWord.bl.StartsWith(BlPrefix.TextWord) == false){
-
-		// }
+		if(textWord.blStartsWith(BlPrefix.TextWord) == false){//非testWord實例。learn,property之屬。
+			return null;
+		}
 
 		IList<I_LearnKv> learns = await dbCtx.WordKV.Where(e=>
 			e.kI64 == textWord.id
