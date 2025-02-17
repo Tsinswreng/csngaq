@@ -27,6 +27,7 @@
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
     <PackageVersion Include="System.Data.SQLite" Version="1.0.119" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
   </ItemGroup>
   <!-- <ItemGroup>
 		<ProjectReference Include="../ngaq.Core/ngaq.Core.csproj" />
