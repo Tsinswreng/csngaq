@@ -6,6 +6,11 @@ using Shr.Date;
 namespace ngaq.UI.Converter;
 
 public class UnixMsConverter : IValueConverter {
+
+	protected static UnixMsConverter? _inst = null;
+	public static UnixMsConverter inst => _inst ??= new UnixMsConverter();
+
+
 	public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
 		if(value is i64 unixMs){
 			return DateUtil.unixMsToIso8601(unixMs);//str
