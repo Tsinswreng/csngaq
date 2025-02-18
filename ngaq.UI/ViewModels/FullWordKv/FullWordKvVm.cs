@@ -18,9 +18,6 @@ public class Person{
 }
 
 
-
-
-
 public partial class FullWordKvVm
 	:ViewModelBase
 	,I_ViewModel<I_FullWordKv>
@@ -95,14 +92,14 @@ public partial class FullWordKvVm
 	// }
 
 //test
-	protected ObservableCollection<Person> _persons = [
-		new Person{Name="Alice", Age=25},
-		new Person{Name="Bob", Age=30},
-	];
-	public ObservableCollection<Person> persons{
-		get => _persons;
-		set => SetProperty(ref _persons, value);
-	}
+	// protected ObservableCollection<Person> _persons = [
+	// 	new Person{Name="Alice", Age=25},
+	// 	new Person{Name="Bob", Age=30},
+	// ];
+	// public ObservableCollection<Person> persons{
+	// 	get => _persons;
+	// 	set => SetProperty(ref _persons, value);
+	// }
 
 
 }
