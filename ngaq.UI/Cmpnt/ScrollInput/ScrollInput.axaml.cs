@@ -21,7 +21,6 @@ public partial class ScrollInput : UserControl{
 		get{return GetValue(TextProperty);}
 		set{
 			SetValue(TextProperty, value);
-			G.log(value);//t
 		;}
 	}
 

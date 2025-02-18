@@ -66,18 +66,16 @@ public partial class WordInfoView: UserControl {
 		if(ctx == null){
 			return 0;
 		}
-		ctx.fullWordKvVm.fromModel(FullWordSample.getInst().sample);//TODO for test
-
-
-
+		ctx.fromModel(FullWordSample.getInst().sample);//TODO for test
 		var vert = new StackPanel();
 		{//vert:StackPanel
 			//
-			var N_fullWordKvVm = nameof(ctx.fullWordKvVm);
-			var N_textWordVm = nameof(ctx.fullWordKvVm.textWordVm);
-			var N_kStr = nameof(ctx.fullWordKvVm.textWordVm.kStr);
-			var N_id = nameof(ctx.fullWordKvVm.textWordVm.id);
-			var N_bl = nameof(ctx.fullWordKvVm.textWordVm.bl);
+			var N_fullWordKv = nameof(ctx.fullWordKv);
+			var N_textWord = nameof(ctx.fullWordKv.textWord);
+			var N_kStr = nameof(ctx.fullWordKv.textWord.kStr);
+			var N_id = nameof(ctx.fullWordKv.textWord.id);
+			var N_bl = nameof(ctx.fullWordKv.textWord.bl);
+
 			//
 			var idEtLangPanel = new StackPanel(){
 				Orientation=Orientation.Horizontal
@@ -87,7 +85,7 @@ public partial class WordInfoView: UserControl {
 				idBlock.Bind(
 					TextBlock.TextProperty
 					,new Binding(
-						N_fullWordKvVm+"."+N_textWordVm+"."+N_id
+						N_fullWordKv+"."+N_textWord+"."+N_id
 					)
 				);
 				idEtLangPanel.Children.Add(idBlock);
@@ -96,7 +94,7 @@ public partial class WordInfoView: UserControl {
 				langBlock.Bind(
 					TextBlock.TextProperty
 					,new Binding(
-						N_fullWordKvVm+"."+N_textWordVm+"."+N_bl
+						N_fullWordKv+"."+N_textWord+"."+N_bl
 					)
 				);
 				idEtLangPanel.Children.Add(langBlock);
@@ -110,7 +108,7 @@ public partial class WordInfoView: UserControl {
 			wordTextTitle.Bind(
 				TextBlock.TextProperty
 				,new Binding(
-					N_fullWordKvVm+"."+N_textWordVm+"."+N_kStr
+					N_fullWordKv+"."+N_textWord+"."+N_kStr
 					,BindingMode.TwoWay
 				)
 			);
@@ -125,8 +123,8 @@ public partial class WordInfoView: UserControl {
 					// ItemsSource = ctx.fullWordKvVm.propertyVms.Where(e=>
 					// 	e.bl==BlPrefix.join(BlPrefix.Property, PropertyEnum.mean.ToString())
 					// )
-					ItemsSource=ctx.fullWordKvVm.propertyVms
-					,ItemTemplate = new FuncDataTemplate<KvVm>((vm, _)=>{
+					ItemsSource=ctx.means
+					,ItemTemplate = new FuncDataTemplate<I_PropertyKv>((vm, _)=>{
 						if(vm.bl!=BlPrefix.join(BlPrefix.Property, PropertyEnum.mean.ToString())){
 							return null;
 						}

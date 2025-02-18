@@ -17,48 +17,50 @@ public partial class WordInfoVm
 	,I_ViewModel<I_FullWordKv>
 {
 
+
+
+
 	public zero fromModel(I_FullWordKv model) {
-		fullWordKvVm.fromModel(model);
+		fullWordKv = model;
+		_init();
 		return 0;
 	}
 
 	public I_FullWordKv toModel() {
-		return fullWordKvVm.toModel();
+		return fullWordKv;
+	}
+
+	public I_FullWordKv fullWordKv{get;set;} = null!;
+
+	// protected FullWordKvVm _fullWordKvVm = new FullWordKvVm();
+	// public FullWordKvVm fullWordKvVm{
+	// 	get => _fullWordKvVm;
+	// 	set => SetProperty(ref _fullWordKvVm, value);
+	// }
+
+	protected ObservableCollection<I_PropertyKv> _means = new();
+	public ObservableCollection<I_PropertyKv> means{
+		get => _means;
+		set => SetProperty(ref _means, value);
 	}
 
 
-	protected FullWordKvVm _fullWordKvVm = new FullWordKvVm();
-	public FullWordKvVm fullWordKvVm{
-		get => _fullWordKvVm;
-		set => SetProperty(ref _fullWordKvVm, value);
-	}
-
-	protected ObservableCollection<KvVm> _meanVms = new();
-	public ObservableCollection<KvVm> meanVms{
-		get => _meanVms;
-		set => SetProperty(ref _meanVms, value);
+	protected ObservableCollection<I_PropertyKv> _otherProps = new();
+	public ObservableCollection<I_PropertyKv> otherProps{
+		get => _otherProps;
+		set => SetProperty(ref _otherProps, value);
 	}
 
 
-	protected ObservableCollection<KvVm> _otherPropVms = new();
-	public ObservableCollection<KvVm> otherPropVms{
-		get => _otherPropVms;
-		set => SetProperty(ref _otherPropVms, value);
-	}
-
-
-	protected zero _count(){
+	protected zero _init(){
 		//prop分類
-		foreach(var propVm in fullWordKvVm.propertyVms){
-			if(propVm.bl == BlPrefix.join(BlPrefix.Property, PropertyEnum.mean.ToString())){
-				meanVms.Add(propVm);
+		foreach(var propKv in fullWordKv.propertys){
+			if(propKv.bl == BlPrefix.join(BlPrefix.Property, PropertyEnum.mean.ToString())){
+				means.Add(propKv);
 			}else{
-				otherPropVms.Add(propVm);
+				otherProps.Add(propKv);
 			}
 		}
-
-
-
 
 		return 0;
 	}
