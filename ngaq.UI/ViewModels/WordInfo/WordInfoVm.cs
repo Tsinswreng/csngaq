@@ -17,9 +17,6 @@ public partial class WordInfoVm
 	,I_ViewModel<I_FullWordKv>
 {
 
-
-
-
 	public zero fromModel(I_FullWordKv model) {
 		fullWordKv = model;
 		_init();
@@ -44,6 +41,15 @@ public partial class WordInfoVm
 		set => SetProperty(ref _means, value);
 	}
 
+	protected str _lang = "";
+	public str lang{
+		get => _lang;
+		set => SetProperty(ref _lang, value);
+	}
+
+
+
+
 
 	protected ObservableCollection<I_PropertyKv> _otherProps = new();
 	public ObservableCollection<I_PropertyKv> otherProps{
@@ -53,6 +59,7 @@ public partial class WordInfoVm
 
 
 	protected zero _init(){
+		lang = fullWordKv.textWord.lang_();
 		//prop分類
 		foreach(var propKv in fullWordKv.propertys){
 			if(propKv.bl == BlPrefix.join(BlPrefix.Property, PropertyEnum.mean.ToString())){

@@ -6772,3 +6772,83 @@ var classStyle = new Style(x => x
 fullWordKvVm.learnVms.Sort((a,b)=>{return a.ct - b.ct;});
 ```
 ##
+
+
+
+#
+[2025-02-18T18:41:53.343+08:00_W8-2]
+ScrollViewer不生效
+## 自答
+https://docs.avaloniaui.net/docs/reference/controls/scrollviewer
+```xml
+<Border Background="AliceBlue" Width="300" Height="300">
+  <ScrollViewer>
+    <StackPanel>
+      <TextBlock FontSize="22" Height="100" Background="LightBlue">Block 1</TextBlock>
+      <TextBlock FontSize="22" Height="100">Block 2</TextBlock>
+      <TextBlock FontSize="22" Height="100" Background="LightBlue">Block 3</TextBlock>
+      <TextBlock FontSize="22" Height="100">Block 4</TextBlock>
+      <TextBlock FontSize="22" Height="100" Background="LightBlue">Block 5</TextBlock>
+    </StackPanel>
+  </ScrollViewer>
+</Border>
+```
+使ScrollViewer之父組件潙 高度有限之border
+```cs
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media;
+using ngaq.UI.Views.KV;
+using ngaq.UI.Views.WordInfo;
+namespace ngaq.UI.Views;
+
+public partial class MainView : UserControl{
+	const str longText =
+"""
+123
+456
+789
+abc
+def
+ghi
+jkl
+mno
+pqrs
+tuv
+""";
+	public MainView(){
+		//InitializeComponent();
+		//Content = new WordInfoView();
+		//Content = new KvView();
+		var outerStackPanel = new StackPanel(){
+			VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top,
+		};
+		{//outerStackPanel:StackPanel
+
+			var border = new Border(){
+				BorderBrush = Brushes.Yellow
+				,BorderThickness = new Thickness(1)
+				,MaxHeight = 40.0
+			};
+			{//border:Border
+				var scrollViewer = new ScrollViewer();
+				{//scrollViewer:ScrollViewer
+					var stackPanel = new StackPanel(){
+					};
+					{//stackPanel:StackPanel
+						var textBlock = new TextBlock(){
+							Text = longText,
+						};
+						stackPanel.Children.Add(textBlock);
+					}//~stackPanel:StackPanel
+					scrollViewer.Content = stackPanel;
+				}//~scrollViewer:ScrollViewer
+				border.Child = scrollViewer;
+			}//~border:Border
+			outerStackPanel.Children.Add(border);
+		}//~outerStackPanel:StackPanel
+		Content = outerStackPanel;
+	}
+}
+
+```

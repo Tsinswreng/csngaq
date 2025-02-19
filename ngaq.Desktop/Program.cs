@@ -32,7 +32,6 @@ sealed class Program {
 			.LogToTrace();
 }
 
-
 // unsafe{
 // 	int i = 0;
 // 	int* p1,p2,p3;
@@ -43,3 +42,5 @@ sealed class Program {
 // 	int num;
 // 	num = &i;//无法将类型“int*”隐式转换为“int”。存在一个显式转换(是否缺少强制转换?)CS0266
 // }
+
+

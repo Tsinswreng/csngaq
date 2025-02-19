@@ -48,6 +48,7 @@
 		<TextBlock Text="{Binding Mean}" />
 		<Button Content="Button" Click="Button_Click"/>
 	</Grid> -->
+
 	<StackPanel Orientation="Vertical">
 		<StackPanel Orientation="Horizontal">
 			<TextBlock Text="id"/>
