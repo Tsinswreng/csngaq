@@ -22,8 +22,10 @@ namespace ngaq.UI.Views.WordInfo;
 public partial class WordInfoView: UserControl {
 	public WordInfoView() {
 		DataContext = new WordInfoVm();
+		ctx.fromModel(FullWordSample.getInst().sample);//TODO for test
 		_render();
 		_style();
+		//Content = _means(ctx.fullWordKv.propertys[0]);
 	}
 
 
@@ -78,8 +80,10 @@ public partial class WordInfoView: UserControl {
 		if(ctx == null){
 			return 0;
 		}
-		ctx.fromModel(FullWordSample.getInst().sample);//TODO for test
-		var vert = new StackPanel();
+		var vert = new StackPanel(){
+			MaxHeight = 100.0//t
+			,VerticalAlignment = VerticalAlignment.Top
+		};
 		{//vert:StackPanel
 			//
 			var N_fullWordKv = nameof(ctx.fullWordKv);
@@ -180,8 +184,9 @@ public partial class WordInfoView: UserControl {
 			return null;
 		}
 		var ansBorder = new Border(){
-			// BorderBrush = Brushes.Yellow
-			// ,BorderThickness = new Thickness(1)
+			BorderBrush = Brushes.Red
+			//,BorderThickness = new Thickness(1)
+			//,MaxHeight = 50.0
 		};
 		//ansBorder.Classes.Add(nameof(Cls.MeanBox));
 		{//ansBorder:Border
@@ -189,8 +194,8 @@ public partial class WordInfoView: UserControl {
 			//oneMeanStackPanel.Classes.Add(nameof(Cls.MeanBox));
 			{//oneMeanStackPanel:StackPanel
 				var idPanelBorder = new Border(){
-					BorderBrush = Brushes.Gray
-					,BorderThickness = new Thickness(1)
+					BorderBrush = Brushes.Green
+					//,BorderThickness = new Thickness(1)
 				};
 				{//idPanelBorder
 					var idPanel = new StackPanel(){
@@ -208,28 +213,32 @@ public partial class WordInfoView: UserControl {
 						idPanel.Children.Add(idBlock);
 					}//~idPanel:StackPanel
 					idPanelBorder.Child = idPanel;
-					oneMeanStackPanel.Children.Add(idPanelBorder);
+
 				}//~idPanelBorder
+				oneMeanStackPanel.Children.Add(idPanelBorder);
 				//
 				var border2 = new Border(){
-					MaxHeight = 40.0
-					,BorderBrush = Brushes.Yellow
+					BorderBrush = Brushes.Yellow
+					// ,BorderThickness = new Thickness(1)
+					// ,MaxHeight = 40.0
 				};
-
+				border2.Classes.Add(nameof(Cls.MeanBox));
 				{//border2:Border
 					//
 					var oneMeanScrlVwr = new ScrollViewer();
 					{//oneMeanScrlVwr:ScrollViewer
-						var oneMeanContentStackPanel = new StackPanel();
+						var oneMeanContentStackPanel = new StackPanel(){
+
+						};
 						{//oneMeanContentStackPanel:StackPanel
 							//
 							var oneMeanTextBlock = new TextBlock(){
 								Text = vm.vStr
 							};
-							oneMeanStackPanel.Children.Add(oneMeanTextBlock);
+							oneMeanContentStackPanel.Children.Add(oneMeanTextBlock);
 						//
 							var sep = new Separator();
-							oneMeanStackPanel.Children.Add(sep);
+							oneMeanContentStackPanel.Children.Add(sep);
 						}//~oneMeanContentStackPanel:StackPanel
 						oneMeanScrlVwr.Content = oneMeanContentStackPanel;
 					}//~oneMeanScrlVwr:ScrollViewer
@@ -241,7 +250,6 @@ public partial class WordInfoView: UserControl {
 		}//~ansBorder:Border
 		return ansBorder;
 		//
-
 	}
 }
 
