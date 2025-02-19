@@ -67,10 +67,8 @@ public partial class WordCrudView : UserControl{
 					Content="試填"
 				};
 				testFillButton.Click += (sender, e) => {
-					ctx.fullWordKvVm = new FullWordKvVm();
-					ctx.fullWordKvVm?.fromModel(
-						FullWordSample.getInst().sample
-					);
+					var fullWord = FullWordSample.getInst().sample;
+					ctx.fromModel(fullWord);
 				};
 				stackPanelVert.Children.Add(testFillButton);
 				//

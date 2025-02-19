@@ -101,7 +101,8 @@ public partial class WordInfoView: UserControl {
 				idBlock.Bind(
 					TextBlock.TextProperty
 					,new Binding(
-						N_fullWordKv+"."+N_textWord+"."+N_id
+						//N_fullWordKv+"."+N_textWord+"."+N_id
+						nameof(ctx.id)
 					)
 				);
 				idEtLangPanel.Children.Add(idBlock);
@@ -125,7 +126,8 @@ public partial class WordInfoView: UserControl {
 			wordTextTitle.Bind(
 				TextBlock.TextProperty
 				,new Binding(
-					N_fullWordKv+"."+N_textWord+"."+N_kStr
+					//N_fullWordKv+"."+N_textWord+"."+N_kStr
+					nameof(ctx.wordText)
 					,BindingMode.TwoWay
 				)
 			);
@@ -136,24 +138,35 @@ public partial class WordInfoView: UserControl {
 			//
 			var otherPropsSclViewer = new ScrollViewer();
 			{//otherPropsSclViewer
-				var othersPropItemsControl = new ItemsControl(){
-					ItemsSource = ctx.otherProps
-					,ItemTemplate = new FuncDataTemplate<I_PropertyKv>((propKv, _)=>{
-						return _otherProps(propKv);
-					})
-				};
+				var othersPropItemsControl = new ItemsControl(){};
+				//othersPropItemsControl.ItemsSource = ctx.otherProps;
+				othersPropItemsControl.Bind(
+					ItemsControl.ItemsSourceProperty
+					,new Binding(
+						nameof(ctx.otherProps)
+					)
+				);
+				othersPropItemsControl.ItemTemplate = new FuncDataTemplate<I_PropertyKv>((propKv, _)=>{
+					return _otherProps(propKv);
+				});
 				otherPropsSclViewer.Content = othersPropItemsControl;
 			}//~otherPropsSclViewer
 			vert.Children.Add(otherPropsSclViewer);
 
 			var meansScrollViewer = new ScrollViewer();
 			{//meansScrollViewer:ScrollViewer
-				var meansItemsControl = new ItemsControl(){
-					ItemsSource=ctx.means
-					,ItemTemplate = new FuncDataTemplate<I_PropertyKv>((vm, _)=>{
-						return _means(vm);
-					})//~ItemTemplateFn
-				};//~meansItemsControl.ctor
+				var meansItemsControl = new ItemsControl(){};
+				//meansItemsControl.ItemsSource=ctx.means;
+				meansItemsControl.Bind(
+					ItemsControl.ItemsSourceProperty
+					,new Binding(
+						nameof(ctx.means)
+					)
+				);
+				meansItemsControl.ItemTemplate = new FuncDataTemplate<I_PropertyKv>((vm, _)=>{
+					return _means(vm);
+				});//~ItemTemplateFn
+				//~meansItemsControl.ctor
 				meansScrollViewer.Content = meansItemsControl;
 			}//~meansScrollViewer:ScrollViewer
 			vert.Children.Add(meansScrollViewer);
@@ -198,8 +211,8 @@ public partial class WordInfoView: UserControl {
 			//oneMeanStackPanel.Classes.Add(nameof(Cls.MeanBox));
 			{{//oneMeanStackPanel:StackPanel
 				var idPanelBorder = new Border(){
-					BorderBrush = Brushes.Green
-					//,BorderThickness = new Thickness(1)
+					BorderBrush = Brushes.Gray
+					,BorderThickness = new Thickness(1)
 				};
 				{{//idPanelBorder
 					var idPanel = new StackPanel(){

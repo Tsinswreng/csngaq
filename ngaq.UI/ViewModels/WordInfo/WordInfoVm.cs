@@ -41,6 +41,21 @@ public partial class WordInfoVm
 		set => SetProperty(ref _means, value);
 	}
 
+
+	protected i64 _id;
+	public i64 id{
+		get => _id;
+		set => SetProperty(ref _id, value);
+	}
+
+	protected str _wordText;
+	public str wordText{
+		get => _wordText;
+		set => SetProperty(ref _wordText, value);
+	}
+
+
+
 	protected str _lang = "";
 	public str lang{
 		get => _lang;
@@ -59,8 +74,12 @@ public partial class WordInfoVm
 
 
 	protected zero _init(){
+		id = fullWordKv.textWord.id;
+		wordText = fullWordKv.textWord.kStr??"";
 		lang = fullWordKv.textWord.lang_();
 		//prop分類
+		means.Clear();
+		otherProps.Clear();
 		foreach(var propKv in fullWordKv.propertys){
 			if(propKv.bl == BlPrefix.join(BlPrefix.Property, PropertyEnum.mean.ToString())){
 				means.Add(propKv);

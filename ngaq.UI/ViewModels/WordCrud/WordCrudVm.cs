@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ngaq.Core.Model.wordIF;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.UI.ViewModels.FullWordKv;
+using ngaq.UI.ViewModels.IF;
 using ngaq.UI.ViewModels.WordInfo;
 using ngaq.UI.Views.WordInfo;
 
@@ -9,7 +11,22 @@ namespace ngaq.UI.ViewModels.WordCrud;
 
 public partial class WordCrudVm
 	:ViewModelBase
+	,I_ViewModel<I_FullWordKv>
 {
+
+
+	public zero fromModel(I_FullWordKv model) {
+		_fullWordKv = model;
+		fullWordKvVm.fromModel(model);
+		wordInfoVm.fromModel(model);
+		return 0;
+	}
+
+	public I_FullWordKv toModel() {
+		return _fullWordKv;
+	}
+
+	protected I_FullWordKv _fullWordKv{get;set;}
 
 	public WordCrudVm(){}
 	public WordCrudVm(I_SeekFullWordKVByIdAsy wordSeeker){
@@ -46,7 +63,8 @@ public partial class WordCrudVm
 				//TODO
 				return 0;
 			}
-			fullWordKvVm.fromModel(ans);
+			//fullWordKvVm.fromModel(ans);
+			fromModel(ans);
 		}
 		catch (System.Exception e){
 			G.log(e);//TODO
