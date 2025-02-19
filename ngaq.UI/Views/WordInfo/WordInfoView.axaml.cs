@@ -139,24 +139,7 @@ public partial class WordInfoView: UserControl {
 				var othersPropItemsControl = new ItemsControl(){
 					ItemsSource = ctx.otherProps
 					,ItemTemplate = new FuncDataTemplate<I_PropertyKv>((propKv, _)=>{
-						var hori = new StackPanel(){
-							Orientation = Orientation.Horizontal
-						};
-						{//hori:StackPanel
-							var propName = BlPrefix.split(propKv.bl??"").Item2;
-							//
-							var label = new TextBlock(){
-								Text = propName+": "
-							};
-							hori.Children.Add(label);
-							//
-							var propV = propKv.vStr;
-							var propVBlock = new TextBlock(){
-								Text = propV
-							};
-							hori.Children.Add(propVBlock);
-						}//~hori:StackPanel
-						return hori;
+						return _otherProps(propKv);
 					})
 				};
 				otherPropsSclViewer.Content = othersPropItemsControl;
@@ -179,6 +162,27 @@ public partial class WordInfoView: UserControl {
 		return 0;
 	}
 
+	protected Control? _otherProps(I_PropertyKv propKv){
+		var hori = new StackPanel(){
+			Orientation = Orientation.Horizontal
+		};
+		{//hori:StackPanel
+			var propName = BlPrefix.split(propKv.bl??"").Item2;
+			//
+			var label = new TextBlock(){
+				Text = propName+": "
+			};
+			hori.Children.Add(label);
+			//
+			var propV = propKv.vStr;
+			var propVBlock = new TextBlock(){
+				Text = propV
+			};
+			hori.Children.Add(propVBlock);
+		}//~hori:StackPanel
+		return hori;
+	}
+
 	protected Control? _means(I_PropertyKv vm){
 		if(vm.bl!=BlPrefix.join(BlPrefix.Property, PropertyEnum.mean.ToString())){
 			return null;
@@ -189,19 +193,19 @@ public partial class WordInfoView: UserControl {
 			//,MaxHeight = 50.0
 		};
 		//ansBorder.Classes.Add(nameof(Cls.MeanBox));
-		{//ansBorder:Border
+		{{//ansBorder:Border
 			var oneMeanStackPanel = new StackPanel();
 			//oneMeanStackPanel.Classes.Add(nameof(Cls.MeanBox));
-			{//oneMeanStackPanel:StackPanel
+			{{//oneMeanStackPanel:StackPanel
 				var idPanelBorder = new Border(){
 					BorderBrush = Brushes.Green
 					//,BorderThickness = new Thickness(1)
 				};
-				{//idPanelBorder
+				{{//idPanelBorder
 					var idPanel = new StackPanel(){
 						Orientation=Orientation.Horizontal
 					};
-					{//idPanel:StackPanel
+					{{//idPanel:StackPanel
 						var idLabel = new TextBlock(){
 							Text = "id: "
 						};
@@ -211,10 +215,10 @@ public partial class WordInfoView: UserControl {
 							Text = vm.id.ToString()
 						};
 						idPanel.Children.Add(idBlock);
-					}//~idPanel:StackPanel
+					}}//~idPanel:StackPanel
 					idPanelBorder.Child = idPanel;
 
-				}//~idPanelBorder
+				}}//~idPanelBorder
 				oneMeanStackPanel.Children.Add(idPanelBorder);
 				//
 				var border2 = new Border(){
@@ -223,14 +227,14 @@ public partial class WordInfoView: UserControl {
 					// ,MaxHeight = 40.0
 				};
 				border2.Classes.Add(nameof(Cls.MeanBox));
-				{//border2:Border
+				{{//border2:Border
 					//
 					var oneMeanScrlVwr = new ScrollViewer();
-					{//oneMeanScrlVwr:ScrollViewer
+					{{//oneMeanScrlVwr:ScrollViewer
 						var oneMeanContentStackPanel = new StackPanel(){
 
 						};
-						{//oneMeanContentStackPanel:StackPanel
+						{{//oneMeanContentStackPanel:StackPanel
 							//
 							var oneMeanTextBlock = new TextBlock(){
 								Text = vm.vStr
@@ -239,17 +243,37 @@ public partial class WordInfoView: UserControl {
 						//
 							var sep = new Separator();
 							oneMeanContentStackPanel.Children.Add(sep);
-						}//~oneMeanContentStackPanel:StackPanel
+						}}//~oneMeanContentStackPanel:StackPanel
 						oneMeanScrlVwr.Content = oneMeanContentStackPanel;
-					}//~oneMeanScrlVwr:ScrollViewer
+					}}//~oneMeanScrlVwr:ScrollViewer
 					border2.Child = oneMeanScrlVwr;
-				}//~border2:Border
+				}}//~border2:Border
 				oneMeanStackPanel.Children.Add(border2);
-			}//~oneMeanStackPanel:StackPanel
+			}}//~oneMeanStackPanel:StackPanel
 			ansBorder.Child = oneMeanStackPanel;
-		}//~ansBorder:Border
+		}}//~ansBorder:Border
 		return ansBorder;
 		//
 	}
 }
 
+// class T{
+// 	int t(){
+// 		var a = 1;
+// 		{{
+// 			var b = 2;
+// 			{{
+// 				var c = a+b;
+// 				var d = c;
+// 				for(var i=0;i<10;i++){{
+// 					d = i+c;
+// 					if(d>20){{
+// 						break;
+// 					}}
+// 				}}
+// 				a = d;
+// 			}}
+// 		}}
+// 		return a;
+// 	}
+// }
