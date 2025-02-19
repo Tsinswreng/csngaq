@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.UI.ViewModels.FullWordKv;
+using ngaq.UI.ViewModels.WordInfo;
+using ngaq.UI.Views.WordInfo;
 
 namespace ngaq.UI.ViewModels.WordCrud;
 
@@ -28,6 +30,13 @@ public partial class WordCrudVm
 		get => _fullWordKvVm;
 		set => SetProperty(ref _fullWordKvVm, value);
 	}
+
+	protected WordInfoVm _wordInfoVm = new WordInfoVm();
+	public WordInfoVm wordInfoVm{
+		get => _wordInfoVm;
+		set => SetProperty(ref _wordInfoVm, value);
+	}
+
 
 	public async Task<zero> seekFullWordKvByIdAsync(){
 		try{

@@ -22,7 +22,7 @@ namespace ngaq.UI.Views.WordInfo;
 public partial class WordInfoView: UserControl {
 	public WordInfoView() {
 		DataContext = new WordInfoVm();
-		ctx.fromModel(FullWordSample.getInst().sample);//TODO for test
+		//ctx.fromModel(FullWordSample.getInst().sample);//TODO for test
 		_render();
 		_style();
 		//Content = _means(ctx.fullWordKv.propertys[0]);

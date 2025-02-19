@@ -9,8 +9,8 @@ namespace ngaq.UI.Views;
 public partial class MainView : UserControl{
 	public MainView(){
 		//InitializeComponent();
-		Content = new WordInfoView();
+		//Content = new WordInfoView();
 		//Content = new KvView();
-		//Content = new WordCrudView();
+		Content = new WordCrudView();
 	}
 }

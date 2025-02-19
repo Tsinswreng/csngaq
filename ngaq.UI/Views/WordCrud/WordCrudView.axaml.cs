@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using ngaq.Core.Model.sample;
 using ngaq.UI.ViewModels.FullWordKv;
 using ngaq.UI.ViewModels.WordCrud;
+using ngaq.UI.Views.WordInfo;
+
+
 
 namespace ngaq.UI.Views.WordCrud;
 
@@ -34,7 +37,7 @@ public partial class WordCrudView : UserControl{
 		var stackPanelHori = new StackPanel(){
 			Orientation=Orientation.Horizontal
 		};
-		{{//stackPanel:StackPanel
+		{{//stackPanelHori:StackPanel
 			var stackPanelVert = new StackPanel(){
 				Orientation=Orientation.Vertical
 			};
@@ -100,7 +103,13 @@ public partial class WordCrudView : UserControl{
 				,new Binding(nameof(ctx.fullWordKvVm)) { Mode = BindingMode.TwoWay }
 			);
 			stackPanelHori.Children.Add(fullWordKvView);
-
+			//
+			var wordInfoView = new WordInfoView(){};
+			wordInfoView.Bind(
+				Control.DataContextProperty
+				,new Binding(nameof(ctx.wordInfoVm)) { Mode = BindingMode.TwoWay }
+			);
+			stackPanelHori.Children.Add(wordInfoView);
 		}}//~stackPanel:StackPanel
 		this.Content = stackPanelHori;
 		return 0;
