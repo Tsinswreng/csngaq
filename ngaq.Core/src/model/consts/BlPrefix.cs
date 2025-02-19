@@ -1,4 +1,4 @@
-namespace ngaq.model.consts;
+namespace ngaq.Model.Consts;
 
 public class BlPrefix{
 	public const str delimiter = ":";

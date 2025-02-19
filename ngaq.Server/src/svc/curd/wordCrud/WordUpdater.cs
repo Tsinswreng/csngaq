@@ -6,7 +6,7 @@ using model.consts;
 using ngaq.Core.Model;
 using ngaq.Core.Model.wordIF;
 using ngaq.Core.Svc.Crud;
-using ngaq.model.consts;
+using ngaq.Model.Consts;
 using ngaq.Server.Db.Crud.IF;
 
 

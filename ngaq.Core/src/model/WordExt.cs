@@ -1,5 +1,5 @@
 using model.consts;
-using ngaq.model.consts;
+using ngaq.Model.Consts;
 
 namespace ngaq.Core.Model;
 

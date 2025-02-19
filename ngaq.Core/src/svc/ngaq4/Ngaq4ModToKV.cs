@@ -2,7 +2,7 @@
 using ngaq.Core.Model.ngaq4;
 using ngaq.Core.Model;
 using model;
-using ngaq.model.consts;
+using ngaq.Model.Consts;
 using model.consts;
 namespace ngaq.Core.Svc.ngaq4;
 public class Ngaq4ModToWordKV{

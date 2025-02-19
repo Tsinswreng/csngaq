@@ -36,7 +36,7 @@ public partial class WordCrudVm
 	public I_SeekFullWordKVByIdAsy wordSeeker{get;set;} = null!;
 
 
-	protected str _searchId="";
+	protected str _searchId="191235";
 	public str searchId{
 		get => _searchId;
 		set => SetProperty(ref _searchId, value);

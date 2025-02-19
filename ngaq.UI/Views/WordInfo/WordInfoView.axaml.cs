@@ -8,11 +8,13 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
 using ngaq.Core.Model;
-using ngaq.Core.Model.consts;
-using ngaq.Core.Model.sample;
-using ngaq.model.consts;
+using ngaq.Core.Model.Consts;
+using ngaq.Core.Model.Sample;
+using ngaq.Model.Consts;
 using ngaq.UI.ViewModels.KV;
 using ngaq.UI.ViewModels.WordInfo;
+
+using TextBlock = Avalonia.Controls.SelectableTextBlock;
 
 namespace ngaq.UI.Views.WordInfo;
 
@@ -41,6 +43,16 @@ public partial class WordInfoView: UserControl {
 
 
 	protected zero _style(){
+
+		var sty_textBlock = new Style(x=>x
+			.Is<TextBlock>()
+		);
+		// sty_textBlock.Setters.Add(new Setter(
+		// 	TextBlock.IsTextSelectionEnabledProperty
+		// ));
+		Styles.Add(sty_textBlock);
+
+
 		var sty_WordText = new Style(x=>x
 			.Is<Control>()
 			.Class(nameof(Cls.WordText))
@@ -67,7 +79,7 @@ public partial class WordInfoView: UserControl {
 		);
 		sty_MeanBox.Setters.Add(new Setter(
 			Border.MaxHeightProperty
-			,60.0
+			,100.0
 		));
 		Styles.Add(sty_MeanBox);
 		return 0;

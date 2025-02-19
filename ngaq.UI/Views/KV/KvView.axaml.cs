@@ -10,7 +10,7 @@ using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using Avalonia.Styling;
 using ngaq.Core.Model;
-using ngaq.Core.Model.sample;
+using ngaq.Core.Model.Sample;
 using ngaq.UI.Cmpnt.ScrollInput;
 using ngaq.UI.Converter;
 using ngaq.UI.ViewModels.KV;

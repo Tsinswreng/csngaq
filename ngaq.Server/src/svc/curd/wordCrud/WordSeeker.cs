@@ -5,7 +5,7 @@ using model.consts;
 using ngaq.Core.Model;
 using ngaq.Core.Model.wordIF;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
-using ngaq.model.consts;
+using ngaq.Model.Consts;
 using Shr.Exceptions;
 
 namespace ngaq.Server.Svc.Crud.WordCrud;

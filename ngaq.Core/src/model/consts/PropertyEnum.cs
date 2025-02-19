@@ -1,4 +1,4 @@
-namespace ngaq.Core.Model.consts;
+namespace ngaq.Core.Model.Consts;
 
 public enum PropertyEnum{
 	mean

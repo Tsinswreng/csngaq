@@ -8,7 +8,7 @@ using ngaq.Core.Model.wordIF;
 using ngaq.Core.Svc.Crud;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.Core.Svc.word.wordMerger;
-using ngaq.model.consts;
+using ngaq.Model.Consts;
 using ngaq.Server.Db.Crud.IF;
 using ngaq.Server.Svc.Crud.WordCrud;
 

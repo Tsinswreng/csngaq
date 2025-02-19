@@ -4,7 +4,7 @@ using System.Linq;
 using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ngaq.Core.Model;
-using ngaq.Core.Model.sample;
+using ngaq.Core.Model.Sample;
 using ngaq.Core.Model.wordIF;
 using ngaq.UI.ViewModels;
 using ngaq.UI.ViewModels.IF;
