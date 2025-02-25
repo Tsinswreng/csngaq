@@ -72,6 +72,8 @@ public partial class FullWordKvVm
 			SetProperty(ref _propertyVms, value);
 		}
 	}
+
+	
 	public u64 index_propertyVms{get;set;}=0;
 
 	protected ObservableCollection<KvVm> _learnVms = new();

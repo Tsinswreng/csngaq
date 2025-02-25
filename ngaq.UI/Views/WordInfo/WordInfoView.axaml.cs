@@ -87,6 +87,14 @@ public partial class WordInfoView: UserControl {
 
 
 
+/*************  ✨ Codeium Command ⭐  *************/
+/// <summary>
+/// Renders the UI components for the WordInfoView. It creates and binds various Avalonia UI elements
+/// such as StackPanels, TextBlocks, Separators, ScrollViewers, and ItemsControls using the context data.
+/// The function ensures that the context is not null before proceeding with the UI setup.
+/// </summary>
+
+/******  864b97ae-b17e-4167-b8f6-51308266e560  *******/
 	protected zero _render(){
 		var z = this;
 		if(ctx == null){
@@ -98,11 +106,11 @@ public partial class WordInfoView: UserControl {
 		};
 		{//vert:StackPanel
 			//
-			var N_fullWordKv = nameof(ctx.fullWordKv);
-			var N_textWord = nameof(ctx.fullWordKv.textWord);
-			var N_kStr = nameof(ctx.fullWordKv.textWord.kStr);
-			var N_id = nameof(ctx.fullWordKv.textWord.id);
-			var N_bl = nameof(ctx.fullWordKv.textWord.bl);
+			// var N_fullWordKv = nameof(ctx.fullWordKv);
+			// var N_textWord = nameof(ctx.fullWordKv.textWord);
+			// var N_kStr = nameof(ctx.fullWordKv.textWord.kStr);
+			// var N_id = nameof(ctx.fullWordKv.textWord.id);
+			// var N_bl = nameof(ctx.fullWordKv.textWord.bl);
 
 			//
 			var idEtLangPanel = new StackPanel(){

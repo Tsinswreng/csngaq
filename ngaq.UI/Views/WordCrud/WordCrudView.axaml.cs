@@ -75,8 +75,14 @@ public partial class WordCrudView : UserControl{
 				var clearButton = new Button(){
 					Content="清除"
 				};
-				clearButton.Click += (sender, e) => {
-					ctx.fullWordKvVm = new FullWordKvVm();
+				clearButton.Click += (sender, e) => {//t
+					//ctx.fullWordKvVm = new FullWordKvVm();
+					var fenestra = new Window(){
+						Width=1920/4
+						,Height=1080/4
+						,Title="title"
+					};
+					fenestra.Show();
 				};
 				stackPanelVert.Children.Add(clearButton);
 				//
@@ -95,6 +101,15 @@ public partial class WordCrudView : UserControl{
 			}}//~stackPanelVert:StackPanel
 			stackPanelHori.Children.Add(stackPanelVert);
 			//
+			var wordInfoView = new WordInfoView(){
+				Width=600
+			};
+			wordInfoView.Bind(
+				Control.DataContextProperty
+				,new Binding(nameof(ctx.wordInfoVm)) { Mode = BindingMode.TwoWay }
+			);
+			stackPanelHori.Children.Add(wordInfoView);
+			//
 			var fullWordKvView = new FullWordKvView.FullWordKvView(){};
 			fullWordKvView.Bind(
 				Control.DataContextProperty
@@ -102,12 +117,6 @@ public partial class WordCrudView : UserControl{
 			);
 			stackPanelHori.Children.Add(fullWordKvView);
 			//
-			var wordInfoView = new WordInfoView(){};
-			wordInfoView.Bind(
-				Control.DataContextProperty
-				,new Binding(nameof(ctx.wordInfoVm)) { Mode = BindingMode.TwoWay }
-			);
-			stackPanelHori.Children.Add(wordInfoView);
 		}}//~stackPanel:StackPanel
 		this.Content = stackPanelHori;
 		return 0;
