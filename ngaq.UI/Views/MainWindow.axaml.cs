@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace ngaq.UI.Views;
+namespace ngaq.UI.views;
 
 public partial class MainWindow : Window {
 	public MainWindow() {

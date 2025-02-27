@@ -5,7 +5,7 @@ using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.UI.ViewModels.FullWordKv;
 using ngaq.UI.ViewModels.IF;
 using ngaq.UI.ViewModels.WordInfo;
-using ngaq.UI.Views.WordInfo;
+using ngaq.UI.views.WordInfo;
 
 namespace ngaq.UI.ViewModels.WordCrud;
 

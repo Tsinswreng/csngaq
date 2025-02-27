@@ -17,7 +17,7 @@ using ngaq.UI.ViewModels.KV;
 using Avalonia.Layout;
 
 
-namespace ngaq.UI.Views.KV;
+namespace ngaq.UI.views.KV;
 
 public partial class KvView : UserControl{
 	public enum Cls{

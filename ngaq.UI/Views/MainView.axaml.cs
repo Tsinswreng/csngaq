@@ -1,16 +1,18 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using ngaq.UI.Views.KV;
-using ngaq.UI.Views.WordCrud;
-using ngaq.UI.Views.WordInfo;
-namespace ngaq.UI.Views;
+using ngaq.UI.views.KV;
+using ngaq.UI.views.toolBar;
+using ngaq.UI.views.WordCrud;
+using ngaq.UI.views.WordInfo;
+namespace ngaq.UI.views;
 
 public partial class MainView : UserControl{
 	public MainView(){
 		//InitializeComponent();
 		//Content = new WordInfoView();
 		//Content = new KvView();
-		Content = new WordCrudView();
+		//Content = new WordCrudView();
+		Content = new ToolBar();
 	}
 }

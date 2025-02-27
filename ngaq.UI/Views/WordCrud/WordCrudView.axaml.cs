@@ -6,11 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using ngaq.Core.Model.Sample;
 using ngaq.UI.ViewModels.FullWordKv;
 using ngaq.UI.ViewModels.WordCrud;
-using ngaq.UI.Views.WordInfo;
+using ngaq.UI.views.WordInfo;
 
 
 
-namespace ngaq.UI.Views.WordCrud;
+namespace ngaq.UI.views.WordCrud;
 
 public partial class WordCrudView : UserControl{
 	public WordCrudView(){

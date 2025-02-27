@@ -16,7 +16,7 @@ using ngaq.UI.ViewModels.WordInfo;
 
 using TextBlock = Avalonia.Controls.SelectableTextBlock;
 
-namespace ngaq.UI.Views.WordInfo;
+namespace ngaq.UI.views.WordInfo;
 
 
 

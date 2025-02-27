@@ -6,10 +6,10 @@ using Avalonia.Data;
 using Avalonia.Interactivity;
 using ngaq.UI.ViewModels.FullWordKv;
 using ngaq.UI.ViewModels.KV;
-using ngaq.UI.Views.KV;
+using ngaq.UI.views.KV;
 
 
-namespace ngaq.UI.Views.FullWordKvView;
+namespace ngaq.UI.views.FullWordKvView;
 
 public partial class FullWordKvView : UserControl{
 	public FullWordKvView(){
