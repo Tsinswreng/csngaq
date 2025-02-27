@@ -13,13 +13,13 @@ namespace ngaq.UI.views.FullWordKvView;
 
 public partial class FullWordKvView : UserControl{
 	public FullWordKvView(){
-		InitializeComponent();
+		//InitializeComponent();
 		this.DataContext = new FullWordKvVm();
 		var z = this;
 		if(!(DataContext is FullWordKvVm)){
 			return;
 		}
-		var root = z.FindControl<UserControl>("Root");
+		//var root = z.FindControl<UserControl>("Root");
 
 		z._fn_renderList(
 			()=>ctx!.propertyVms

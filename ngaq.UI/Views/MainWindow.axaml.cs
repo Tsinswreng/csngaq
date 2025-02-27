@@ -4,6 +4,6 @@ namespace ngaq.UI.views;
 
 public partial class MainWindow : Window {
 	public MainWindow() {
-		InitializeComponent();
+		//InitializeComponent();
 	}
 }
