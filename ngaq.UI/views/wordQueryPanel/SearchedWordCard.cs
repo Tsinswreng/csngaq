@@ -1,8 +1,10 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Styling;
 using ngaq.UI.viewModels.wordQueryPanel;
@@ -34,6 +36,7 @@ public partial class SearchedWordCard
 		return 0;
 	}
 
+
 	public zero debug(){
 		var showGridLine = new Style(x=>
 			x.Is<Grid>()
@@ -49,6 +52,9 @@ public partial class SearchedWordCard
 	}
 
 
+	public Action<object?, EventArgs>? click{get;set;}
+
+
 
 	protected Control _render(){
 
@@ -61,6 +67,10 @@ public partial class SearchedWordCard
 			var o = btn;
 			o.Height = 42;
 			o.Classes.Add(cls.Container);
+			//o.HorizontalAlignment=Avalonia.Layout.HorizontalAlignment.Stretch;
+			o.Click += (a,b)=>{
+				click?.Invoke(a,b);
+			};
 		}
 		{{
 			var grid = new Grid();

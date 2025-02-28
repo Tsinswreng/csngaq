@@ -31,6 +31,12 @@ public partial class SearchedWordCardVm
 
 	public I_WordKv wordKv{get;set;}
 
+	public zero useSample(){
+		var fullWordKv = FullWordSample.getInst().sample;
+		this.fromModel(fullWordKv.textWord);
+		return 0;
+	}
+
 	protected zero _init(){
 		id = wordKv.id;
 		bl = wordKv.bl??"";
