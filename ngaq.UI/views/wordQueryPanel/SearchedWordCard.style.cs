@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Media;
@@ -51,24 +52,71 @@ public partial class SearchedWordCard{
 			);
 		}
 
-		var container = new Style(x=>
+		// var container = new Style(x=>
+		// 	x.Is<Control>()
+		// 	.Class(cls.Container)
+		// );
+		// Styles.Add(container);
+		// {
+		// 	// container.set(
+		// 	// 	BackgroundProperty
+		// 	// 	,new SolidColorBrush(Colors.White)
+		// 	// );//worked
+		// }
+
+		var containerPtrOver = new Style(x=>
 			x.Is<Control>()
 			.Class(cls.Container)
 			.Class(PsdCls.inst.pointerover)
+			.Template()
+			.OfType<ContentPresenter>()
 		);
-		Styles.Add(container);
+		Styles.Add(containerPtrOver);
 		{
-			var o = container;
-
-			o.set(
-				BackgroundProperty
-				,new SolidColorBrush(Colors.LightGray)
-			);
+			var o = containerPtrOver;
 			o.set(
 				BorderBrushProperty
 				,Brushes.Aqua
 			);
+			o.set(
+				BorderThicknessProperty
+				,new Thickness(1)
+			);
+			// o.set(
+			// 	BackgroundProperty
+			// 	,new SolidColorBrush(Colors.White)
+			// );
 		}
+
+		// var containerPressed = new Style(x=>
+		// 	x.Is<Control>()
+		// 	.Class(cls.Container)
+		// 	.Class(":pressed")
+		// 	//.Template()
+		// );
+		// Styles.Add(containerPressed);
+		// {
+		// 	var o = containerPressed;
+		// 	o.set(
+		// 		BackgroundProperty
+		// 		,new SolidColorBrush(Colors.LightBlue)
+		// 	);
+		// }
+
+		var testPressed = new Style(x=>
+			x.Is<Control>()
+			.Class(":pressed")
+		);
+		Styles.Add(testPressed);
+		{
+			var o = testPressed;
+			o.set(
+				BackgroundProperty
+				,new SolidColorBrush(Colors.LightBlue)
+			);
+		}
+
+
 		return 0;
 	}
 }

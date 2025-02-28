@@ -339,3 +339,17 @@ public partial class ScrollInput : UserControl{
 `此異於<TextBox Text="{Binding ct}">之默認潙Mode=TwoWay.
 </UserControl>
 ```
+
+
+
+= UserControl..PointerPressed 不可用
+[2025-02-28T20:09:26.863+08:00_W9-5]
+
+
+=
+[2025-02-28T20:30:40.824+08:00_W9-5]
+Button之Content中 若以SelectableTextBlock代TextBlock則影響Button之判定
+
+=
+[2025-02-28T20:35:14.046+08:00_W9-5]
+Button亦可設Border

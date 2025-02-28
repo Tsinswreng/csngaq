@@ -7,7 +7,7 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using ngaq.UI.viewModels.wordQueryPanel;
 using Shr.Avalonia.ext;
-using TextBlock = Avalonia.Controls.SelectableTextBlock;
+//using TextBlock = Avalonia.Controls.SelectableTextBlock;
 
 namespace ngaq.UI.views.wordQueryPanel;
 
@@ -20,6 +20,7 @@ public partial class SearchedWordCard
 		useSample();
 		_style();
 		_render();
+		var z = this;
 	}
 
 	public SearchedWordCardVm? ctx{
@@ -50,19 +51,20 @@ public partial class SearchedWordCard
 
 
 	protected Control _render(){
-		var border = new Border{
-			BorderThickness = new Thickness(1)
-			,BorderBrush = Brushes.Yellow
+
+		var btn = new Button{
+			// BorderThickness = new Thickness(1)
+			// ,BorderBrush = Brushes.Yellow
 		};
-		Content = border;
+		Content = btn;
 		{
-			var o = border;
+			var o = btn;
 			o.Height = 42;
 			o.Classes.Add(cls.Container);
 		}
 		{{
 			var grid = new Grid();
-			border.Child = grid;
+			btn.Content = grid;
 			{
 				var o = grid;
 				o.RowDefinitions.AddRange([
@@ -149,7 +151,7 @@ public partial class SearchedWordCard
 				}
 			}}//~ans:Grid
 		}}//~border:Border
-		return border;
+		return btn;
 	}
 }
 

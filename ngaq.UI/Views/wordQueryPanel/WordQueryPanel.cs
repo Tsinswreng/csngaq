@@ -35,6 +35,6 @@ public partial class WordQueryPanel
 	}
 
 
-	
+
 
 }
