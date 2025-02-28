@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Styling;
 using ngaq.UI.Views.aboutWindow;
-using Shr.Avalonia.Ext;
+using Shr.Avalonia.ext;
 
 namespace ngaq.UI.views.toolBar;
 
@@ -24,6 +24,7 @@ public class ToolBar
 		var noRoundCorner = new Style(x=>
 			x.Is<TemplatedControl>()
 		);
+		Styles.Add(noRoundCorner);
 		noRoundCorner.set(
 			TemplatedControl.CornerRadiusProperty
 			,new CornerRadius(0)

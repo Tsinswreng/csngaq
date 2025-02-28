@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Media;
 using Microsoft.Extensions.DependencyInjection;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.Server.Svc.Crud.WordCrud;
@@ -25,12 +26,18 @@ sealed class Program {
 	}
 
 	// Avalonia configuration, don't remove; also used by visual designer.
-	public static AppBuilder BuildAvaloniaApp()
-		=> AppBuilder.Configure<App>()
+	public static AppBuilder BuildAvaloniaApp(){
+		// var fontMgrOpt = new FontManagerOptions{
+		// 	DefaultFamilyName = "孤鹜 筑紫明朝"
+		// };
+		return AppBuilder.Configure<App>()
 			.UsePlatformDetect()
 			.WithInterFont()
+			//.With(fontMgrOpt)
 			.LogToTrace();
-}
+		}
+	}
+
 
 // unsafe{
 // 	int i = 0;

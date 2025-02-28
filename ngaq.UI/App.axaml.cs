@@ -8,6 +8,9 @@ using ngaq.UI.ViewModels;
 using ngaq.UI.views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Avalonia.Styling;
+using Avalonia.Controls.Primitives;
+using Shr.Avalonia.ext;
 
 namespace ngaq.UI;
 
@@ -21,6 +24,18 @@ public partial class App : Application {
 
 	public override void Initialize() {
 		AvaloniaXamlLoader.Load(this);
+		_style();
+	}
+	protected zero _style(){
+		var noRoundCorner = new Style(x=>
+			x.Is<TemplatedControl>()
+		);
+		Styles.Add(noRoundCorner);
+		noRoundCorner.set(
+			TemplatedControl.CornerRadiusProperty
+			,new CornerRadius(0)
+		);
+		return 0;
 	}
 
 	public override void OnFrameworkInitializationCompleted() {
