@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
 using ngaq.Server.Svc.Crud.WordCrud;
 using ngaq.UI;
-using ngaq.UI.ViewModels.WordCrud;
+using ngaq.UI.viewModels.WordCrud;
 namespace ngaq.Desktop;
 
 sealed class Program {

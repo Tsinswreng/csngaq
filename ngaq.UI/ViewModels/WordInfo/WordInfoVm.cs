@@ -5,12 +5,12 @@ using ngaq.Core.Model;
 using ngaq.Core.Model.Consts;
 using ngaq.Core.Model.wordIF;
 using ngaq.Model.Consts;
-using ngaq.UI.ViewModels;
-using ngaq.UI.ViewModels.FullWordKv;
-using ngaq.UI.ViewModels.IF;
-using ngaq.UI.ViewModels.KV;
+using ngaq.UI.viewModels;
+using ngaq.UI.viewModels.FullWordKv;
+using ngaq.UI.viewModels.IF;
+using ngaq.UI.viewModels.KV;
 
-namespace ngaq.UI.ViewModels.WordInfo;
+namespace ngaq.UI.viewModels.WordInfo;
 
 public partial class WordInfoVm
 	:ViewModelBase

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ngaq.UI.ViewModels;
+using ngaq.UI.viewModels;
 
-namespace ngaq.UI.ViewModels;
+namespace ngaq.UI.viewModels;
 
 public partial class MainViewModel : ViewModelBase {
 	[ObservableProperty]

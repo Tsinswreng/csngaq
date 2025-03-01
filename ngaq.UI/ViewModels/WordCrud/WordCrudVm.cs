@@ -2,12 +2,12 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ngaq.Core.Model.wordIF;
 using ngaq.Core.Svc.Crud.WordCrud.IF;
-using ngaq.UI.ViewModels.FullWordKv;
-using ngaq.UI.ViewModels.IF;
-using ngaq.UI.ViewModels.WordInfo;
+using ngaq.UI.viewModels.FullWordKv;
+using ngaq.UI.viewModels.IF;
+using ngaq.UI.viewModels.WordInfo;
 using ngaq.UI.views.WordInfo;
 
-namespace ngaq.UI.ViewModels.WordCrud;
+namespace ngaq.UI.viewModels.WordCrud;
 
 public partial class WordCrudVm
 	:ViewModelBase

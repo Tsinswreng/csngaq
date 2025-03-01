@@ -1,4 +1,4 @@
-using ngaq.UI.ViewModels;
+using ngaq.UI.viewModels;
 
 namespace ngaq.UI.template;
 

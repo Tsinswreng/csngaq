@@ -2,9 +2,9 @@ using System.Collections.ObjectModel;
 using ngaq.Core.Model;
 using ngaq.Core.Model.Sample;
 using ngaq.Core.Model.wordIF;
-using ngaq.UI.ViewModels;
-using ngaq.UI.ViewModels.FullWordKv;
-using ngaq.UI.ViewModels.IF;
+using ngaq.UI.viewModels;
+using ngaq.UI.viewModels.FullWordKv;
+using ngaq.UI.viewModels.IF;
 
 namespace ngaq.UI.viewModels.wordQueryPanel;
 

@@ -18,6 +18,9 @@ public partial class KvGrid
 	protected zero _render(){
 		var ans = new DataGrid();
 		Content = ans;
+		{
+			var o = ans;
+		}
 		{{
 
 		}}//~ans

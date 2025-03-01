@@ -3,8 +3,8 @@ using model;
 using model.consts;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.IF;
-namespace ngaq.UI.views.kv.kvGrid;
-public class KvGridVm
+namespace ngaq.UI.viewModels.kv;
+public class KvVm2
 	: ViewModelBase
 	, I_ViewModel<I_KvRow>
 {

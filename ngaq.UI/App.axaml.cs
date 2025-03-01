@@ -4,7 +4,7 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
-using ngaq.UI.ViewModels;
+using ngaq.UI.viewModels;
 using ngaq.UI.views;
 using Microsoft.Extensions.DependencyInjection;
 using System;

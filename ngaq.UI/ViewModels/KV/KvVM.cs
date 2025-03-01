@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using model.consts;
 using ngaq.Core.Model;
-using ngaq.UI.ViewModels;
-using ngaq.UI.ViewModels.IF;
-namespace ngaq.UI.ViewModels.KV;
+using ngaq.UI.viewModels;
+using ngaq.UI.viewModels.IF;
+namespace ngaq.UI.viewModels.KV;
 
 public partial class KvVm
 	:ViewModelBase

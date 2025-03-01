@@ -4,8 +4,8 @@ using Avalonia.Data;
 using Avalonia.Layout;
 using Microsoft.Extensions.DependencyInjection;
 using ngaq.Core.Model.Sample;
-using ngaq.UI.ViewModels.FullWordKv;
-using ngaq.UI.ViewModels.WordCrud;
+using ngaq.UI.viewModels.FullWordKv;
+using ngaq.UI.viewModels.WordCrud;
 using ngaq.UI.views.WordInfo;
 
 

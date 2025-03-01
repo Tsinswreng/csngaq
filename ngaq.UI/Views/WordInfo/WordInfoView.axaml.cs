@@ -11,8 +11,8 @@ using ngaq.Core.Model;
 using ngaq.Core.Model.Consts;
 using ngaq.Core.Model.Sample;
 using ngaq.Model.Consts;
-using ngaq.UI.ViewModels.KV;
-using ngaq.UI.ViewModels.WordInfo;
+using ngaq.UI.viewModels.KV;
+using ngaq.UI.viewModels.WordInfo;
 
 using TextBlock = Avalonia.Controls.SelectableTextBlock;
 

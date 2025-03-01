@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using ngaq.UI.ViewModels;
+using ngaq.UI.viewModels;
 
 namespace ngaq.UI.Template.ViewModels;
 

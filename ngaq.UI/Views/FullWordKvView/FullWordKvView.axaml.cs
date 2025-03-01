@@ -4,8 +4,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Interactivity;
-using ngaq.UI.ViewModels.FullWordKv;
-using ngaq.UI.ViewModels.KV;
+using ngaq.UI.viewModels.FullWordKv;
+using ngaq.UI.viewModels.KV;
 using ngaq.UI.views.KV;
 
 

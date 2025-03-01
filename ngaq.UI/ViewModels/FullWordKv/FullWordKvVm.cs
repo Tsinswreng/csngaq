@@ -6,11 +6,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using ngaq.Core.Model;
 using ngaq.Core.Model.Sample;
 using ngaq.Core.Model.wordIF;
-using ngaq.UI.ViewModels;
-using ngaq.UI.ViewModels.IF;
-using ngaq.UI.ViewModels.KV;
+using ngaq.UI.viewModels;
+using ngaq.UI.viewModels.IF;
+using ngaq.UI.viewModels.KV;
 
-namespace ngaq.UI.ViewModels.FullWordKv;
+namespace ngaq.UI.viewModels.FullWordKv;
 
 public class Person{
 	public str Name{get;set;} = "";
@@ -73,7 +73,7 @@ public partial class FullWordKvVm
 		}
 	}
 
-	
+
 	public u64 index_propertyVms{get;set;}=0;
 
 	protected ObservableCollection<KvVm> _learnVms = new();
