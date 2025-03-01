@@ -12,7 +12,7 @@ public partial class SearchedWordCardVm
 	, I_ViewModel<I_WordKv>
 {
 
-	public static SearchedWordCardVm sample;
+	public static SearchedWordCardVm sample{get;set;}
 	static SearchedWordCardVm(){
 		sample = new SearchedWordCardVm();
 		var fullWordKv = FullWordSample.getInst().sample;
