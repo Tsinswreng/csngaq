@@ -29,21 +29,5 @@ public partial class MainView : UserControl{
 		// win.Show();
 
 
-		// var wr = new WrapPanel{
-		// 	HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
-		// 	//,HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
-		// 	//,Width = 1000.0
-		// };
-		// {{
-		// 	var t = new AutoCompleteBox{
-		// 		HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
-		// 	};
-		// 	wr.Children.Add(t);
-		// }}
-		// var win = new Window{};
-		// win.Content = wr;
-		// win.Show();
-
-
 	}
 }

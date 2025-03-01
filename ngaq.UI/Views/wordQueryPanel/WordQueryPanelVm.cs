@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using model;
 using ngaq.Core.Model;
 using ngaq.Core.Model.Sample;
 using ngaq.Core.Model.wordIF;
@@ -39,8 +40,11 @@ public class WordQueryPanelVm
 		return 0;
 	}
 
-	public zero showAtKvView(){
-
+	public zero showAtKvView(I_KvRow kv){
+		var kvVm = new KvVm2();
+		kvVm.fromModel(kv);
+		this.kvVm = kvVm;
+		return 0;
 	}
 
 }

@@ -10,6 +10,7 @@ public class KvVm2
 {
 	public zero fromModel(I_KvRow model) {
 		this.model = model;
+		hasValue = true;
 		_init();
 		return 0;
 	}

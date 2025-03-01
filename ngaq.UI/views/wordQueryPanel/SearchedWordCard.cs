@@ -55,7 +55,6 @@ public partial class SearchedWordCard
 	public Action<object?, EventArgs>? click{get;set;}
 
 
-
 	protected Control _render(){
 
 		var btn = new Button{

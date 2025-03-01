@@ -19,13 +19,20 @@ using ngaq.UI.viewModels.kv;
 using Shr.Avalonia.ext;
 using ngaq.UI.styles;
 using Avalonia.Media;
+using Shr.Avalonia.util;
 
 namespace ngaq.UI.views.kv;
 
 public partial class KvView : UserControl{
-	public enum Cls{
+	public enum ClsEnum{
 		InnerStackPanel
 	}
+
+	public class Cls{
+		public str Label = nameof(Cls.Label);
+	}
+
+	public Cls cls = new Cls();
 
 	public KvView(){
 		DataContext = new KvVm();
@@ -48,6 +55,24 @@ public partial class KvView : UserControl{
 			NoMarginPaddingStyle.inst.set(o);
 		}
 
+		var label = new Style(x=>
+			x.Is<Control>()
+			.Class(cls.Label)
+		);
+		Styles.Add(label);
+		{
+			var o = label;
+			o.set(
+				FontSizeProperty
+				,14.0
+			);
+			o.set(
+				ForegroundProperty
+				,Brushes.Gray
+			);
+
+		}
+
 		var textBox = new Style(
 			x=>x.Is<TextBox>()
 		);
@@ -65,6 +90,7 @@ public partial class KvView : UserControl{
 			);
 			o.set(
 				BorderThicknessProperty
+				//,new Thickness(0,0,0,1)
 				,new Thickness(1)
 			);
 			//
@@ -75,6 +101,15 @@ public partial class KvView : UserControl{
 			o.set(
 				MinWidthProperty
 				,0.0
+			);
+			o.set(
+				MaxHeightProperty
+				,64.0
+			);
+
+			o.set(
+				TextBox.AcceptsReturnProperty
+				,true
 			);
 			//
 
@@ -91,6 +126,27 @@ public partial class KvView : UserControl{
 			// 	,HorizontalAlignment.Left
  			// );
 		}//~sty_scrollInput
+		var textBoxFocus = new Style(x=>
+			x.Is<TextBox>()
+			.Class(PsdCls.inst.focus)
+		);
+		Styles.Add(textBoxFocus);
+		{
+			var o = textBoxFocus;
+			// o.set(
+			// 	BackgroundProperty
+			// 	,Brushes.LightGray
+			// );
+			o.set(
+				MaxHeightProperty
+				,9999.0
+			);
+			o.set(
+				HeightProperty
+				,256.0
+			);
+		}
+
 		return 0;
 	}
 
@@ -99,18 +155,29 @@ public partial class KvView : UserControl{
 			Margin = new Thickness(10)
 		};
 		Content = outer;
+		{
+			var o = outer;
+			o.Bind(
+				IsVisibleProperty
+				,new Binding(nameof(ctx.hasValue))
+			);
+		}
 		var oneKvBox = (
 			str title
 			,str bindingName
 			,IValueConverter? converter
 		)=>{
 			var box = new StackPanel(){};
-			box.Classes.Add(nameof(Cls.InnerStackPanel));
+			box.Classes.Add(nameof(ClsEnum.InnerStackPanel));
 			{//box:StackPanel
 				var titleBlock = new TextBlock(){
 					Text = title
 				};
 				box.Children.Add(titleBlock);
+				{
+					var o = titleBlock;
+					o.Classes.Add(cls.Label);
+				}
 				//
 				var scrollInput = new TextBox();
 				scrollInput.Bind(

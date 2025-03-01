@@ -1,15 +1,16 @@
+using model;
 using ngaq.Core.Model;
 using ngaq.Core.Model.Sample;
 using ngaq.Core.Model.wordIF;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.IF;
-using I_WordKv = model.I_KvRow;
+
 namespace ngaq.UI.viewModels.wordQueryPanel;
 
 public partial class SearchedWordCardVm
 	: ViewModelBase
-	, I_ViewModel<I_WordKv>
+	, I_ViewModel<I_KvRow>
 {
 
 	public static SearchedWordCardVm sample{get;set;}
@@ -19,17 +20,17 @@ public partial class SearchedWordCardVm
 		sample.fromModel(fullWordKv.textWord);
 	}
 
-	public zero fromModel(I_WordKv model) {
+	public zero fromModel(I_KvRow model) {
 		wordKv = model;
 		_init();
 		return 0;
 	}
 
-	public I_WordKv toModel() {
+	public I_KvRow toModel() {
 		return wordKv;
 	}
 
-	public I_WordKv wordKv{get;set;}
+	public I_KvRow wordKv{get;set;}
 
 	public zero useSample(){
 		var fullWordKv = FullWordSample.getInst().sample;

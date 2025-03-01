@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Styling;
+using ngaq.UI.views.kv;
 using Shr.Avalonia.ext;
 
 namespace ngaq.UI.views.wordQueryPanel;
@@ -35,6 +36,19 @@ public partial class WordQueryPanel{
 				,HorizontalAlignment.Stretch
 			);
 		}
+
+		var kvView = new Style(x=>
+			x.OfType<KvView>()
+		);
+		Styles.Add(kvView);
+		{
+			var o = kvView;
+			o.set(
+				FontSizeProperty
+				,16.0
+			);
+		}
+
 
 		var girdShowLine = new Style(x=>
 			x.Is<Grid>()

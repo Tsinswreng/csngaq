@@ -46,17 +46,23 @@ public partial class WordQueryPanel
 				Grid.SetColumn(leftSearchBar, 0);
 			}
 
-			var kvView = new KvView();
-			ans.Children.Add(kvView);
+			var scrl = new ScrollViewer{};
+			ans.Children.Add(scrl);
 			{
-				var o = kvView;
-				Grid.SetColumn(o, 1);
-				o.Bind(
-					DataContextProperty
-					,new Binding(nameof(ctx.kvVm)){Mode=BindingMode.TwoWay}
-				);
+				Grid.SetColumn(scrl, 1);
 			}
-
+			{{
+				var kvView = new KvView();
+				scrl.Content = kvView;
+				{
+					var o = kvView;
+					Grid.SetColumn(o, 1);
+					o.Bind(
+						DataContextProperty
+						,new Binding(nameof(ctx.kvVm)){Mode=BindingMode.TwoWay}
+					);
+				}
+			}}
 		}}//~ans
 		return 0;
 	}
@@ -126,8 +132,7 @@ public partial class WordQueryPanel
 				,new Binding()
 			);
 			ans.click = (sender, e) => {
-				G.log(vm.id);//t
-
+				ctx?.showAtKvView(vm.wordKv);
 			};
 
 			return ans;
