@@ -40,7 +40,8 @@ public partial class App : Application {
 
 	public override void OnFrameworkInitializationCompleted() {
 		if (ServiceProvider == null){
-			throw new InvalidOperationException("ServiceProvider 未初始化！");
+			//throw new InvalidOperationException("ServiceProvider 未初始化！");
+			System.Console.WriteLine("ServiceProvider 未初始化！");
 		}
 
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
