@@ -14,12 +14,13 @@ public partial class MainView : UserControl{
 	public MainView(){
 		//InitializeComponent();
 		//Content = new WordInfoView();
-		//Content = new KvView();
+		Content = new KvView();
 		//Content = new WordCrudView();
 		//Content = new ToolBar();
 		//Content = new WordQueryPanel();
 		//Content = new SearchedWordCard();
 		//Content = new KvGrid();
-		Content = new WordInfo();
+		//Content = new WordInfo();
+
 	}
 }

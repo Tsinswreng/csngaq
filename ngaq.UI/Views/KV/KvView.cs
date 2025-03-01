@@ -15,7 +15,8 @@ using ngaq.UI.Cmpnt.ScrollInput;
 using ngaq.UI.Converter;
 using ngaq.UI.viewModels.KV;
 using Avalonia.Layout;
-
+using ngaq.UI.viewModels.kv;
+using Shr.Avalonia.ext;
 
 namespace ngaq.UI.views.kv;
 
@@ -30,29 +31,52 @@ public partial class KvView : UserControl{
 		_render();
 	}
 
-	public KvVm? ctx{
-		get{return DataContext as KvVm;}
+	public KvVm2? ctx{
+		get{return DataContext as KvVm2;}
 	}
 
 	protected zero _style(){
-		var sty_scrollInput = new Style(
-			x=>x.Is<ScrollInput>()
+
+		var noMarginPadding = new Style(x=>
+			x.Is<Control>()
 		);
+		Styles.Add(noMarginPadding);
+		{
+			var o = noMarginPadding;
+			o.set(
+				MarginProperty
+				,new Thickness(0)
+			);
+			o.set(
+				PaddingProperty
+				,new Thickness(0)
+			);
+		}
+
+		var textBox = new Style(
+			x=>x.Is<TextBox>()
+		);
+		Styles.Add(textBox);
 		{//sty_scrollInput
-			sty_scrollInput.Setters.Add(new Setter(
-				ScrollInput.WidthProperty
-				,100.0
-			));
-			sty_scrollInput.Setters.Add(new Setter(
-				ScrollInput.MaxHeightProperty
-				,40.0
-			));
-			sty_scrollInput.Setters.Add(new Setter(
-				ScrollInput.HorizontalAlignmentProperty
-				,HorizontalAlignment.Left
-			));
+			var o = textBox;
+			o.set(
+				HorizontalAlignmentProperty
+				,HorizontalAlignment.Stretch
+			);
+
+			// sty_scrollInput.Setters.Add(new Setter(
+			// 	ScrollInput.WidthProperty
+			// 	,100.0
+			// ));
+			// sty_scrollInput.Setters.Add(new Setter(
+			// 	ScrollInput.MaxHeightProperty
+			// 	,40.0
+			// ));
+			// o.set(
+			// 	ScrollInput.HorizontalAlignmentProperty
+			// 	,HorizontalAlignment.Left
+ 			// );
 		}//~sty_scrollInput
-		Styles.Add(sty_scrollInput);
 		return 0;
 	}
 
@@ -60,6 +84,7 @@ public partial class KvView : UserControl{
 		var outer = new StackPanel(){
 			Margin = new Thickness(10)
 		};
+		Content = outer;
 		var oneKvBox = (
 			str title
 			,str bindingName
@@ -73,9 +98,9 @@ public partial class KvView : UserControl{
 				};
 				box.Children.Add(titleBlock);
 				//
-				var scrollInput = new ScrollInput();
+				var scrollInput = new TextBox();
 				scrollInput.Bind(
-					ScrollInput.TextProperty
+					TextBox.TextProperty
 					,new Binding(bindingName){
 						Mode = BindingMode.TwoWay
 						,Converter = converter
@@ -127,7 +152,6 @@ public partial class KvView : UserControl{
 		var vF64Box = oneKvBox("vF64",nameof(ctx.vF64),null);
 		outer.Children.Add(vF64Box);
 		//
-		Content = outer;
 		return 0;
 	}
 
