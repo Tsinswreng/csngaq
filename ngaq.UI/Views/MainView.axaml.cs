@@ -14,13 +14,36 @@ public partial class MainView : UserControl{
 	public MainView(){
 		//InitializeComponent();
 		//Content = new WordInfoView();
-		Content = new KvView();
+		//Content = new KvView();
 		//Content = new WordCrudView();
 		//Content = new ToolBar();
-		//Content = new WordQueryPanel();
+		Content = new WordQueryPanel();
 		//Content = new SearchedWordCard();
 		//Content = new KvGrid();
 		//Content = new WordInfo();
+		// var o = new AutoCompleteBox{
+		// 	HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
+		// };
+		// var win = new Window{};
+		// win.Content = o;
+		// win.Show();
+
+
+		// var wr = new WrapPanel{
+		// 	HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
+		// 	//,HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
+		// 	//,Width = 1000.0
+		// };
+		// {{
+		// 	var t = new AutoCompleteBox{
+		// 		HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
+		// 	};
+		// 	wr.Children.Add(t);
+		// }}
+		// var win = new Window{};
+		// win.Content = wr;
+		// win.Show();
+
 
 	}
 }

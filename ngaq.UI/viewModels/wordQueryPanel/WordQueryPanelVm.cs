@@ -5,6 +5,7 @@ using ngaq.Core.Model.wordIF;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.IF;
+using ngaq.UI.viewModels.kv;
 
 namespace ngaq.UI.viewModels.wordQueryPanel;
 
@@ -23,7 +24,11 @@ public class WordQueryPanelVm
 	}
 
 
-
+	protected KvVm2 _kvVm = new KvVm2();
+	public KvVm2 kvVm{
+		get{return _kvVm;}
+		set{SetProperty(ref _kvVm, value);}
+	}
 
 
 	public zero click_searchBtn(){

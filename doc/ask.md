@@ -9684,3 +9684,43 @@ Avalonia 支持类似 CSS 的样式定义，可通过设置 `word-break: break-a
 ```
 
 以上方法均经过多平台验证（Windows/Linux/macOS），适用于 Avalonia 11.x 版本。若遇到父控件样式冲突（如 `white-space: nowrap` 继承问题），需检查父容器样式并重置为 `white-space: normal` 。
+
+
+
+#
+[2025-03-01T19:30:28.807+08:00_W9-6]
+avalonia 讓 AutoCompleteBox的寬度 撐滿父容器 怎麼做
+徒設HorizontalAlignment="Stretch"不效
+
+
+#
+[2025-03-01T19:38:40.366+08:00_W9-6]
+avalonia 把子控件的寬度 綁定成 父容器的寬度 怎麼做
+
+`<Button Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}, Converter={StaticResource subtractConverter}, ConverterParameter=20}" />`?
+
+
+#
+[2025-03-01T19:54:31.436+08:00_W9-6]
+avalonia怎麼把子控件的寬度 弄成 和 父容器的寬度 一樣?
+
+
+
+#
+[2025-03-01T20:19:07.110+08:00_W9-6]
+```csharp
+var wr = new WrapPanel{
+	HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
+};
+{{
+	var t = new AutoCompleteBox{
+		HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
+	};
+	wr.Children.Add(t);
+}}
+var win = new Window{};
+win.Content = wr;
+win.Show();
+```
+avalonia 爲甚麼AutoCompleteBox寬度沒有佔滿父元素?
+<!-- 我試把wr換成StackPanel也不行  可-->

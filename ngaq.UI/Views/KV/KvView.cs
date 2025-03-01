@@ -17,6 +17,8 @@ using ngaq.UI.viewModels.KV;
 using Avalonia.Layout;
 using ngaq.UI.viewModels.kv;
 using Shr.Avalonia.ext;
+using ngaq.UI.styles;
+using Avalonia.Media;
 
 namespace ngaq.UI.views.kv;
 
@@ -43,14 +45,7 @@ public partial class KvView : UserControl{
 		Styles.Add(noMarginPadding);
 		{
 			var o = noMarginPadding;
-			o.set(
-				MarginProperty
-				,new Thickness(0)
-			);
-			o.set(
-				PaddingProperty
-				,new Thickness(0)
-			);
+			NoMarginPaddingStyle.inst.set(o);
 		}
 
 		var textBox = new Style(
@@ -63,6 +58,25 @@ public partial class KvView : UserControl{
 				HorizontalAlignmentProperty
 				,HorizontalAlignment.Stretch
 			);
+			//SimpleTextBoxStyle.inst.set(o);
+			o.set(
+				BorderBrushProperty
+				,Brushes.Gray
+			);
+			o.set(
+				BorderThicknessProperty
+				,new Thickness(1)
+			);
+			//
+			o.set(
+				MinHeightProperty
+				,0.0
+			);
+			o.set(
+				MinWidthProperty
+				,0.0
+			);
+			//
 
 			// sty_scrollInput.Setters.Add(new Setter(
 			// 	ScrollInput.WidthProperty
