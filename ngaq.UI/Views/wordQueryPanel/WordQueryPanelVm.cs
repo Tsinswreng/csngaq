@@ -39,4 +39,8 @@ public class WordQueryPanelVm
 		return 0;
 	}
 
+	public zero showAtKvView(){
+
+	}
+
 }

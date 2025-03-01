@@ -127,6 +127,7 @@ public partial class WordQueryPanel
 			);
 			ans.click = (sender, e) => {
 				G.log(vm.id);//t
+
 			};
 
 			return ans;

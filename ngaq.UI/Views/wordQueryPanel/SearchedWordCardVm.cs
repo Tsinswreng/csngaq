@@ -4,7 +4,7 @@ using ngaq.Core.Model.wordIF;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.IF;
-
+using I_WordKv = model.I_KvRow;
 namespace ngaq.UI.viewModels.wordQueryPanel;
 
 public partial class SearchedWordCardVm
