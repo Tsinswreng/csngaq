@@ -6,7 +6,7 @@ using model.consts;
 
 namespace ngaq.Core.Model;
 
-public class KV : RowBaseInfo, I_KVRow {
+public class KV : RowBaseInfo, I_KvRow {
 	/** TEXT, INT */
 	public str kType { get; set; } = KVType.STR.ToString();
 	public str? kStr { get; set; }

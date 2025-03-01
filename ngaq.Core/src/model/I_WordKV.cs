@@ -2,7 +2,7 @@ using model;
 
 namespace ngaq.Core.Model;
 
-public interface I_WordKv : I_KVRow {
+public interface I_WordKv : I_KvRow {
 
 }
 

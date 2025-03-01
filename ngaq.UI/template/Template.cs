@@ -6,6 +6,7 @@ public partial class Template
 	:UserControl
 {
 	public Template(){
+		//_style();
 		_render();
 	}
 
