@@ -6,6 +6,7 @@ public partial class Template
 	:UserControl
 {
 	public Template(){
+		DataContext = new TemplateVm();
 		//_style();
 		_render();
 	}

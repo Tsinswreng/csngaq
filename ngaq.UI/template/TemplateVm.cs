@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.IF;
 
@@ -11,7 +12,7 @@ public class TemplateVm
 {
 
 
-	public static TemplateVm sample{get;set;}
+	public static IList<TemplateVm> samples{get;set;} = new List<TemplateVm>();
 	static TemplateVm(){
 
 	}

@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using ngaq.UI.kv.kvGrid;
+using ngaq.UI.views.kv.kvGrid;
 using ngaq.UI.views.KV;
 using ngaq.UI.views.toolBar;
 using ngaq.UI.views.WordCrud;
@@ -15,7 +17,8 @@ public partial class MainView : UserControl{
 		//Content = new KvView();
 		//Content = new WordCrudView();
 		//Content = new ToolBar();
-		Content = new WordQueryPanel();
+		//Content = new WordQueryPanel();
 		//Content = new SearchedWordCard();
+		Content = new KvGrid();
 	}
 }
