@@ -17,8 +17,8 @@ public partial class MainView : UserControl{
 		//Content = new KvView();
 		//Content = new WordCrudView();
 		//Content = new ToolBar();
-		//Content = new WordQueryPanel();
+		Content = new WordQueryPanel();
 		//Content = new SearchedWordCard();
-		Content = new KvGrid();
+		//Content = new KvGrid();
 	}
 }

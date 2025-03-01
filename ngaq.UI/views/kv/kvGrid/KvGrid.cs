@@ -23,15 +23,13 @@ public partial class KvGrid
 		var ans = new DataGrid();
 		Content = ans;
 		{
-			var o = ans;
-			o.Bind(
-				DataGrid.ItemsSourceProperty
-				,new Binding(nameof(ctx.kvs))
-			);
+
 		}
 		{{
 
 		}}//~ans
+
+
 		return 0;
 	}
 

@@ -8,6 +8,8 @@ using ngaq.Core.Model.Sample;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.IF;
 
+// using Person = ngaq.Core.Model.WordKv;
+// using I_Person = ngaq.Core.Model.I_WordKv;
 
 namespace ngaq.UI.views.kv.kvGrid;
 public class KvGridVm
@@ -19,7 +21,6 @@ public class KvGridVm
 	static KvGridVm(){
 		var fullWord = FullWordSample.getInst().sample;
 		{
-
 			var kvGridVm = new KvGridVm();
 			kvGridVm.fromModel([fullWord.textWord]);
 			samples.Add(kvGridVm);
@@ -36,6 +37,18 @@ public class KvGridVm
 		}
 	}
 
+
+	public KvGridVm() {
+		// var people = new List<I_Person>
+		// {
+		// 	(I_Person)new Person{kStr="FirstName",vStr="John"},
+		// 	(I_Person)new Person{kStr="FirstName",vStr="John"},
+		// 	(I_Person)new Person{kStr="FirstName",vStr="John"}
+		// };
+		// People = new ObservableCollection<I_Person>(people);
+	}
+
+	//public ObservableCollection<I_Person> People { get; }
 
 
 	public zero fromModel(IEnumerable<I_KvRow> model) {
@@ -71,3 +84,15 @@ public class KvGridVm
 	}
 
 }
+
+// public interface I_Person{
+//     public string kStr { get; set; }
+//     public string vStr { get; set; }
+// }
+
+// public class Person:I_Person
+// {
+//     public string kStr { get; set; }
+//     public string vStr { get; set; }
+
+// }

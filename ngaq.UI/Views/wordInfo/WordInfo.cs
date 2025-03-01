@@ -12,14 +12,10 @@ using ngaq.Core.Model.Consts;
 using ngaq.Core.Model.Sample;
 using ngaq.Model.Consts;
 using ngaq.UI.viewModels.KV;
-using ngaq.UI.viewModels.WordInfo;
-
+using ngaq.UI.views.wordInfo;
 using TextBlock = Avalonia.Controls.SelectableTextBlock;
 
 namespace ngaq.UI.views.WordInfo;
-
-
-
 
 public partial class WordInfoView: UserControl {
 	public WordInfoView() {

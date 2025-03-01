@@ -10,7 +10,7 @@ using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.IF;
 using ngaq.UI.viewModels.KV;
 
-namespace ngaq.UI.viewModels.WordInfo;
+namespace ngaq.UI.views.wordInfo;
 
 public partial class WordInfoVm
 	:ViewModelBase

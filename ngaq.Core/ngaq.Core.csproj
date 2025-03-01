@@ -11,6 +11,7 @@
   	<Compile Include="G.cs" />
   </ItemGroup> -->
 
+
   <ItemGroup>
 	<ProjectReference Include="../CsShared/CsShared.csproj" />
 	<Compile Include="../CsShared/GlobalUsing.cs" />
