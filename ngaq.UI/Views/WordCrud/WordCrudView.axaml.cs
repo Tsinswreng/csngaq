@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ngaq.Core.Model.Sample;
 using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.WordCrud;
-using ngaq.UI.views.WordInfo;
+using ngaq.UI.views.wordInfo;
 
 
 
@@ -101,7 +101,7 @@ public partial class WordCrudView : UserControl{
 			}}//~stackPanelVert:StackPanel
 			stackPanelHori.Children.Add(stackPanelVert);
 			//
-			var wordInfoView = new WordInfoView(){
+			var wordInfoView = new WordInfo(){
 				Width=600
 			};
 			wordInfoView.Bind(

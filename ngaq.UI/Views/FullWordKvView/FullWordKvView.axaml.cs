@@ -6,7 +6,7 @@ using Avalonia.Data;
 using Avalonia.Interactivity;
 using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.KV;
-using ngaq.UI.views.KV;
+using ngaq.UI.views.kv;
 
 
 namespace ngaq.UI.views.FullWordKvView;

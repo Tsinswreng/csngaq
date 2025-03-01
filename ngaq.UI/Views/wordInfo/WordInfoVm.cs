@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ngaq.Core.Model;
 using ngaq.Core.Model.Consts;
+using ngaq.Core.Model.Sample;
 using ngaq.Core.Model.wordIF;
 using ngaq.Model.Consts;
 using ngaq.UI.viewModels;
@@ -16,6 +17,17 @@ public partial class WordInfoVm
 	:ViewModelBase
 	,I_ViewModel<I_FullWordKv>
 {
+
+
+	public static IList<WordInfoVm> samples{get;set;} = new List<WordInfoVm>();
+	static WordInfoVm(){
+		var fullWordKv = FullWordSample.getInst().sample;
+		{
+			var vm = new WordInfoVm();
+			vm.fromModel(fullWordKv);
+			samples.Add(vm);
+		}
+	}
 
 	public zero fromModel(I_FullWordKv model) {
 		fullWordKv = model;

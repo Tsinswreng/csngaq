@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -13,13 +13,18 @@ using ngaq.Core.Model.Sample;
 using ngaq.Model.Consts;
 using ngaq.UI.viewModels.KV;
 using ngaq.UI.views.wordInfo;
-using TextBlock = Avalonia.Controls.SelectableTextBlock;
+using Shr.Avalonia.ext;
+using TextBlock = Avalonia.Controls.TextBox;
 
-namespace ngaq.UI.views.WordInfo;
+namespace ngaq.UI.views.wordInfo;
 
-public partial class WordInfoView: UserControl {
-	public WordInfoView() {
+public partial class WordInfo: UserControl {
+
+
+
+	public WordInfo() {
 		DataContext = new WordInfoVm();
+		ctx = WordInfoVm.samples[0];
 		//ctx.fromModel(FullWordSample.getInst().sample);//TODO for test
 		_render();
 		_style();
@@ -29,6 +34,7 @@ public partial class WordInfoView: UserControl {
 
 	public WordInfoVm? ctx{
 		get{return DataContext as WordInfoVm;}
+		set{DataContext = value;}
 	}
 
 	//css類名
@@ -40,13 +46,37 @@ public partial class WordInfoView: UserControl {
 
 	protected zero _style(){
 
-		var sty_textBlock = new Style(x=>x
+		var text = new Style(x=>x
 			.Is<TextBlock>()
 		);
-		// sty_textBlock.Setters.Add(new Setter(
-		// 	TextBlock.IsTextSelectionEnabledProperty
-		// ));
-		Styles.Add(sty_textBlock);
+		Styles.Add(text);
+		{
+			var o = text;
+			o.set(
+				MarginProperty
+				,new Thickness(0)
+			);
+			o.set(
+				PaddingProperty
+				,new Thickness(0)
+			);
+			o.set(
+				MinHeightProperty
+				,0.0
+			);
+			o.set(
+				MinWidthProperty
+				,0.0
+			);
+			o.set(
+				BorderThicknessProperty
+				,new Thickness(0)
+			);
+			o.set(
+				TextBox.TextWrappingProperty
+				,TextWrapping.Wrap
+			);
+		}
 
 
 		var sty_WordText = new Style(x=>x
@@ -81,16 +111,6 @@ public partial class WordInfoView: UserControl {
 		return 0;
 	}
 
-
-
-/*************  ✨ Codeium Command ⭐  *************/
-/// <summary>
-/// Renders the UI components for the WordInfoView. It creates and binds various Avalonia UI elements
-/// such as StackPanels, TextBlocks, Separators, ScrollViewers, and ItemsControls using the context data.
-/// The function ensures that the context is not null before proceeding with the UI setup.
-/// </summary>
-
-/******  864b97ae-b17e-4167-b8f6-51308266e560  *******/
 	protected zero _render(){
 		var z = this;
 		if(ctx == null){
