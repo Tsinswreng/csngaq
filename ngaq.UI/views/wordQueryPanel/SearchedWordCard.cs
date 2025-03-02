@@ -85,14 +85,16 @@ public partial class SearchedWordCard
 			{{
 				// var props = new TextBlock{Text="123"};
 				// grid.Children.Add(props);
-				var row0 = new Grid();
+				//var row0 = new Grid();
+				var row0 = new WrapPanel();
 				grid.Children.Add(row0);
 				{
-					row0.ColumnDefinitions.AddRange([
-						new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
-						,new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
-						,new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
-					]);
+					// row0.ColumnDefinitions.AddRange([
+					// 	new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
+					// 	,new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
+					// 	,new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
+					// ]);
+					row0.Orientation = Avalonia.Layout.Orientation.Horizontal;
 				}
 				{{
 					var id = new TextBlock{};
@@ -105,16 +107,24 @@ public partial class SearchedWordCard
 						);
 					}
 
+					row0.Children.Add(
+						new TextBlock{Text="	"}
+					);
+
 					var bl = new TextBlock{};
 					row0.Children.Add(bl);
 					{
-						Grid.SetColumn(bl, 1);
+						//Grid.SetColumn(bl, 1);
 						bl.Classes.Add(cls.SubText);
 						bl.Bind(
 							TextBlock.TextProperty
 							,new Binding(nameof(ctx.bl))
 						);
 					}
+
+					row0.Children.Add(
+						new TextBlock{Text="	"}
+					);
 
 					var fKeyPanel = new StackPanel{};
 					row0.Children.Add(fKeyPanel);

@@ -10196,3 +10196,12 @@ private void Button_PointerPressed(object sender, PointerPressedEventArgs e) {
 3. 版本兼容性问题（如旧版本的DataGrid事件绑定异常）。
 
 综上，Avalonia中处理双击事件的核心在于理解指针事件模型与路由机制，结合控件特性选择合适方法。对于复杂场景，推荐参考官方文档或社区解决方案（如GitHub讨论）。
+
+
+#
+[2025-03-02T10:03:07.006+08:00_W9-7]
+avalonia 有沒有 能讓用戶動態調整區域大小的控件
+比如窗口被分成了AB兩部分、A在左 B在右、中間有條分隔線。用戶可以用鼠標拖動分隔線 調整AB兩部分的大小、往左拖 A就變小、B就變大
+
+## ds
+GridSplitter

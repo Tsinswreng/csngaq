@@ -1,8 +1,10 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Media;
 using ngaq.UI.viewModels.wordQueryPanel;
 using ngaq.UI.views.kv;
 
@@ -35,8 +37,12 @@ public partial class WordQueryPanel
 		{
 			var o = ans;
 			o.ColumnDefinitions.AddRange([
-				new ColumnDefinition{Width = new GridLength(1, GridUnitType.Star)}
-				,new ColumnDefinition{Width = new GridLength(2, GridUnitType.Star)}
+				// new ColumnDefinition{Width = new GridLength(1, GridUnitType.Star)}
+				// ,new ColumnDefinition{Width = new GridLength(2, GridUnitType.Star)}
+				new ColumnDefinition{Width = new GridLength(0x120)}
+				//,new ColumnDefinition{Width = GridLength.Auto}
+				,new ColumnDefinition{Width = new GridLength(0x4)}
+				,new ColumnDefinition{Width = new GridLength(1, GridUnitType.Star)}
 			]);
 		}
 		{{
@@ -46,10 +52,23 @@ public partial class WordQueryPanel
 				Grid.SetColumn(leftSearchBar, 0);
 			}
 
+			var gsplit = new GridSplitter{};
+			ans.Children.Add(gsplit);
+			{
+				var o = gsplit;
+				Grid.SetColumn(o, 1);
+				o.ResizeDirection = GridResizeDirection.Columns;
+				//o.Background = Brushes.SkyBlue;
+				o.BorderBrush = Brushes.Aqua;
+				o.BorderThickness = new Thickness(1, 0, 0, 0);
+			}
+
 			var scrl = new ScrollViewer{};
 			ans.Children.Add(scrl);
 			{
-				Grid.SetColumn(scrl, 1);
+				var o = scrl;
+				Grid.SetColumn(o, 2);
+				o.Classes.Add(cls.Stretch);
 			}
 			{{
 				var kvView = new KvView();
