@@ -1,4 +1,4 @@
-using ngaq.Core.Model;
+using ngaq.Core.model;
 
 namespace model;
 

@@ -1,5 +1,5 @@
-using ngaq.Core.Model.wordIF;
-namespace ngaq.Core.Model;
+using ngaq.Core.model.wordIF;
+namespace ngaq.Core.model;
 
 public struct FullWord: I_FullWordKv{
 	public I_TextWordKV textWord{get;set;}

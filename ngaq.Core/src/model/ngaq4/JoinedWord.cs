@@ -1,4 +1,4 @@
-namespace ngaq.Core.Model.ngaq4;
+namespace ngaq.Core.model.ngaq4;
 
 public struct JoinedWord4{
 	public TextWord4 textWord;

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ngaq.Core.Model.wordIF;
-using ngaq.Core.Svc.Crud.WordCrud.IF;
+using ngaq.Core.model.wordIF;
+using ngaq.Core.svc.crud.wordCrud.IF;
 using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.IF;
 using ngaq.UI.views.wordInfo;

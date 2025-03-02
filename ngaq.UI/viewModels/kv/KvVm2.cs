@@ -5,8 +5,8 @@ using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.IF;
 namespace ngaq.UI.viewModels.kv;
 public class KvVm2
-	: ViewModelBase
-	, I_ViewModel<I_KvRow>
+	:ViewModelBase
+	,I_ViewModel<I_KvRow>
 {
 	public zero fromModel(I_KvRow model) {
 		this.model = model;

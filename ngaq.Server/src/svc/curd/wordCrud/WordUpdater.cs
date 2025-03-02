@@ -3,9 +3,9 @@ using db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using model.consts;
-using ngaq.Core.Model;
-using ngaq.Core.Model.wordIF;
-using ngaq.Core.Svc.Crud;
+using ngaq.Core.model;
+using ngaq.Core.model.wordIF;
+using ngaq.Core.svc.crud;
 using ngaq.Model.Consts;
 using ngaq.Server.Db.Crud.IF;
 

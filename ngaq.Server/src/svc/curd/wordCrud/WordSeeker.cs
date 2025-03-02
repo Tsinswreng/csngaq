@@ -2,9 +2,9 @@
 using db;
 using Microsoft.EntityFrameworkCore;
 using model.consts;
-using ngaq.Core.Model;
-using ngaq.Core.Model.wordIF;
-using ngaq.Core.Svc.Crud.WordCrud.IF;
+using ngaq.Core.model;
+using ngaq.Core.model.wordIF;
+using ngaq.Core.svc.crud.wordCrud.IF;
 using ngaq.Model.Consts;
 using Shr.Exceptions;
 

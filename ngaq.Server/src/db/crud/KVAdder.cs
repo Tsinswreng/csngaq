@@ -1,6 +1,6 @@
 using ngaq.Server.db.ngaq4;
-using ngaq.Core.Svc.ngaq4;
-using ngaq.Core.Model;
+using ngaq.Core.svc.ngaq4;
+using ngaq.Core.model;
 using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Storage;
 using db;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using System.Data;
 using model;
-using ngaq.Core.Svc.Crud;
+using ngaq.Core.svc.crud;
 using tools.IF;
 
 

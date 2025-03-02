@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using model.consts;
-using ngaq.Core.Model;
+using ngaq.Core.model;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.IF;
 namespace ngaq.UI.viewModels.KV;

@@ -1,4 +1,4 @@
-namespace ngaq.Core.Model.Sample;
+namespace ngaq.Core.model.Sample;
 
 
 public class TextWordSample{

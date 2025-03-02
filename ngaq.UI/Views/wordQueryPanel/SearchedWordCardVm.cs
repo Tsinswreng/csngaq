@@ -1,7 +1,7 @@
 using model;
-using ngaq.Core.Model;
-using ngaq.Core.Model.Sample;
-using ngaq.Core.Model.wordIF;
+using ngaq.Core.model;
+using ngaq.Core.model.Sample;
+using ngaq.Core.model.wordIF;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.IF;

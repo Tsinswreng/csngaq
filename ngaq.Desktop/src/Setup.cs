@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using ngaq.Core.Svc.Crud.WordCrud.IF;
+using ngaq.Core.svc.crud.wordCrud.IF;
 using ngaq.Server.Svc.Crud.WordCrud;
 namespace ngaq.Desktop;
 

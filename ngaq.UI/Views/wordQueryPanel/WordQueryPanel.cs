@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Media;
 using ngaq.UI.viewModels.wordQueryPanel;
 using ngaq.UI.views.kv;
+using ngaq.UI.views.wordInfo;
 
 namespace ngaq.UI.views.wordQueryPanel;
 
@@ -63,25 +64,12 @@ public partial class WordQueryPanel
 				o.BorderThickness = new Thickness(1, 0, 0, 0);
 			}
 
-			var scrl = new ScrollViewer{};
-			ans.Children.Add(scrl);
+			var right = _right();
+			ans.Children.Add(right);
 			{
-				var o = scrl;
-				Grid.SetColumn(o, 2);
-				o.Classes.Add(cls.Stretch);
+				Grid.SetColumn(right, 2);
 			}
-			{{
-				var kvView = new KvView();
-				scrl.Content = kvView;
-				{
-					var o = kvView;
-					Grid.SetColumn(o, 1);
-					o.Bind(
-						DataContextProperty
-						,new Binding(nameof(ctx.kvVm)){Mode=BindingMode.TwoWay}
-					);
-				}
-			}}
+
 		}}//~ans
 		return 0;
 	}
@@ -130,6 +118,58 @@ public partial class WordQueryPanel
 			var results = _results();
 			ans.Children.Add(results);
 		}}//~ans
+		return ans;
+	}
+
+
+	protected Control _right(){
+
+
+		var tab = new TabControl{};
+		{{
+			var head_kv = new TabItem{Header = "Key-Value"};
+			tab.Items.Add(head_kv);
+			{{
+				var kvView = _kvView();
+				head_kv.Content = kvView;
+			}}
+
+			var wordInfo = new TabItem{Header = "Word Info"};
+			tab.Items.Add(wordInfo);
+			{{
+				var wordInfoView = _wordInfo();
+				wordInfo.Content = wordInfoView;
+			}}
+		}}//~tab
+		return tab;
+	}
+
+
+
+	protected Control _kvView(){
+		var scrl = new ScrollViewer{};
+		{
+			var o = scrl;
+			Grid.SetColumn(o, 2);
+			o.Classes.Add(cls.Stretch);
+		}
+		{{
+			var kvView = new KvView();
+			scrl.Content = kvView;
+			{
+				var o = kvView;
+				Grid.SetColumn(o, 1);
+				o.Bind(
+					DataContextProperty
+					,new Binding(nameof(ctx.kvVm)){Mode=BindingMode.TwoWay}
+				);
+			}
+		}}
+		return scrl;
+	}
+
+	protected Control _wordInfo(){
+		var ans = new WordInfo{};
 		return ans;
 	}
 

@@ -2,7 +2,7 @@
 using Avalonia;
 using Avalonia.Media;
 using Microsoft.Extensions.DependencyInjection;
-using ngaq.Core.Svc.Crud.WordCrud.IF;
+using ngaq.Core.svc.crud.wordCrud.IF;
 using ngaq.Server.Svc.Crud.WordCrud;
 using ngaq.UI;
 using ngaq.UI.viewModels.WordCrud;

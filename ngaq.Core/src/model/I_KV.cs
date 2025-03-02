@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using model.consts;
 
-namespace ngaq.Core.Model;
+namespace ngaq.Core.model;
 
 
 // public interface I_KV {

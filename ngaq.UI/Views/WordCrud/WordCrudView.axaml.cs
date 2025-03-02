@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Layout;
 using Microsoft.Extensions.DependencyInjection;
-using ngaq.Core.Model.Sample;
+using ngaq.Core.model.Sample;
 using ngaq.UI.viewModels.FullWordKv;
 using ngaq.UI.viewModels.WordCrud;
 using ngaq.UI.views.wordInfo;

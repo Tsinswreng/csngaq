@@ -1,7 +1,7 @@
 using model.consts;
 using ngaq.Model.Consts;
 
-namespace ngaq.Core.Model;
+namespace ngaq.Core.model;
 
 
 public static class WordKvExt{

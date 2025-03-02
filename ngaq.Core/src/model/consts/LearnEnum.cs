@@ -1,4 +1,4 @@
-namespace ngaq.Core.Model.Consts;
+namespace ngaq.Core.model.Consts;
 
 public enum LearnEnum{
 	add

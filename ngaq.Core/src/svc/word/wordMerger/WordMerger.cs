@@ -1,7 +1,7 @@
-using ngaq.Core.Model;
-using ngaq.Core.Model.wordIF;
+using ngaq.Core.model;
+using ngaq.Core.model.wordIF;
 
-namespace ngaq.Core.Svc.word.wordMerger;
+namespace ngaq.Core.svc.word.wordMerger;
 
 public class WordMergerTool:
 	I_mergeWord

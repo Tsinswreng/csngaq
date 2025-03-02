@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using model;
 using model.consts;
-using ngaq.Core.Model.Sample;
+using ngaq.Core.model.Sample;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.IF;
 

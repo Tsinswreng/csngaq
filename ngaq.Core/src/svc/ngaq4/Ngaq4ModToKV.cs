@@ -1,10 +1,10 @@
 ///舊版單詞對象轉換為新版Key-Value格式
-using ngaq.Core.Model.ngaq4;
-using ngaq.Core.Model;
+using ngaq.Core.model.ngaq4;
+using ngaq.Core.model;
 using model;
 using ngaq.Model.Consts;
 using model.consts;
-namespace ngaq.Core.Svc.ngaq4;
+namespace ngaq.Core.svc.ngaq4;
 public class Ngaq4ModToWordKV{
 
 	public zero assignIdCtMt(I_RowBaseInfo target, IdBlCtMt4 idBlCtMt){

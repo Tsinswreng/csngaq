@@ -1,8 +1,8 @@
-using ngaq.Core.Model;
-using ngaq.Core.Model.wordIF;
+using ngaq.Core.model;
+using ngaq.Core.model.wordIF;
 using tools;
 
-namespace ngaq.Core.Svc;
+namespace ngaq.Core.svc;
 
 public class DiffWord{
 	/**

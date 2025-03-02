@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ngaq.Core.Model;
-using ngaq.Core.Model.Consts;
-using ngaq.Core.Model.Sample;
-using ngaq.Core.Model.wordIF;
+using ngaq.Core.model;
+using ngaq.Core.model.Consts;
+using ngaq.Core.model.Sample;
+using ngaq.Core.model.wordIF;
 using ngaq.Model.Consts;
 using ngaq.UI.viewModels;
 using ngaq.UI.viewModels.FullWordKv;

@@ -1,6 +1,6 @@
-using ngaq.Core.Model.wordIF;
+using ngaq.Core.model.wordIF;
 
-namespace ngaq.Core.Model.Sample;
+namespace ngaq.Core.model.Sample;
 
 public class FullWordSample{
 
