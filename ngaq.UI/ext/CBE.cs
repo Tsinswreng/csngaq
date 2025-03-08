@@ -19,6 +19,12 @@ namespace Shr.Avalonia;
 public class CBE : CompiledBindingExtension{
 	public CBE(CompiledBindingPath path):base(path){}
 
+	public static CompiledBindingPath pth<T>(
+		Expression<Func<T, object?>> propertySelector
+	){
+		return pth<T, object?>(propertySelector);
+	}
+
 	public static CompiledBindingPath pth<T, Tar>(
 		Expression<Func<T, Tar>> propertySelector
 	){

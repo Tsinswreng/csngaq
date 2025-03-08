@@ -196,46 +196,46 @@ public partial class KvView : UserControl{
 			}//~box:StackPanel
 			return box;
 		};//~oneKvBox:Func
-		var idBox = oneKvBox("id",CBE.pth<Ctx, object?>(x=>x.id),null);
+		var idBox = oneKvBox("id",CBE.pth<Ctx>(x=>x.id),null);
 		outer.Children.Add(idBox);
 		//
-		var blBox = oneKvBox("bl",CBE.pth<Ctx, object?>(x=>x.bl),null);
+		var blBox = oneKvBox("bl",CBE.pth<Ctx>(x=>x.bl),null);
 		outer.Children.Add(blBox);
 		//
-		var ctBox = oneKvBox("ct", CBE.pth<Ctx, object?>(x => x.ct), UnixMsConverter.inst);
+		var ctBox = oneKvBox("ct", CBE.pth<Ctx>(x => x.ct), UnixMsConverter.inst);
 		outer.Children.Add(ctBox);
 
-		var utBox = oneKvBox("ut", CBE.pth<Ctx, object?>(x => x.ut), UnixMsConverter.inst);
+		var utBox = oneKvBox("ut", CBE.pth<Ctx>(x => x.ut), UnixMsConverter.inst);
 		outer.Children.Add(utBox);
 
-		var statusBox = oneKvBox("status", CBE.pth<Ctx, object?>(x => x.status), null);
+		var statusBox = oneKvBox("status", CBE.pth<Ctx>(x => x.status), null);
 		outer.Children.Add(statusBox);
 
-		var kTypeBox = oneKvBox("kType", CBE.pth<Ctx, object?>(x => x.kType), null);
+		var kTypeBox = oneKvBox("kType", CBE.pth<Ctx>(x => x.kType), null);
 		outer.Children.Add(kTypeBox);
 
-		var kDescBox = oneKvBox("kDesc", CBE.pth<Ctx, object?>(x => x.kDesc), null);
+		var kDescBox = oneKvBox("kDesc", CBE.pth<Ctx>(x => x.kDesc), null);
 		outer.Children.Add(kDescBox);
 
-		var kI64Box = oneKvBox("kI64", CBE.pth<Ctx, object?>(x => x.kI64), null);
+		var kI64Box = oneKvBox("kI64", CBE.pth<Ctx>(x => x.kI64), null);
 		outer.Children.Add(kI64Box);
 
-		var kStrBox = oneKvBox("kStr", CBE.pth<Ctx, object?>(x => x.kStr), null);
+		var kStrBox = oneKvBox("kStr", CBE.pth<Ctx>(x => x.kStr), null);
 		outer.Children.Add(kStrBox);
 
-		var vTypeBox = oneKvBox("vType", CBE.pth<Ctx, object?>(x => x.vType), null);
+		var vTypeBox = oneKvBox("vType", CBE.pth<Ctx>(x => x.vType), null);
 		outer.Children.Add(vTypeBox);
 
-		var vDescBox = oneKvBox("vDesc", CBE.pth<Ctx, object?>(x => x.vDesc), null);
+		var vDescBox = oneKvBox("vDesc", CBE.pth<Ctx>(x => x.vDesc), null);
 		outer.Children.Add(vDescBox);
 
-		var vStrBox = oneKvBox("vStr", CBE.pth<Ctx, object?>(x => x.vStr), null);
+		var vStrBox = oneKvBox("vStr", CBE.pth<Ctx>(x => x.vStr), null);
 		outer.Children.Add(vStrBox);
 
-		var vI64Box = oneKvBox("vI64", CBE.pth<Ctx, object?>(x => x.vI64), null);
+		var vI64Box = oneKvBox("vI64", CBE.pth<Ctx>(x => x.vI64), null);
 		outer.Children.Add(vI64Box);
 
-		var vF64Box = oneKvBox("vF64", CBE.pth<Ctx, object?>(x => x.vF64), null);
+		var vF64Box = oneKvBox("vF64", CBE.pth<Ctx>(x => x.vF64), null);
 		outer.Children.Add(vF64Box);
 		//
 		return 0;
