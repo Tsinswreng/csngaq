@@ -11,6 +11,7 @@ using System;
 using Avalonia.Styling;
 using Avalonia.Controls.Primitives;
 using Shr.Avalonia.ext;
+using Avalonia.Themes.Fluent;
 
 namespace ngaq.UI;
 
@@ -23,9 +24,17 @@ public partial class App : Application {
 	}
 
 	public override void Initialize() {
-		AvaloniaXamlLoader.Load(this);
+		//AvaloniaXamlLoader.Load(this);
+		_init();
 		_style();
 	}
+
+	protected zero _init(){
+		RequestedThemeVariant = ThemeVariant.Default;
+		Styles.Add(new FluentTheme());
+		return 0;
+	}
+
 	protected zero _style(){
 		var noRoundCorner = new Style(x=>
 			x.Is<TemplatedControl>()
