@@ -12,7 +12,7 @@ using ngaq.Core.svc;
 using db;
 using Microsoft.EntityFrameworkCore;
 
-namespace ngaq.Server.Svc.Crud.WordCrud;
+namespace ngaq.Server.svc.crud.wordCrud;
 
 
 public class WordRm:

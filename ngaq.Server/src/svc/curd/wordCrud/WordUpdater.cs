@@ -10,7 +10,7 @@ using ngaq.Model.Consts;
 using ngaq.Server.Db.Crud.IF;
 
 
-namespace ngaq.Server.Svc.Crud.WordCrud;
+namespace ngaq.Server.svc.crud.wordCrud;
 
 
 public class WordUpdater:

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ngaq.Core.svc.crud.wordCrud.IF;
-using ngaq.Server.Svc.Crud.WordCrud;
+using ngaq.Server.svc.crud.wordCrud;
 namespace ngaq.Desktop;
 
 public class Setup{

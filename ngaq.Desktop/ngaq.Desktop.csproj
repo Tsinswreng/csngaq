@@ -9,7 +9,8 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 <!-- test -->
-		<!-- <PublishAot>true</PublishAot> -->
+		<PublishAot>true</PublishAot>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<PublishSingleFile>true</PublishSingleFile>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<!-- dotnet publish -c Release -r win-x64 -->

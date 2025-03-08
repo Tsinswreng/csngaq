@@ -8,7 +8,7 @@ using ngaq.Core.svc.crud.wordCrud.IF;
 using ngaq.Model.Consts;
 using Shr.Exceptions;
 
-namespace ngaq.Server.Svc.Crud.WordCrud;
+namespace ngaq.Server.svc.crud.wordCrud;
 
 
 public class WordSeeker:

@@ -1,7 +1,7 @@
 using model;
 using ngaq.Core.model.wordIF;
 namespace ngaq.Core.svc.crud.wordCrud.IF;
-public interface WordQueryPanelSvc{
+public interface I_WordQuery{
 	/// <summary>
 	/// 寬ᵈ尋 既可由id亦可由kStr
 	/// </summary>

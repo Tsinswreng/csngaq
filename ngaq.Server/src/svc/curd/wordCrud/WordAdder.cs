@@ -10,7 +10,7 @@ using ngaq.Core.model.Consts;
 using model.consts;
 using ngaq.Core.svc;
 
-namespace ngaq.Server.Svc.Crud.WordCrud;
+namespace ngaq.Server.svc.crud.wordCrud;
 
 
 public class WordAdder:
