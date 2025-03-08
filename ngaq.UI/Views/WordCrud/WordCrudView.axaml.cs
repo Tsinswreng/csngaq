@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Data;
@@ -11,7 +12,7 @@ using ngaq.UI.views.wordInfo;
 
 
 namespace ngaq.UI.views.WordCrud;
-
+[Obsolete]
 public partial class WordCrudView : UserControl{
 	public WordCrudView(){
 		//InitializeComponent();

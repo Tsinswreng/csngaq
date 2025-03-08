@@ -8,9 +8,10 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Styling;
 using ngaq.UI.viewModels.wordQueryPanel;
+using Shr.Avalonia;
 using Shr.Avalonia.ext;
 //using TextBlock = Avalonia.Controls.SelectableTextBlock;
-
+using Ctx = ngaq.UI.viewModels.wordQueryPanel.SearchedWordCardVm;
 namespace ngaq.UI.views.wordQueryPanel;
 
 public partial class SearchedWordCard
@@ -103,7 +104,7 @@ public partial class SearchedWordCard
 						id.Classes.Add(cls.SubText);
 						id.Bind(
 							TextBlock.TextProperty
-							,new Binding(nameof(ctx.id))
+							,new CBE(CBE.pth<Ctx>(x=>x.id))
 						);
 					}
 
@@ -118,7 +119,7 @@ public partial class SearchedWordCard
 						bl.Classes.Add(cls.SubText);
 						bl.Bind(
 							TextBlock.TextProperty
-							,new Binding(nameof(ctx.bl))
+							,new CBE(CBE.pth<Ctx>(x=>x.bl))
 						);
 					}
 
@@ -134,7 +135,7 @@ public partial class SearchedWordCard
 						o.Orientation = Avalonia.Layout.Orientation.Horizontal;
 						o.Bind(
 							IsVisibleProperty
-							,new Binding(nameof(ctx.fKey)){
+							,new CBE(CBE.pth<Ctx>(x=>x.fKey)){
 								Converter = new FuncValueConverter<u64?, bool>(x=>x != null)
 							}
 						);
@@ -150,7 +151,7 @@ public partial class SearchedWordCard
 							fKey.Classes.Add(cls.SubText);
 							fKey.Bind(
 								TextBlock.TextProperty
-								,new Binding(nameof(ctx.fKey))
+								,new CBE(CBE.pth<Ctx>(x=>x.fKey))
 							);
 						}
 						//
@@ -165,7 +166,7 @@ public partial class SearchedWordCard
 					text.Classes.Add(cls.MainText);
 					text.Bind(
 						TextBlock.TextProperty
-						,new Binding(nameof(ctx.text))
+						,new CBE(CBE.pth<Ctx>(x=>x.text))
 					);
 				}
 			}}//~ans:Grid

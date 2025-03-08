@@ -15,12 +15,12 @@ using ngaq.UI.viewModels.KV;
 using ngaq.UI.views.wordInfo;
 using Shr.Avalonia.ext;
 using TextBlock = Avalonia.Controls.TextBox;
+using Ctx = ngaq.UI.views.wordInfo.WordInfoVm;
+using Shr.Avalonia;
 
 namespace ngaq.UI.views.wordInfo;
 
 public partial class WordInfo: UserControl {
-
-
 
 	public WordInfo() {
 		DataContext = new WordInfoVm();
@@ -136,9 +136,8 @@ public partial class WordInfo: UserControl {
 				var idBlock = new TextBlock(){};
 				idBlock.Bind(
 					TextBlock.TextProperty
-					,new Binding(
-						//N_fullWordKv+"."+N_textWord+"."+N_id
-						nameof(ctx.id)
+					,new CBE(
+						CBE.pth<Ctx>(x=>x.id)
 					)
 				);
 				idEtLangPanel.Children.Add(idBlock);
@@ -146,10 +145,7 @@ public partial class WordInfo: UserControl {
 				var langBlock = new TextBlock(){};
 				langBlock.Bind(
 					TextBlock.TextProperty
-					,new Binding(
-						//N_fullWordKv+"."+N_textWord+"."+N_bl
-						nameof(ctx.lang)
-					)
+					,new CBE(CBE.pth<Ctx>(x=>x.lang))
 				);
 				idEtLangPanel.Children.Add(langBlock);
 			}//~idEtLangPanel:StackPanel
@@ -161,11 +157,9 @@ public partial class WordInfo: UserControl {
 			wordTextTitle.Classes.Add(nameof(Cls.WordText));
 			wordTextTitle.Bind(
 				TextBlock.TextProperty
-				,new Binding(
-					//N_fullWordKv+"."+N_textWord+"."+N_kStr
-					nameof(ctx.wordText)
-					,BindingMode.TwoWay
-				)
+				,new CBE(CBE.pth<Ctx>(x=>x.wordText)){
+					Mode = BindingMode.TwoWay
+				}
 			);
 			vert.Children.Add(wordTextTitle);
 			//
@@ -178,9 +172,7 @@ public partial class WordInfo: UserControl {
 				//othersPropItemsControl.ItemsSource = ctx.otherProps;
 				othersPropItemsControl.Bind(
 					ItemsControl.ItemsSourceProperty
-					,new Binding(
-						nameof(ctx.otherProps)
-					)
+					,new CBE(CBE.pth<Ctx>(x=>x.otherProps))
 				);
 				othersPropItemsControl.ItemTemplate = new FuncDataTemplate<I_PropertyKv>((propKv, _)=>{
 					return _otherProps(propKv);
@@ -195,9 +187,7 @@ public partial class WordInfo: UserControl {
 				//meansItemsControl.ItemsSource=ctx.means;
 				meansItemsControl.Bind(
 					ItemsControl.ItemsSourceProperty
-					,new Binding(
-						nameof(ctx.means)
-					)
+					,new CBE(CBE.pth<Ctx>(x=>x.means))
 				);
 				meansItemsControl.ItemTemplate = new FuncDataTemplate<I_PropertyKv>((vm, _)=>{
 					return _means(vm);

@@ -10,7 +10,7 @@ using ngaq.UI.views.kv;
 
 
 namespace ngaq.UI.views.FullWordKvView;
-
+[Obsolete]
 public partial class FullWordKvView : UserControl{
 	public FullWordKvView(){
 		//InitializeComponent();

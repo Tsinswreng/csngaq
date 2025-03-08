@@ -8,7 +8,8 @@ using Avalonia.Media;
 using ngaq.UI.viewModels.wordQueryPanel;
 using ngaq.UI.views.kv;
 using ngaq.UI.views.wordInfo;
-
+using Shr.Avalonia;
+using Ctx = ngaq.UI.viewModels.wordQueryPanel.WordQueryPanelVm;
 namespace ngaq.UI.views.wordQueryPanel;
 
 public partial class WordQueryPanel
@@ -161,7 +162,8 @@ public partial class WordQueryPanel
 				Grid.SetColumn(o, 1);
 				o.Bind(
 					DataContextProperty
-					,new Binding(nameof(ctx.kvVm)){Mode=BindingMode.TwoWay}
+					,new CBE(CBE.pth<Ctx>(x=>x.kvVm)){Mode=BindingMode.TwoWay}
+
 				);
 			}
 		}}
@@ -181,14 +183,15 @@ public partial class WordQueryPanel
 			var o = ans;
 			o.Bind(
 				ItemsControl.ItemsSourceProperty
-				,new Binding(nameof(ctx.searchedWords))
+				,new CBE(CBE.pth<Ctx>(x=>x.searchedWords))
 			);
 		}
 		ans.ItemTemplate = new FuncDataTemplate<SearchedWordCardVm>((vm, _) => {
 			var ans = new SearchedWordCard();
 			ans.Bind(
 				SearchedWordCard.DataContextProperty
-				,new Binding()
+				//,new Binding()
+				,new CBE(CBE.pth<SearchedWordCardVm>(x=>x))
 			);
 			ans.click = (sender, e) => {
 				ctx?.showAtKvView(vm.wordKv);
