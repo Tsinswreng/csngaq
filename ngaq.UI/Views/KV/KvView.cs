@@ -20,7 +20,10 @@ using Shr.Avalonia.ext;
 using ngaq.UI.styles;
 using Avalonia.Media;
 using Shr.Avalonia.util;
+using Shr.Avalonia;
 
+using Ctx = ngaq.UI.viewModels.kv.KvVm2;
+using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
 namespace ngaq.UI.views.kv;
 
 public partial class KvView : UserControl{
@@ -159,12 +162,14 @@ public partial class KvView : UserControl{
 			var o = outer;
 			o.Bind(
 				IsVisibleProperty
-				,new Binding(nameof(ctx.hasValue))
+				,new CBE(CBE.pth<Ctx, bool>(x=>x.hasValue))
+				//,new Binding(nameof(ctx.hasValue))
 			);
 		}
 		var oneKvBox = (
 			str title
-			,str bindingName
+			//,str bindingName
+			,CompiledBindingPath path
 			,IValueConverter? converter
 		)=>{
 			var box = new StackPanel(){};
@@ -182,7 +187,7 @@ public partial class KvView : UserControl{
 				var scrollInput = new TextBox();
 				scrollInput.Bind(
 					TextBox.TextProperty
-					,new Binding(bindingName){
+					,new CBE(path){
 						Mode = BindingMode.TwoWay
 						,Converter = converter
 					}
@@ -191,46 +196,46 @@ public partial class KvView : UserControl{
 			}//~box:StackPanel
 			return box;
 		};//~oneKvBox:Func
-		var idBox = oneKvBox("id",nameof(ctx.id),null);
+		var idBox = oneKvBox("id",CBE.pth<Ctx, object?>(x=>x.id),null);
 		outer.Children.Add(idBox);
 		//
-		var blBox = oneKvBox("bl",nameof(ctx.bl),null);
+		var blBox = oneKvBox("bl",CBE.pth<Ctx, object?>(x=>x.bl),null);
 		outer.Children.Add(blBox);
 		//
-		var ctBox = oneKvBox("ct",nameof(ctx.ct), UnixMsConverter.inst);
+		var ctBox = oneKvBox("ct", CBE.pth<Ctx, object?>(x => x.ct), UnixMsConverter.inst);
 		outer.Children.Add(ctBox);
-		//
-		var utBox = oneKvBox("ut",nameof(ctx.ut), UnixMsConverter.inst);
+
+		var utBox = oneKvBox("ut", CBE.pth<Ctx, object?>(x => x.ut), UnixMsConverter.inst);
 		outer.Children.Add(utBox);
-		//
-		var statusBox = oneKvBox("status",nameof(ctx.status),null);
+
+		var statusBox = oneKvBox("status", CBE.pth<Ctx, object?>(x => x.status), null);
 		outer.Children.Add(statusBox);
-		//
-		var kTypeBox = oneKvBox("kType",nameof(ctx.kType),null);
+
+		var kTypeBox = oneKvBox("kType", CBE.pth<Ctx, object?>(x => x.kType), null);
 		outer.Children.Add(kTypeBox);
-		//
-		var kDescBox = oneKvBox("kDesc",nameof(ctx.kDesc),null);
+
+		var kDescBox = oneKvBox("kDesc", CBE.pth<Ctx, object?>(x => x.kDesc), null);
 		outer.Children.Add(kDescBox);
-		//
-		var kI64Box = oneKvBox("kI64",nameof(ctx.kI64),null);
+
+		var kI64Box = oneKvBox("kI64", CBE.pth<Ctx, object?>(x => x.kI64), null);
 		outer.Children.Add(kI64Box);
-		//
-		var kStrBox = oneKvBox("kStr",nameof(ctx.kStr),null);
+
+		var kStrBox = oneKvBox("kStr", CBE.pth<Ctx, object?>(x => x.kStr), null);
 		outer.Children.Add(kStrBox);
-		//
-		var vTypeBox = oneKvBox("vType",nameof(ctx.vType),null);
+
+		var vTypeBox = oneKvBox("vType", CBE.pth<Ctx, object?>(x => x.vType), null);
 		outer.Children.Add(vTypeBox);
-		//
-		var vDescBox = oneKvBox("vDesc",nameof(ctx.vDesc),null);
+
+		var vDescBox = oneKvBox("vDesc", CBE.pth<Ctx, object?>(x => x.vDesc), null);
 		outer.Children.Add(vDescBox);
-		//
-		var vStrBox = oneKvBox("vStr",nameof(ctx.vStr),null);
+
+		var vStrBox = oneKvBox("vStr", CBE.pth<Ctx, object?>(x => x.vStr), null);
 		outer.Children.Add(vStrBox);
-		//
-		var vI64Box = oneKvBox("vI64",nameof(ctx.vI64),null);
+
+		var vI64Box = oneKvBox("vI64", CBE.pth<Ctx, object?>(x => x.vI64), null);
 		outer.Children.Add(vI64Box);
-		//
-		var vF64Box = oneKvBox("vF64",nameof(ctx.vF64),null);
+
+		var vF64Box = oneKvBox("vF64", CBE.pth<Ctx, object?>(x => x.vF64), null);
 		outer.Children.Add(vF64Box);
 		//
 		return 0;
