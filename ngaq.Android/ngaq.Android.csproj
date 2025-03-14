@@ -5,11 +5,17 @@
     <TargetFramework>net9.0-android</TargetFramework>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
     <Nullable>enable</Nullable>
-    <ApplicationId>com.CompanyName.ngaq</ApplicationId>
+    <ApplicationId>com.Tsinswreng.ngaq</ApplicationId>
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+
+
+   <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	<AndroidEnableAssemblyCompression>false</AndroidEnableAssemblyCompression>
+
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ngaq\ngaq.csproj" />
+    <ProjectReference Include="../ngaq.UI/ngaq.UI.csproj" />
   </ItemGroup>
 </Project>

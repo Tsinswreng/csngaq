@@ -10,6 +10,7 @@
 
 <!-- test -->
 		<PublishAot>true</PublishAot>
+		<TrimMode>full</TrimMode> <!-- 激进裁剪 -->
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<PublishSingleFile>true</PublishSingleFile>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -40,7 +41,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<PublishTrimmed>false</PublishTrimmed>
+		<PublishTrimmed>true</PublishTrimmed>
 		<JsonSerializerIsReflectionEnabledByeDfault>true</JsonSerializerIsReflectionEnabledByeDfault>
 	</PropertyGroup>
 

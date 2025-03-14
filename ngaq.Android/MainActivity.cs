@@ -2,7 +2,7 @@
 using Android.Content.PM;
 using Avalonia;
 using Avalonia.Android;
-
+using ngaq.UI;
 namespace ngaq.Android;
 
 [Activity(

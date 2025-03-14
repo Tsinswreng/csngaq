@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* 
+dotnet publish -c Release -r win-x64
+ */
+using System;
 using Avalonia;
 using Avalonia.Media;
 using Microsoft.Extensions.DependencyInjection;

@@ -27,5 +27,5 @@
 	<Compile Include="../CsShared/GlobalUsing.cs" />
 	<Compile Include="../CsShared/GlobalSuppression.cs" />
   </ItemGroup>
-
+ 
 </Project>

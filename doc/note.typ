@@ -364,3 +364,13 @@ DataGrid 似不支持 自動生成列 誧 類芝不在同一程序集者。
 =
 [2025-03-01T20:29:32.883+08:00_W9-6]
 縱向之WrapPanel不支持 子元素與父容器 同寬
+
+=
+[2025-03-13T11:35:31.339+08:00_W11-4]
+avalonia安卓 運行
+手機由USB線連電腦、開USB調試
+用powershell(git-bash恐敗)珩 `adb devices`㕥察連接成否、若有{未認證}則未成
+cd 至項目目錄、珩`dotnet run`、此時注意手機、見有對話框芝是否允安裝應用旹則允 即可
+
+敗ʹ試: 珩`dotnet build`後于輸出目錄有二.apk文件、其一有signed者可由adb install ...命令㕥安裝、另者不可
+雖安裝成、啓動後猶閃退。可用`adb logcat -d | findstr "ngaq"`察錯ʹ訊。
