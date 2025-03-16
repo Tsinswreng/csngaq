@@ -461,3 +461,6 @@ trash/
 *-shm
 *-wal
 *.sqlite
+
+
+ngaq/
