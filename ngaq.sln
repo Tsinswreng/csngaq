@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ngaq.UI", "ngaq.UI\ngaq.UI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ngaq.Infra", "ngaq.Infra\ngaq.Infra.csproj", "{90D48015-4E70-492D-A2F6-363C6F441AE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ngaq.UseCases", "ngaq.UseCases\ngaq.UseCases.csproj", "{131DEB82-D8D1-4CFD-AA73-603B3DBDC002}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{90D48015-4E70-492D-A2F6-363C6F441AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D48015-4E70-492D-A2F6-363C6F441AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D48015-4E70-492D-A2F6-363C6F441AE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{131DEB82-D8D1-4CFD-AA73-603B3DBDC002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{131DEB82-D8D1-4CFD-AA73-603B3DBDC002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{131DEB82-D8D1-4CFD-AA73-603B3DBDC002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{131DEB82-D8D1-4CFD-AA73-603B3DBDC002}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

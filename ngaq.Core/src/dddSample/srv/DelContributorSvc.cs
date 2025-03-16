@@ -13,7 +13,7 @@ public class DelContributorSvc(
 	,IMediator _mediator
 	,ILogger<DelContributorSvc> _logger
 )
-	:I_DelContributorSvc
+	:I_DelSvc_Contributor
 {
 	public async Task<Result> DelContributor(i32 contributorId){
 		_logger.LogInformation("Deleting contributor with id {contributorId}", contributorId);

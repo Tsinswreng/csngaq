@@ -374,3 +374,12 @@ cd 至項目目錄、珩`dotnet run`、此時注意手機、見有對話框芝�
 
 敗ʹ試: 珩`dotnet build`後于輸出目錄有二.apk文件、其一有signed者可由adb install ...命令㕥安裝、另者不可
 雖安裝成、啓動後猶閃退。可用`adb logcat -d | findstr "ngaq"`察錯ʹ訊。
+
+
+
+=
+[2025-03-16T16:13:01.692+08:00_W11-7]
+TODO:
+E:\_code\csngaq\ngaq.Infra\src\dddSample\data\querys\FakeListContributorsQrySvc.cs
+
+E:\_code\csngaq\ngaq.UseCases\src\dddSample\contributor\delete\DelHandler_Contributor.cs
