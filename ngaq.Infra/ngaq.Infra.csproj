@@ -28,4 +28,8 @@
     <ProjectReference Include="..\ngaq.UseCases\ngaq.UseCases.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+  	<Compile Include="../CsShared/GlobalUsing.cs" />
+  </ItemGroup>
+
 </Project>

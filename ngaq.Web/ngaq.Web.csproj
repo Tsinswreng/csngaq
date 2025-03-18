@@ -25,10 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ngaq.Infrastructure\ngaq.Infrastructure.csproj" />
+    <ProjectReference Include="..\ngaq.Infra\ngaq.Infra.csproj" />
     <ProjectReference Include="..\ngaq.UseCases\ngaq.UseCases.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<Compile Include="../CsShared/GlobalUsing.cs"/>
+  </ItemGroup>
 
 
 

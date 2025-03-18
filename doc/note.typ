@@ -383,3 +383,9 @@ TODO:
 E:\_code\csngaq\ngaq.Infra\src\dddSample\data\querys\FakeListContributorsQrySvc.cs
 
 E:\_code\csngaq\ngaq.UseCases\src\dddSample\contributor\delete\DelHandler_Contributor.cs
+
+E:\_code\csngaq\ngaq.Web\src\dddSample\configs\MiddlewareConfig.cs
+
+E:\_code\csngaq\ngaq.Infra\src\dddSample\data\AppDbCtxExtn.cs
+
+ngaq.Infra/email
